@@ -1,0 +1,13 @@
+.swiper-slide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Maintain aspect ratio */
+  }
+  
+  @media (max-width: 640px) {
+    .swiper-slide img {
+      /* Adjust the image size or object-fit properties */
+      object-fit: contain; /* or any other value suitable for mobile */
+    }
+  }
+  

@@ -1,0 +1,226 @@
+@font-face {
+    font-family: 'SourceSansPro';
+    src: url('../../../../assets/fonts/SourceSansPro.ttf');
+  }
+  .post-login-container {
+      width: 100%;
+      height: 100vh;
+      border: none;
+  }
+  
+  // sidenavbar style >>>>>>>>>
+  #sidenav {
+      width: 240px;
+  }
+  .post-login-logo {
+    width: 150px;
+    height: auto;
+    padding-right: 20px;
+    cursor: pointer;
+  }
+  
+  #sidenav .mat-list-item-content {
+      padding: 0;
+  }
+  
+  #sidenav .menu-item {
+      width: 100% !important;
+      border-radius: 0;
+      font-family: 'Hind Siliguri', sans-serif;
+      text-align: left;
+      padding: 5px;
+      color: gray;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      height: 50px;
+      border: none;
+      background-color: transparent;
+  }
+  
+  #sidenav .menu-item:hover,
+  #sidenav .menu-item:focus {
+      background: #D0F5FC;
+      box-shadow: inset 6.5em 0 0 0 var(--hover);
+      color: #0096FE;
+      width: 95% !important;
+      border-top-right-radius: 50px !important;
+      border-bottom-right-radius: 50px !important;
+      cursor: pointer;
+      // border-top-right-radius: 50px;
+      // border-bottom-right-radius: 50px;
+  }
+  
+  #sidenav .menu-item mat-icon {
+      margin-right: 20px;
+      margin-left: 20px;
+      color: #0096FE;
+      // font-size: 25px;
+  }
+  
+  #sidenav .menu-item mat-icon:hover {
+      color: gray;
+  
+  }
+  @media screen and (min-width: 600px) {
+      #sidenav.menu-close {
+          width: 0px !important;
+          border: none;
+      }
+  
+      #sidenav.menu-open {
+          width: 240px !important;
+          border: none;
+      }
+  
+  }
+  
+  @media screen and (max-width: 600px) {
+      .post-login-sidenav {
+          width: 0px !important;
+      }
+      #sidenav.menu-open {
+          width: 70px !important;
+          border: none;
+      }
+      .post-login-logo {
+          display: none;
+      }
+      .txt_route{
+          display: none;
+      }
+      .sub-body-area{
+          height: auto !important;
+      }
+  }
+  
+  .activated-route {
+      // border-right: 5px solid #24A0ED !important;
+      background-color: #D0F5FC !important;
+      max-width: 95% !important;
+      border-top-right-radius: 50px !important;
+      border-bottom-right-radius: 50px !important;
+      color: #24A0ED !important;
+      font-weight: bold;
+  
+  }
+  // *** end ***
+  
+  .post-login-main-side {
+      display: flex;
+      height: 100vh;
+      flex-direction: column;
+      overflow: hidden;
+  }
+  // header style >>>>>>>>>>
+  .header-bar {
+      background-color: #E6F2FD;
+      border-left: 1px solid rgb(241, 238, 238);
+      min-height: 60px !important;
+      display: flex;
+  }
+  .example-spacer {
+      flex: 1 1 auto;
+  }
+  .menu-icon {
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+  }
+  .header-icon {
+      border: none;
+      background-color: transparent;
+  
+      &:hover {
+          cursor: pointer;
+      }
+  }
+  
+  .btn-logout {
+      min-width: 200px !important;
+      color: #B2BEB5;
+      font-weight: 500;
+      font-family: 'SourceSansPro';
+      &:hover {
+          background-color: transparent;
+          color: black;
+  
+      }
+  }
+  // *** end ***
+  
+  
+  // body style >>>>>>>>>>
+  .body-area {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: #E6F2FD;
+  }
+  
+  .sub-body-area {
+      width: 93%;
+      height:95%;
+      overflow: hidden;
+      // margin-top: 5px !important;
+  }
+  
+  .menu-item-icon {
+    //overflow: hidden;
+    //display: flex;
+    //justify-content: center;
+    //align-items: center;
+    //flex-direction: column;
+  }
+  
+  .menu_img {
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 24px;
+    color: #B2BEB5 !important;
+    fill: #B2BEB5 !important;
+  }
+  
+  .div_logout {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    bottom: 0;
+  }
+  
+  .btn-signout {
+      width: 37px;
+      height: 37px;
+    border-radius: 20px;
+    background-color: gainsboro;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin-right: 3%;
+    font-family: 'SourceSansPro';
+    font-weight: bold;
+  }
+  
+  .active_router {
+    padding-left: 10px;
+    color: #B2BEB5;
+    width: auto;
+    white-space: initial;
+    font-size: 18px;
+    font-family: "SourceSansPro";
+    font-weight: bold;
+  }
+  
+  @media screen and (max-width: 1080px) {
+    .active_router {
+      width: 400px;
+      margin-top: 10px;
+    }
+  }
+  

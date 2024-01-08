@@ -1,0 +1,78 @@
+//colors
+$white: #FFFFFF;
+$black: #252525;
+$primaryColor: #1877F2;
+$secondaryColor: #666666;
+$red: #EF4545;
+$reset: #EAEAEA;
+
+$success: #24BD4F;
+$warning: #F8901F;
+$error: #EF4545;
+
+$color-3D6D6D: #1364A5;
+$color-5D7177: #414F94;
+$colorTableActionButton: #666666;
+$color-6C6C6C: #6C6C6C;
+$colorNavDivider: #E8E8E8;
+$colorNavActive: #414F94;
+$colorNavParentSection: #24647e;
+$colorNavActiveSection: #414F94;
+$colorNavActivePageContent: #233694;
+$colorNavActivePage: #F8A54A;
+$colorHamburgerClose: #24647e;
+$colorGray-ADADAD: #ADADAD;
+$colorGray-A9A9A9: #A9A9A9;
+$colorContentDevider: #E2E2E2;
+$colorContentDevider-Opacity-30: #E2E2E264;
+$colorContentDevider-Opacity-10: #E2E2E216;
+$mainGrayColor: #F4F4F4;
+
+
+//button
+$btnNormalColor: #324294;
+$btnHoverColor: #1364A5;
+$btnPressedColor: #1a4a5e;
+
+// Font sizes
+$xlText: 18px;
+$lText: 16px;
+$mText: 15px;
+$rText: 14px;
+$sText: 12px;
+$xsText: 10px;
+
+//text colors
+$primaryTextColor: #414F94;
+// $primaryTextColor: rgb(65, 88, 95);
+$secondaryTextColor: #5A9DB8;
+// $secondaryTextColor: rgb(132, 189, 60);
+
+$primaryText-5D7177: #324294;
+$primaryText-364D54: #164658;
+$primaryText-3D6D6D: #25637B;
+$formTextColor: #505050;
+
+//gradients
+$gradientPrimary: linear-gradient(180deg, #25637B 0%, #0D3849 100%);
+$gradientGrey: linear-gradient(180deg, #CCCCCC 0%, #999999 100%);
+$gradientColorNavActivePage: linear-gradient(90deg, #FF9431 23.33%, #FF9F46 100%);
+
+
+
+$gradientNavHover: linear-gradient(
+    90deg, rgba($primaryTextColor, 1) 0%, 
+    rgba($primaryTextColor, 1) 12.5%, 
+    rgba($primaryTextColor, 1) 87.5%, 
+    rgba($primaryTextColor, 1) 100%
+    );
+    
+$gradientUserDropDown: linear-gradient(
+    90deg, $colorContentDevider-Opacity-10 0%, 
+    $colorContentDevider-Opacity-30 12.5%, 
+    $colorContentDevider-Opacity-30 87.5%, 
+    $colorContentDevider-Opacity-10 100%
+    );
+
+
+

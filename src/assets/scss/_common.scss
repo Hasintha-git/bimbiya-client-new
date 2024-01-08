@@ -1,0 +1,1357 @@
+// Updated default material form field style
+mat-form-field.mat-form-field.mat-form-field-appearance-outline>div.mat-form-field-wrapper>div.mat-form-field-flex>div.mat-form-field-infix {
+  padding: 0.6em 0px; //old 0.4em
+}
+
+mat-form-field.mat-form-field.mat-form-field-appearance-outline>div.mat-form-field-wrapper>div.mat-form-field-flex>div.mat-form-field-infix>span.mat-form-field-label-wrapper {
+  top: -1.2em; //old -1.5em
+}
+
+.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  transform: translateY(-1.3em) scale(0.75); //old -1.1em
+  width: 133.33333%;
+  color: $primaryColor !important;
+}
+
+mat-form-field {
+  &.max-field {
+    width: 255px;
+  }
+  &.ultra-max-field {
+    width: 330px;
+  }
+  &.full-max-field {
+    width: 680px;
+  }
+  &.min-field {
+    width: 230px;
+    border-radius: 20px !important;
+    padding: 0 40px 0 0; //10px ~ 36 - (18.8125 default padding + (3.5*2)top bottom margins)
+
+    &_ngcontent-hel-c141 {
+      padding: 0;
+    }
+  }
+}
+
+// mat-input Font color
+input.mat-input-element {
+  font-family: rFont;
+  font-size: mText;
+  color: $formTextColor;
+}
+
+// mat-icon-stepper selected color change
+.mat-step-header .mat-step-icon-selected,
+.mat-step-header .mat-step-icon-state-done,
+.mat-step-header .mat-step-icon-state-edit {
+  background-color: $primaryColor !important;
+}
+
+//input outline color
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: $color-3D6D6D !important;
+}
+
+//mat-input focused color
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: $color-3D6D6D !important;
+}
+
+// mat-input error outline color
+.mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick {
+  color: $color-3D6D6D !important;
+}
+
+// mat-input carent color
+.mat-input-element {
+  caret-color: $primaryColor !important;
+}
+
+// mat-input error carent color
+.mat-form-field-invalid .mat-input-element,
+.mat-warn .mat-input-element {
+  caret-color: $primaryColor !important;
+}
+
+// mat-label normal state style
+.mat-form-field-label {
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+
+// mat-label focused style
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: $primaryColor !important;
+}
+
+// mat-label error style
+.mat-form-field.mat-form-field-invalid .mat-form-field-label {
+  color: $primaryColor !important;
+}
+
+// mat-required-marker color style
+.mat-form-field-required-marker {
+  color: $primaryColor !important;
+}
+
+.mat-form-field-appearance-outline.mat-form-field-disabled {
+  opacity: .7;
+}
+
+// mat-date picker
+.mat-focus-indicator {
+  &.mat-icon-button {
+    &.mat-button-base {
+      transform: translateY(-2px);
+
+      .mat-datepicker-toggle-default-icon {
+        color: $black;
+        width: 1.4em !important;
+        height: 1.4em !important;
+      }
+    }
+  }
+}
+
+//mat calander today focus color
+.mat-calendar-body-today {
+  border-color: $secondaryColor !important;
+}
+
+//mat calander selected date focus color
+.mat-calendar-body-selected {
+  background: $primaryColor !important;
+}
+
+//custom material buttons
+.custome-confirm-button {
+  min-width: 90px;
+  height: 38px;
+  right: 20px;
+  //padding: 0 20px;
+  font-size: $rText;
+  font-family: mFont;
+  background: $primaryColor;
+  color: $white;
+  border: 2px solid $primaryColor !important;
+  border-radius: 5px;
+  z-index: 2;
+  float: right;
+}
+.custom-button {
+  min-width: 90px;
+  height: 35px;
+  padding: 0 12px;
+  font-size: $rText;
+  font-family: mFont;
+  border-radius: 20px !important;
+  z-index: 2;
+
+
+  &.primary {
+    background: $primaryColor;
+    color: $white;
+    margin-right: 16px;
+
+    &:hover {
+      background: $btnHoverColor;
+    }
+  }
+
+  &.secondary {
+    background: $secondaryColor;
+    color: $white;
+    margin-right: 16px;
+  }
+
+  &.password-rest {
+    color: $primaryColor;
+    margin-right: 16px;
+  }
+
+  &.image-button {
+    background: $primaryColor;
+    color: $white ;
+    float: right;
+    margin-left: 16px;
+    line-height: 19px;
+
+    img {
+      vertical-align: bottom;
+      padding-right: 5px;
+      float: left;
+    }
+
+    &.cdk-focused.cdk-program-focused {
+      background: none !important;
+      box-shadow: none !important;
+
+      .mat-button-ripple {
+        display: none;
+      }
+    }
+  }
+}
+
+//table action buttons
+.table-action-buttons-column {
+  .table-action-button {
+    padding: 2px;
+    margin-right: 8px;
+    cursor: pointer;
+    border: 1px solid transparent !important;
+    transform: translateY(2px) !important;
+
+    &:hover {
+      border: 1px solid $colorTableActionButton !important;
+      border-radius: 3px;
+    }
+  }
+}
+
+
+//common page container input fields SCSS
+.common-input-field-section {
+  padding: 0 8px;
+  display: inline-block;
+  width: calc(100% - 16px);
+
+  .input-fields {
+    float: left;
+    margin-bottom: 8px;
+  }
+
+  .error-instruction {
+    font-family: mFont;
+    font-size: $sText;
+    color: $primaryTextColor;
+    margin-bottom: 10px;
+
+    &.error {
+      color: $red;
+    }
+  }
+}
+
+//common page container text area SCSS
+.text-area-section {
+  padding: 0 8px;
+  display: inline-block;
+
+  .text-area-field {
+    float: left;
+    width: 420px;
+    padding: 0 40px 10px 0;
+
+    textarea {
+      height: 80px;
+    }
+  }
+}
+
+//common buttons container SCSS
+.common-button-section {
+  padding: 4px 8px 10px 8px;
+}
+
+//common table container SCSS
+.common-table-section {
+  margin-top: 32px;
+  padding: 8px;
+
+  table {
+    width: max-content;
+  }
+
+  .mat-elevation-z8 {
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+      0px 6px 6px 1px rgba(0, 0, 0, 0.14),
+      //default value 0px 8px 10px 1px
+      0px 3px 3px 2px rgba(0, 0, 0, 0.12); //default value 0px 3px 14px 2px
+
+    .scrollable-table {
+      overflow: auto;
+
+      &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #f5f5f5;
+      }
+
+      &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        background-color: #f5f5f5;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $primaryColor;
+      }
+    }
+
+    .table-no-data {
+      text-align: center;
+      padding: 12px;
+      font-size: $mText;
+      font-family: mFont;
+      color: $primaryText-5D7177;
+      background: $mainGrayColor;
+      border-bottom: 3px solid $color-5D7177;
+    }
+
+    .mat-tbl-container {
+      width: 100%;
+      overflow: auto;
+
+      //custom scroll bar for side menu - start
+      &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #f5f5f5;
+      }
+
+      &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        background-color: #f5f5f5;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $primaryColor;
+      }
+
+      //custom scroll bar for side menu - end
+    }
+
+    table {
+      min-width: 100%;
+      border-bottom: 1px solid $color-6C6C6C;
+
+      tr {
+        th {
+          font-size: $mText;
+          font-family: mFont;
+          color: $primaryColor;
+          border-bottom: 2.5px solid $primaryColor;
+          // padding: 4px 8px 4px 16px;
+        }
+
+        td {
+          font-size: $rText;
+          font-family: rFont;
+          color: $color-6C6C6C;
+          // padding: 4px 8px 4px 16px;
+        }
+      }
+    }
+
+    .mat-table {
+      width: max-content;
+      min-width: 100%;
+      border-bottom: 1px solid $color-6C6C6C;
+
+      .mat-header-row {
+        .mat-header-cell {
+          font-size: $mText;
+          font-family: mFont;
+          color: $primaryTextColor;
+          border-bottom: 2.5px solid $primaryColor;
+          padding: 4px 8px 4px 16px;
+        }
+      }
+
+      .mat-row {
+        .mat-cell {
+          font-size: $rText;
+          font-family: rFont;
+          color: $color-6C6C6C;
+          padding: 4px 8px 4px 16px;
+        }
+      }
+    }
+  }
+}
+
+//common radio button section
+.common-radio-button-section {
+  padding: 0 8px 28px 8px;
+
+  .radio-group {
+    display: flex;
+    margin-bottom: 12px;
+    font-size: $rText;
+    font-family: mFont;
+    color: $primaryColor;
+  }
+
+  .radio-button {
+    margin-right: 10px;
+    padding: 5px;
+    font-size: $rText;
+    font-family: rFont;
+    color: $color-6C6C6C;
+
+    &:active {
+      border-color: $secondaryColor !important;
+    }
+  }
+
+  .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple),
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple,
+  .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+    background-color: $secondaryColor;
+  }
+
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: $secondaryColor !important;
+  }
+
+  .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: $secondaryColor !important;
+  }
+}
+
+//common checkbox section
+.common-checkbox-section {
+  padding: 0 8px 28px 8px;
+
+  .checkbox-group {
+    display: flex;
+    margin-bottom: 12px;
+    font-size: $rText;
+    font-family: mFont;
+    color: $primaryColor;
+  }
+
+  .example-margin {
+    display: inline-block;
+    margin-right: 24px;
+    padding: 8px;
+    font-size: $rText;
+    font-family: rFont;
+    color: $color-6C6C6C;
+  }
+
+  .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+  .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+    background: $primaryColor;
+  }
+
+  .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+  .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: $primaryColor;
+  }
+}
+
+//mat-dialog custom SCSS
+.mat-dialog-container {
+  padding: 18px 24px !important;
+
+  //confimation dialog SCSS
+  .confirmation-dialog-container {
+    min-width: 240px;
+    max-width: 600px;
+
+    .dialog-title {
+      font-family: mFont;
+      font-size: $xlText;
+      padding-bottom: 15px;
+      color: $primaryColor;
+      display: inline-block;
+    }
+
+    .btn-close {
+      float: right;
+      cursor: pointer;
+    }
+
+    .title-content-devider {
+      height: 1px;
+      background-color: $colorContentDevider;
+    }
+
+    .dialog-content {
+      padding: 20px 8px 20px 8px;
+      font-size: $rText;
+      font-family: rFont;
+      color: $color-6C6C6C;
+
+      &.modal-content {
+        height: calc(65vh - 76px);
+        overflow: auto;
+
+        //custom scroll bar for side menu - start
+        &::-webkit-scrollbar-track {
+          -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+          background-color: #f5f5f5;
+        }
+
+        &::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+          background-color: #f5f5f5;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: $primaryColor;
+        }
+
+        //custom scroll bar for side menu - end
+
+      }
+    }
+
+    .dialog-buttons {
+      padding: 4px 8px 10px 8px;
+      float: right;
+
+      .custom-button {
+        &.primary {
+          margin-right: 0px; //replace 16 to 0
+          margin-left: 16px;
+        }
+
+        &.secondary {
+          margin-right: 0px; //replace 16 to 0
+          margin-left: 16px;
+        }
+      }
+    }
+
+  }
+
+  //input dialog SCSS
+  .input-dialog-container {
+    max-width: 760px; //940px
+
+    .dialog-content.modal-content {
+      max-height: calc(80vh - 76px);
+      overflow: auto;
+
+      &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #f5f5f5;
+      }
+
+      &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        background-color: #f5f5f5;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $primaryColor;
+        border: none;
+      }
+    }
+
+    .dialog-title {
+      font-family: mFont;
+      font-size: $xlText;
+      padding-bottom: 15px;
+      color: $primaryColor;
+      display: inline-block;
+    }
+
+    .btn-close {
+      float: right;
+      cursor: pointer;
+    }
+
+    .title-content-devider {
+      height: 1px;
+      background-color: $colorContentDevider;
+    }
+
+    .dialog-input-fields {
+      padding: 20px 8px 0 8px;
+      display: inline-block;
+
+      .input-fields {
+        float: left;
+        min-width: 240px;
+        margin-bottom: 8px;
+      }
+      .input-fields-max {
+        float: left;
+        min-width: 370px;
+        margin-bottom: 8px;
+      }
+      .input-fields-full {
+        float: left;
+        min-width: 680px;
+        margin-bottom: 8px;
+      }
+    }
+
+    .dialog-buttons {
+      padding: 4px 8px 10px 8px;
+    }
+  }
+
+  .input-dialog-container_auto {
+    max-width: auto; //940px
+
+    .dialog-content.modal-content {
+      max-height: calc(0vh - 76px);
+      overflow: auto;
+
+      &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #f5f5f5;
+      }
+
+      &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        background-color: #f5f5f5;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $primaryColor;
+        border: none;
+      }
+    }
+
+    .dialog-title {
+      font-family: mFont;
+      font-size: $xlText;
+      padding-bottom: 15px;
+      color: $primaryColor;
+      display: inline-block;
+    }
+
+    .btn-close {
+      float: right;
+      cursor: pointer;
+    }
+
+    .title-content-devider {
+      height: 1px;
+      background-color: $colorContentDevider;
+    }
+
+    .dialog-input-fields {
+      padding: 20px 8px 0 8px;
+      display: inline-block;
+
+      .input-fields {
+        float: left;
+        min-width: 240px;
+        margin-bottom: 8px;
+      }
+      .input-fields-max {
+        float: left;
+        min-width: 370px;
+        margin-bottom: 8px;
+      }
+      .input-fields-full {
+        float: left;
+        min-width: 680px;
+        margin-bottom: 8px;
+      }
+    }
+
+    .dialog-buttons {
+      padding: 4px 8px 10px 8px;
+    }
+  }
+}
+
+// Toastr custom design SCSS - start
+.toast-container {
+  .ngx-toastr {
+    position: relative;
+    border-radius: 4px;
+    background: white;
+
+    .toast-title {
+      font-weight: 500;
+      font-size: $xlText;
+    }
+
+    &:hover {
+      box-shadow: 0 0 16px $color-5D7177 !important;
+    }
+
+    &.toast-error {
+      &::before {
+        content: "";
+        position: absolute;
+        width: 3px;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: $error;
+      }
+
+      &::after {
+        content: url(/assets/images/icons/error.svg);
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        left: 12px;
+        top: 21px;
+      }
+
+      .toast-title {
+        color: $error;
+      }
+    }
+
+    &.toast-success {
+      &::before {
+        content: "";
+        position: absolute;
+        width: 3px;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: $success;
+      }
+
+      &::after {
+        content: url(/assets/images/icons/success.svg);
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        left: 12px;
+        top: 21px;
+      }
+
+      .toast-title {
+        color: $success;
+      }
+    }
+
+    &.toast-warning {
+      &::before {
+        content: "";
+        position: absolute;
+        width: 3px;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: $warning;
+      }
+
+      &::after {
+        content: url(/assets/images/icons/warning.svg);
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        left: 12px;
+        top: 21px;
+      }
+
+      .toast-title {
+        color: $warning;
+      }
+    }
+
+    .toast-close-button {
+      right: 0em;
+      top: 0.25em;
+      float: right;
+      font-size: 24px;
+      font-weight: 100;
+      color: $primaryText-5D7177;
+    }
+
+    .toast-message {
+      color: $primaryColor;
+    }
+  }
+}
+
+// Toastr custom design SCSS - end
+
+
+// dual list box design SCSS - start
+.dual-listbox {
+  max-width: 600px;
+  padding: 8px;
+  background: white;
+  border: 1px solid $colorGray-A9A9A9;
+  border-radius: 5px;
+  margin: 8px;
+  min-width: 480px;
+
+  .title-label {
+    display: inline-block;
+    width: 100%;
+
+    h4 {
+      width: calc(50% - 10px);
+      color: $primaryTextColor;
+      padding: 0 5px;
+      float: left;
+      margin-bottom: 0;
+    }
+  }
+
+  .dual-list {
+    button.btn-block {
+      border-radius: 5px;
+      border: none;
+      padding: 8px 12px;
+      background: $primaryColor;
+      border-color: $primaryColor;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+
+      &:disabled {
+        background: $colorGray-ADADAD;
+        border-color: $colorContentDevider;
+        color: $color-6C6C6C;
+        opacity: .36;
+        cursor: default;
+      }
+    }
+
+    .button-bar {
+      button {
+        width: calc(50% - 5px) !important;
+        border-radius: 5px;
+        border: none;
+        padding: 8px 12px;
+        background: $primaryColor;
+        border-color: $primaryColor;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+
+
+        &.pull-left {
+          margin-right: 5px;
+
+          &:disabled {
+            background: $colorGray-ADADAD;
+            border-color: $colorContentDevider;
+            color: $color-6C6C6C;
+            opacity: .36;
+            cursor: default;
+          }
+        }
+
+        &.pull-right {
+          margin-left: 5px;
+          background-color: $secondaryColor;
+
+          &:disabled {
+            background: $colorGray-ADADAD;
+            border-color: $colorContentDevider;
+            color: $color-6C6C6C;
+            opacity: .36;
+            cursor: default;
+          }
+        }
+      }
+    }
+
+    .record-picker {
+
+      //custom scroll bar for side menu - start
+      &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #f5f5f5;
+      }
+
+      &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        background-color: #f5f5f5;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $primaryColor;
+        border: none;
+      }
+
+      li {
+        border-top: 1px solid transparent !important;
+        padding: 6px 8px !important;
+        color: $primaryTextColor;
+
+        &:hover {
+          border-top: 1px solid $colorContentDevider !important;
+        }
+
+        &.selected {
+          background-color: $primaryColor !important;
+          border-top: 1px solid $primaryColor !important;
+          color: white;
+
+          &:hover {
+            background-color: $gradientUserDropDown;
+          }
+        }
+      }
+    }
+
+  }
+
+}
+
+// dual list box design SCSS - end
+
+// object list design SCSS - start
+.object-list {
+  .first-level-list {
+    position: relative;
+    padding-top: 8px;
+
+    &:last-child {
+      .line-indicator {
+        &::before {
+          border-left: none;
+        }
+      }
+    }
+
+    .line-indicator {
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      float: left;
+
+      &.single {
+        &::after {
+          content: "";
+          position: absolute;
+          width: 5px;
+          height: 5px;
+          background: $primaryTextColor;
+          left: 6px;
+          top: 16px;
+          border-radius: 4px;
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          width: 10px;
+          height: 100%;
+          left: 8px;
+          top: 18px;
+          border-left: 1px dotted $colorGray-ADADAD;
+          border-top: 1px dotted $colorGray-ADADAD;
+        }
+      }
+
+      &.multiple {
+        cursor: pointer;
+
+        &::after {
+          content: url(/assets/images/icons/ic_expand.svg);
+          position: absolute;
+          width: 16px;
+          height: 16px;
+          left: 0;
+          top: 12px;
+          z-index: 1;
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          width: 10px;
+          height: 100%;
+          left: 8px;
+          top: 18px;
+          border-left: 1px dotted $colorGray-ADADAD;
+          border-top: 1px dotted $colorGray-ADADAD;
+        }
+      }
+    }
+
+    .obj-value {
+      display: flex;
+
+      .label {
+        font-family: lFont;
+        font-size: $rText;
+        color: $primaryText-364D54;
+        margin-left: 8px;
+      }
+
+      .description {
+        word-break: break-all;
+        word-wrap: break-word;
+        font-family: mFont;
+        font-size: $mText;
+        color: $primaryTextColor;
+      }
+    }
+
+    .second-level-list {
+      display: none;
+      margin-left: 24px;
+      margin-top: 8px;
+
+      .second-obj-value {
+        position: relative;
+        display: flex;
+
+        .line-indicator {
+          width: 16px;
+          height: 16px;
+          min-width: 16px;
+          float: left;
+
+          &::after {
+            content: "";
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: $primaryTextColor;
+            left: 6px;
+            top: 8px;
+            border-radius: 4px;
+            z-index: 1;
+          }
+
+          &::before {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 100%;
+            left: 8px;
+            top: -10px;
+            border-left: 1px dotted $colorGray-ADADAD;
+            border-bottom: 1px dotted $colorGray-ADADAD;
+          }
+        }
+
+        .label {
+          font-family: lFont;
+          font-size: $rText;
+          color: $primaryText-364D54;
+          margin-left: 8px;
+        }
+
+        .description {
+          word-break: break-all;
+          word-wrap: break-word;
+          font-family: mFont;
+          font-size: $mText;
+          color: $primaryTextColor;
+        }
+      }
+    }
+
+    &.show {
+      .line-indicator {
+        &.multiple {
+          &::after {
+            content: url(/assets/images/icons/ic_collapse.svg);
+          }
+        }
+      }
+
+      .second-level-list {
+        display: block;
+      }
+    }
+  }
+
+}
+
+// object list design SCSS - end
+
+.mat-progress-spinner {
+  margin: auto;
+}
+
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: $colorContentDevider;
+}
+
+.mat-form-field .mat-select.mat-select-invalid .mat-select-arrow {
+  color: $black;
+}
+
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled){
+  color: $primaryColor;
+}
+a.table-action-buttons-column {
+  width: 48px;
+  text-align: center;
+}
+
+.data-row {
+  display: inline-block;
+  width: 100%;
+  max-width: 998px;
+}
+
+.view-row-data {
+  width: 100%;
+  padding: 0 24px 0 0;
+  margin-bottom: 16px;
+  float: left;
+
+  label.label {
+    font-family: lFont;
+    font-size: $rText;
+    color: $primaryColor;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+.view-data {
+  width: 216px;
+  padding: 0 24px 0 0;
+  margin-bottom: 16px;
+  float: left;
+
+  label.label {
+    font-family: lFont;
+    font-size: $rText;
+    color: $primaryColor;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  p.data {
+    font-family: mFont;
+    font-size: $mText;
+    color: $formTextColor;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+
+    &.previous {
+      background: rgba($color: $primaryColor, $alpha: 0.1);
+      width: 184px;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+  }
+
+
+  ul {
+    margin: 8px 0;
+    padding-left: 26px;
+
+    li {
+      font-family: mFont;
+      font-size: rText;
+      color: $formTextColor;
+    }
+  }
+}
+
+.view-data-max {
+  width: 600px;
+  padding: 0 24px 0 0;
+  margin-bottom: 16px;
+  float: left;
+
+  label.label {
+    font-family: lFont;
+    font-size: $rText;
+    color: $primaryColor;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  p.data {
+    font-family: mFont;
+    font-size: $mText;
+    color: $formTextColor;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+
+    &.previous {
+      background: rgba($color: $primaryColor, $alpha: 0.1);
+      width: 184px;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+  }
+
+  ul {
+    margin: 8px 0;
+    padding-left: 26px;
+
+    li {
+      font-family: mFont;
+      font-size: rText;
+      color: $formTextColor;
+    }
+  }
+}
+
+.attachment-list {
+  display: inline-block;
+}
+
+.view-images-data {
+  padding: 0 24px 0 0;
+  margin-bottom: 3px;
+  float: left;
+
+  label.label {
+    font-family: lFont;
+    font-size: $rText;
+    color: $primaryColor;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .images {
+    display: flex;
+
+    .image {
+      width: 100%;
+      margin-right: 8px;
+
+      img {
+        height: 120px;
+        border-radius: 8px;
+        border: 1px solid #C4C4C4;
+        // transform: scale(2);
+
+        &:hover {
+          // transform: scale(2);
+        }
+      }
+
+      label {
+        display: block;
+        font-family: rFont;
+        font-size: $rText;
+        color: $formTextColor;
+        text-align: center;
+      }
+    }
+  }
+}
+
+#viewEditor {
+  .angular-editor-toolbar {
+    display: none;
+  }
+}
+
+.mat-form-field-subscript-wrapper {
+  margin-top: 0.4em;
+}
+
+.lb-data .lb-close {
+  position: absolute;
+  top: 0;
+  margin-left: 16px;
+}
+
+.actions-links {
+  display: flex;
+  min-width: 200px;
+}
+
+
+.logo-images-data {
+  padding: 0 54px 0 0;
+  margin-bottom: 16px;
+  float: left;
+
+  label.label {
+    font-family: lFont;
+    font-size: $xsText;
+    color: $primaryColor;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .images {
+    display: flex;
+
+    .image {
+      width: 30%;
+      margin-right: 8px;
+
+      img {
+        height: 100px;
+        width: 100px;
+        border-radius: 8px;
+        border: 1px solid #C4C4C4;
+        // transform: scale(2);
+
+        &:hover {
+          // transform: scale(2);
+        }
+      }
+
+      label {
+        display: block;
+        font-family: rFont;
+        font-size: $rText;
+        color: $formTextColor;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.title-dual {
+  font-size: 18px;
+  font-weight: bold;
+  color: #0c455c;
+  padding-bottom: 10px;
+}
+
+.txt-reject {
+  font-size: 18px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.txt-remark {
+  width: 100%;
+  padding-top: 20px;
+}
+.btn-cancel {
+  right: 50px;
+  background-color: red;
+  color: white;
+  border: none!important;
+
+}
+
+.btn-cancel-reject {
+  background-color: red;
+  color: white;
+}
+
+.btn-update {
+  background: $primaryColor;
+  color: $white;
+  margin-right: 16px;
+}
+
+.empty_data {
+  width: 25px;
+}
+
+mat-form-field {
+  &.max-input {
+    width: 680px;
+    padding: 0 24px 0 0;
+    margin-bottom: 16px;
+    float: left;
+  }
+
+}
+
+.login-input .mat-form-field-wrapper{
+  padding-bottom: 8px;
+}    
