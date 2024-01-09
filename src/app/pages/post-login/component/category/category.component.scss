@@ -1,0 +1,25 @@
+/* Default styles for larger screens */
+@media (min-width: 768px) {
+    .flex {
+      /* Use flex layout for larger screens */
+      display: flex;
+    }
+    .cart-div {
+      /* Take up half width on larger screens */
+      width: 50%;
+    }
+  }
+  
+  /* Styles for smaller screens (mobile) */
+  @media (max-width: 767px) {
+    .flex {
+      /* Override flex layout for smaller screens */
+      display: block;
+    }
+    .cart-div {
+      /* Take up full width on smaller screens */
+      width: 100%;
+      margin-bottom: 20px; /* Optional: Add margin between items */
+    }
+  }
+  

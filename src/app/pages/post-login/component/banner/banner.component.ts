@@ -7,28 +7,33 @@ import Swiper from 'swiper';
 })
 export class BannerComponent implements OnInit, AfterViewInit  {
   title = 'bimbiya-client';
-  @ViewChild('swiper', { static: false }) swiper: ElementRef;
 
   ngAfterViewInit(): void {
-    const swiper = new Swiper(this.swiper.nativeElement, {
-      slidesPerView: 'auto',
-      spaceBetween: 20,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      autoplay: {
-        delay: 3000, // Adjust slide duration as needed (in milliseconds)
-        disableOnInteraction: false, // Allow manual interaction to keep autoplay
-      },
-      breakpoints: {
-        640: {
-          slidesPerView: 1,
-          spaceBetween: 20,
+    setTimeout(() => {
+      const swiper = new Swiper('.swiper-container-1', {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        loop: true,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
         },
-      },
-    });
-    swiper.autoplay.start();
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        zoom: true,
+      });
+
+      document.querySelectorAll('.swiper-button-next').forEach(button => {
+        button.addEventListener('click', () => swiper.slideNext());
+      });
+
+      document.querySelectorAll('.swiper-button-prev').forEach(button => {
+        button.addEventListener('click', () => swiper.slidePrev());
+      });
+
+    }, 0);
   }
   ngOnInit() {
 

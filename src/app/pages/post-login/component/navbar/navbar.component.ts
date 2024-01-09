@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { CommonResponse } from 'src/app/models/CommonResponse';
+import { CartDetails } from 'src/app/models/cart-details';
 import { ForgetPasswordComponent } from 'src/app/pages/pre-login/forget-password/forget-password.component';
 import { UserProfileComponent } from 'src/app/pages/pre-login/user-profile/user-profile.component';
+import { AddToCartService } from 'src/app/services/Cart/add-to-cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,15 +20,40 @@ export class NavbarComponent implements OnInit {
   isCart = false;
   buttonHover: boolean;
   
+  cartDetails = new CartDetails();
+
   itemsList: any[] = [
     { name: 'Item 1', quantity: 3 },
     { name: 'Item 2', quantity: 1 },
     { name: 'Item 3', quantity: 2 }
   ];
 
-  constructor(private router: Router,public dialog: MatDialog) { }
+  constructor(private router: Router,
+              public dialog: MatDialog,
+              private spinner: NgxSpinnerService,
+              private addToCartService: AddToCartService,
+    ) { }
 
 
+    
+  ngOnInit(): void {
+    this.cartDataGet();
+  }
+
+  cartDataGet() {
+    this.cartDetails.userName="admin";
+    this.spinner.show();
+      this.addToCartService.addToCart(this.cartDetails).subscribe(
+        (response: CommonResponse) => {
+          this.cartDetails=response.data;
+          this.spinner.hide();
+        },
+        error => {
+          this.spinner.hide();
+        }
+      );
+  }
+  
   profileMgt() {
     this.router.navigate(['/user-profile']);
   }
@@ -37,8 +66,7 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  
 
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;

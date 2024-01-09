@@ -1,0 +1,39 @@
+/* Add your own styles as needed */
+.product-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .swiper-container {
+    overflow: hidden;
+    position: relative; 
+  }
+  
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: transparent !important;
+    /* Other styles */
+  }
+  
+  .swiper-button-prev,
+  .swiper-button-next {
+    position: absolute;
+    top: 50%;
+    width: 20px !important;
+    height: 20px !important;
+    margin-top: -20px;
+    z-index: 10;
+    cursor: pointer;
+    transform: translateY(-50%);
+  }
+  
+  .swiper-button-prev {
+    left: 10px;
+  }
+  
+  .swiper-button-next {
+    right: 10px;
+  }
+  

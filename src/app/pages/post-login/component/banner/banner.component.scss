@@ -1,13 +1,41 @@
-.swiper-slide img {
-    width: 100%;
-    height: auto;
-    object-fit: cover; /* Maintain aspect ratio */
-  }
-  
-  @media (max-width: 640px) {
-    .swiper-slide img {
-      /* Adjust the image size or object-fit properties */
-      object-fit: contain; /* or any other value suitable for mobile */
-    }
-  }
-  
+/* Add your own styles as needed */
+.swiper-container-1 {
+  width: 100%;
+  max-width: 100%; /* Adjust as needed */
+  height: 100vh; /* Set a fixed height or adjust for mobile responsiveness */
+  position: relative;
+}
+
+.swiper-slide-1 img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px; /* Adjust size as needed */
+  height: 30px; /* Adjust size as needed */
+  z-index: 10;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.5); /* Add a semi-transparent background */
+  border-radius: 50%; /* Makes them circular */
+}
+
+.swiper-button-prev {
+  left: 10px;
+}
+
+.swiper-button-next {
+  right: 10px;
+}
+
+.swiper-pagination {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}

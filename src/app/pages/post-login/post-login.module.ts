@@ -6,6 +6,9 @@ import { HomeComponent } from './home/home.component';
 import { BannerComponent } from './component/banner/banner.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { FoodsComponent } from './foods/foods.component';
+import { CategoryComponent } from './component/category/category.component';
+import { ProductSectionComponent } from './product-section/product-section.component';
+import { ProductSliderComponent } from './component/product-slider/product-slider.component';
 
 
 @NgModule({
@@ -13,7 +16,10 @@ import { FoodsComponent } from './foods/foods.component';
     HomeComponent,
     BannerComponent,
     NavbarComponent,
-    FoodsComponent
+    FoodsComponent,
+    CategoryComponent,
+    ProductSectionComponent,
+    ProductSliderComponent
   ],
   imports: [
     CommonModule,
