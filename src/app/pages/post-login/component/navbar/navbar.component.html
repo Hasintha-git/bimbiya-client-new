@@ -58,7 +58,7 @@
             
            <!-- Rest of your HTML -->
 
-<div class="absolute backdrop-filter backdrop-blur-md bg-opacity-40 right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" [ngClass]="{ block: isCart, hidden: !isCart }">
+<div class="absolute backdrop-filter backdrop-blur-md bg-opacity-90 right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" [ngClass]="{ block: isCart, hidden: !isCart }">
   <!-- Loop through the itemsList array -->
   <div *ngFor="let item of itemsList" class="flex justify-between px-4 py-2 text-sm text-white" role="menuitem">
       <span>{{ item.name }}</span>
@@ -82,7 +82,7 @@
             
             
           
-            <div class="absolute backdrop-filter backdrop-blur-md bg-opacity-40 right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" [ngClass]="{ block: isProfile, hidden: !isProfile }">
+            <div class="absolute backdrop-filter backdrop-blur-md bg-opacity-90 right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" [ngClass]="{ block: isProfile, hidden: !isProfile }">
                 <!-- Active: "bg-gray-100", Not Active: "" -->
               <a (click)="profileMgt()" class="block px-4 py-2 text-sm text-white" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
               <a (click)="forgetPassword()"  class="block px-4 py-2 text-sm text-white" role="menuitem" tabindex="-1" id="user-menu-item-1">Forget Pasword</a>
