@@ -1,0 +1,63 @@
+.price-display {
+    color: white;
+}
+.price-range-selector {
+    color: white;
+}
+
+.card-list-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .card-item {
+    flex: 1 0 50%;
+  }
+
+  .mat-paginator {
+    width: 100%; 
+  }
+  
+  
+  .card-list-row {
+    width: 100%;
+    margin-bottom: 1rem; /* Adjust as needed for the gap between lines */
+  }
+  
+  .card-gap {
+    
+  }
+  
+  .pagination-controls {
+    margin-top: 16px;
+  }
+  
+  ::ng-deep .mat-paginator {
+    background-color: gray !important; // Set the background color to gray
+    color: white !important; // Set the text color to white
+    width: 400px !important;
+    border-radius: 20px !important;
+  }
+  .paginator {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  /* Add this style for mobile view */
+.card-list-container.mobile-view {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Adjust card width for mobile view */
+.card-list-container.mobile-view .card-item {
+  width: 100%;
+}
+
+/* Remove unnecessary gap for mobile view */
+.card-list-container.mobile-view .card-list-row {
+  display: none;
+}

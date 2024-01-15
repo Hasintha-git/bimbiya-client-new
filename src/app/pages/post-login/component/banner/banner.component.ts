@@ -19,17 +19,17 @@ export class BannerComponent implements OnInit, AfterViewInit  {
           disableOnInteraction: false,
         },
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+          nextEl: '.swiper-button-next-1',
+          prevEl: '.swiper-button-prev-1',
         },
         zoom: true,
       });
 
-      document.querySelectorAll('.swiper-button-next').forEach(button => {
+      document.querySelectorAll('.swiper-button-next-1').forEach(button => {
         button.addEventListener('click', () => swiper.slideNext());
       });
 
-      document.querySelectorAll('.swiper-button-prev').forEach(button => {
+      document.querySelectorAll('.swiper-button-prev-1').forEach(button => {
         button.addEventListener('click', () => swiper.slidePrev());
       });
 

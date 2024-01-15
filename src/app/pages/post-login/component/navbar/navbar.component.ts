@@ -21,12 +21,9 @@ export class NavbarComponent implements OnInit {
   buttonHover: boolean;
   
   cartDetails = new CartDetails();
+  public cartDetailsList: CartDetails[];
 
-  itemsList: any[] = [
-    { name: 'Item 1', quantity: 3 },
-    { name: 'Item 2', quantity: 1 },
-    { name: 'Item 3', quantity: 2 }
-  ];
+  itemsList: any[] = [];
 
   constructor(private router: Router,
               public dialog: MatDialog,
@@ -43,9 +40,12 @@ export class NavbarComponent implements OnInit {
   cartDataGet() {
     this.cartDetails.userName="admin";
     this.spinner.show();
-      this.addToCartService.addToCart(this.cartDetails).subscribe(
+      this.addToCartService.findCartList(this.cartDetails).subscribe(
         (response: CommonResponse) => {
-          this.cartDetails=response.data;
+          console.log(response)
+          this.cartDetailsList=response.records;
+          console.log(this.cartDetailsList)
+          console.log(this.itemsList)
           this.spinner.hide();
         },
         error => {
@@ -91,6 +91,6 @@ export class NavbarComponent implements OnInit {
   }
 
   foods() {
-    this.router.navigate(['/post-login/foods']);
+    this.router.navigate(['/post-login/product']);
   }
 }

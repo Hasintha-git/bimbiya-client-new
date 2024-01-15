@@ -5,4 +5,5 @@ export class CommonResponse {
   responseDescription: any;
   responseCode:any;
   fullCount:any;
+  records:any;
   }

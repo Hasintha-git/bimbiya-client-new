@@ -1,242 +1,66 @@
 <div class="swiper-container">
   <div class="swiper-wrapper">
-    <div class="swiper-slide">
+    <div class="swiper-slide" *ngFor="let foodItem of foodData">
       <!-- Food eCommerce Card -->
-      <div class="h-screen">
-        <div class="w-80 mt-24 m-auto lg:mt-16 max-w-md"> <!-- Adjusted width for card -->
-          <img src="../../../../../assets/images/banner2.png" alt="Food Image"
+      <div >
+        <div class="w-140 mt-24 m-auto lg:mt-16 max-w-sm"> <!-- Adjusted width for card -->
+          <img [src]="foodItem.image" alt="Food Image"
             class="rounded-t-2xl shadow-2xl lg:w-full 2xl:w-full 2xl:h-60 object-cover" /> <!-- Larger image height -->
           <div class="bg-gray-800 backdrop-filter backdrop-blur-md bg-opacity-40 shadow-2xl rounded-b-3xl">
-            <h2 class="text-center text-gray-800 text-2xl font-bold pt-6">Delicious Dish</h2> <!-- Dish name -->
+
+
+    <h2 class="text-center text-white text-3xl font-bold pt-6">LKR {{ foodItem.price }}.00</h2> <!-- Dish name -->
+
 
             <div class="text-center m-auto mt-3 w-full col-span-3 pt-1">
-              <div class="flex flex-wrap gap-2 justify-center">
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 1</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 2</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 3</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 4</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 5</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 6</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 7</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 8</div>
+              <button class="text-gray-500 font-bold text-sm focus:outline-none mb-2"
+                (click)="foodItem.showIngredients = !foodItem.showIngredients">
+                Ingredients <span class="inline-block">{{ foodItem.showIngredients ? '▲' : '▼' }}</span>
+              </button>
+              <div *ngIf="foodItem.showIngredients" class="flex flex-wrap gap-2 justify-center">
+                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800"
+                  *ngFor="let ingredient of foodItem.ingredients">{{ ingredient }}</div>
               </div>
             </div>
 
-            <div class="grid grid-cols-4 w-72 lg:w-5/6 m-auto bg-indigo-50 mt-4 p-2 lg:p-4 rounded-2xl">
-              <div class="col-span-2 flex justify-center text-center pr-4">
-                <button class="text-gray-800 font-bold lg:text-md">$9.99</button>
-              </div>
-              <div class="col-span-2 flex justify-center items-center pr-4">
-                <button class="flex items-center text-gray-500 font-bold lg:text-sm hover:text-gray-900">
-                  <img src="../../../../../assets/icons/cart.svg" alt="Add to Cart" class="w-5 h-5 mr-2" />
-                  <!-- Replace 'your-icon-image-path.png' with your image path -->
-                  Add to Cart
-                </button>
-              </div>
+            <h2 class="text-center text-white text-2xl font-bold pt-6">{{ foodItem.dishName }}</h2> <!-- Dish name -->
 
-            </div>
 
+            
             <div class="text-center m-auto mt-4 w-full h-8">
-              <button
-                class="text-white bg-blue-700 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-bold rounded-lg text-sm px-6 py-1 text-center">Add
+              <!-- <button
+                class="text-white bg-blue-700 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-bold rounded-lg text-sm px-6 py-2 text-center">Add
                 to Cart</button>
+              <button
+                class="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-bold rounded-lg text-sm px-6 py-2 ml-4 text-center">Order
+                Now</button> -->
+
+                <!-- // button start -->
+                <div class="b animate-bounce mx-auto h-12 w-auto flex justify-center items-center relative">
+                  <div class="text-white bg-black backdrop-filter backdrop-blur-md bg-opacity-40 rounded-xl px-3 py-1 cursor-pointer">
+                    <div class="i h-10 w-auto bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-xl shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out">
+                      <img src="../../../../../assets/icons/checkout.svg" alt="Add to Cart" class="w-5 h-5 absolute inset-0 m-auto" />
+                    </div>
+                  
+                    <span class="text-white">
+                      Add to cart
+                    </span>
+                  </div>
+                </div>
+                
+                
+
+              <!-- //button end -->
 
             </div>
-            <div class="text-center m-auto mt-4 w-full h-8"></div>
+            <div class="text-center m-auto mt-4 w-full h-2"></div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="swiper-slide">
-      <div class="h-screen">
-        <div class="w-80 mt-24 m-auto lg:mt-16 max-w-md"> <!-- Adjusted width for card -->
-          <img src="../../../../../assets/images/banner2.png" alt="Food Image"
-            class="rounded-t-2xl shadow-2xl lg:w-full 2xl:w-full 2xl:h-60 object-cover" /> <!-- Larger image height -->
-          <div class="bg-gray-800 backdrop-filter backdrop-blur-md bg-opacity-40 shadow-2xl rounded-b-3xl">
-            <h2 class="text-center text-gray-800 text-2xl font-bold pt-6">Delicious Dish</h2> <!-- Dish name -->
-
-            <div class="text-center m-auto mt-3 w-full col-span-3 pt-1">
-              <div class="flex flex-wrap gap-2 justify-center">
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 1</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 2</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 3</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 4</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 5</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 6</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 7</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 8</div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-4 w-72 lg:w-5/6 m-auto bg-indigo-50 mt-4 p-2 lg:p-4 rounded-2xl">
-              <div class="col-span-2 flex justify-center text-center pr-4">
-                <button class="text-gray-800 font-bold lg:text-md">$9.99</button>
-              </div>
-              <div class="col-span-2 flex justify-center items-center pr-4">
-                <button class="flex items-center text-gray-500 font-bold lg:text-sm hover:text-gray-900">
-                  <img src="../../../../../assets/icons/cart.svg" alt="Add to Cart" class="w-5 h-5 mr-2" />
-                  <!-- Replace 'your-icon-image-path.png' with your image path -->
-                  Add to Cart
-                </button>
-              </div>
-
-            </div>
-
-            <div class="text-center m-auto mt-4 w-full h-8">
-              <button
-                class="text-white bg-blue-700 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-bold rounded-lg text-sm px-6 py-1 text-center">Add
-                to Cart</button>
-
-            </div>
-            <div class="text-center m-auto mt-4 w-full h-8"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-      <div class="swiper-slide">
-      <div class="h-screen">
-        <div class="w-80 mt-24 m-auto lg:mt-16 max-w-md"> <!-- Adjusted width for card -->
-          <img src="../../../../../assets/images/banner2.png" alt="Food Image"
-            class="rounded-t-2xl shadow-2xl lg:w-full 2xl:w-full 2xl:h-60 object-cover" /> <!-- Larger image height -->
-          <div class="bg-gray-800 backdrop-filter backdrop-blur-md bg-opacity-40 shadow-2xl rounded-b-3xl">
-            <h2 class="text-center text-gray-800 text-2xl font-bold pt-6">Delicious Dish</h2> <!-- Dish name -->
-
-            <div class="text-center m-auto mt-3 w-full col-span-3 pt-1">
-              <div class="flex flex-wrap gap-2 justify-center">
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 1</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 2</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 3</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 4</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 5</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 6</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 7</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 8</div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-4 w-72 lg:w-5/6 m-auto bg-indigo-50 mt-4 p-2 lg:p-4 rounded-2xl">
-              <div class="col-span-2 flex justify-center text-center pr-4">
-                <button class="text-gray-800 font-bold lg:text-md">$9.99</button>
-              </div>
-              <div class="col-span-2 flex justify-center items-center pr-4">
-                <button class="flex items-center text-gray-500 font-bold lg:text-sm hover:text-gray-900">
-                  <img src="../../../../../assets/icons/cart.svg" alt="Add to Cart" class="w-5 h-5 mr-2" />
-                  <!-- Replace 'your-icon-image-path.png' with your image path -->
-                  Add to Cart
-                </button>
-              </div>
-
-            </div>
-
-            <div class="text-center m-auto mt-4 w-full h-8">
-              <button
-                class="text-white bg-blue-700 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-bold rounded-lg text-sm px-6 py-1 text-center">Add
-                to Cart</button>
-
-            </div>
-            <div class="text-center m-auto mt-4 w-full h-8"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-      <div class="swiper-slide">
-      <div class="h-screen">
-        <div class="w-80 mt-24 m-auto lg:mt-16 max-w-md"> <!-- Adjusted width for card -->
-          <img src="../../../../../assets/images/banner2.png" alt="Food Image"
-            class="rounded-t-2xl shadow-2xl lg:w-full 2xl:w-full 2xl:h-60 object-cover" /> <!-- Larger image height -->
-          <div class="bg-gray-800 backdrop-filter backdrop-blur-md bg-opacity-40 shadow-2xl rounded-b-3xl">
-            <h2 class="text-center text-gray-800 text-2xl font-bold pt-6">Delicious Dish</h2> <!-- Dish name -->
-
-            <div class="text-center m-auto mt-3 w-full col-span-3 pt-1">
-              <div class="flex flex-wrap gap-2 justify-center">
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 1</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 2</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 3</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 4</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 5</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 6</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 7</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 8</div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-4 w-72 lg:w-5/6 m-auto bg-indigo-50 mt-4 p-2 lg:p-4 rounded-2xl">
-              <div class="col-span-2 flex justify-center text-center pr-4">
-                <button class="text-gray-800 font-bold lg:text-md">$9.99</button>
-              </div>
-              <div class="col-span-2 flex justify-center items-center pr-4">
-                <button class="flex items-center text-gray-500 font-bold lg:text-sm hover:text-gray-900">
-                  <img src="../../../../../assets/icons/cart.svg" alt="Add to Cart" class="w-5 h-5 mr-2" />
-                  <!-- Replace 'your-icon-image-path.png' with your image path -->
-                  Add to Cart
-                </button>
-              </div>
-
-            </div>
-
-            <div class="text-center m-auto mt-4 w-full h-8">
-              <button
-                class="text-white bg-blue-700 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-bold rounded-lg text-sm px-6 py-1 text-center">Add
-                to Cart</button>
-
-            </div>
-            <div class="text-center m-auto mt-4 w-full h-8"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-      <div class="swiper-slide">
-      <div class="h-screen">
-        <div class="w-80 mt-24 m-auto lg:mt-16 max-w-md"> <!-- Adjusted width for card -->
-          <img src="../../../../../assets/images/banner2.png" alt="Food Image"
-            class="rounded-t-2xl shadow-2xl lg:w-full 2xl:w-full 2xl:h-60 object-cover" /> <!-- Larger image height -->
-          <div class="bg-gray-800 backdrop-filter backdrop-blur-md bg-opacity-40 shadow-2xl rounded-b-3xl">
-            <h2 class="text-center text-gray-800 text-2xl font-bold pt-6">Delicious Dish</h2> <!-- Dish name -->
-
-            <div class="text-center m-auto mt-3 w-full col-span-3 pt-1">
-              <div class="flex flex-wrap gap-2 justify-center">
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 1</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 2</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 3</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 4</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 5</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 6</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 7</div>
-                <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">Ingredient 8</div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-4 w-72 lg:w-5/6 m-auto bg-indigo-50 mt-4 p-2 lg:p-4 rounded-2xl">
-              <div class="col-span-2 flex justify-center text-center pr-4">
-                <button class="text-gray-800 font-bold lg:text-md">$9.99</button>
-              </div>
-              <div class="col-span-2 flex justify-center items-center pr-4">
-                <button class="flex items-center text-gray-500 font-bold lg:text-sm hover:text-gray-900">
-                  <img src="../../../../../assets/icons/cart.svg" alt="Add to Cart" class="w-5 h-5 mr-2" />
-                  <!-- Replace 'your-icon-image-path.png' with your image path -->
-                  Add to Cart
-                </button>
-              </div>
-
-            </div>
-
-            <div class="text-center m-auto mt-4 w-full h-8">
-              <button
-                class="text-white bg-blue-700 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-bold rounded-lg text-sm px-6 py-1 text-center">Add
-                to Cart</button>
-
-            </div>
-            <div class="text-center m-auto mt-4 w-full h-8"></div>
-          </div>
-        </div>
-      </div>
-</div>
-
-    </div>
-
-    
-    <!-- Add more product slides as needed -->
+  <!-- Add more product slides as needed -->
   <div class="swiper-button-prev"></div>
   <div class="swiper-button-next"></div>
 </div>

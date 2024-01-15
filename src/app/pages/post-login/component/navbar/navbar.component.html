@@ -22,7 +22,7 @@
             <div class="flex space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
               <a routerLink="/post-login/home" routerLinkActive="activated-route" class="text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Home</a>
-              <a routerLink="/post-login/foods" routerLinkActive="activated-route" class="text-white rounded-md px-3 py-2 text-sm font-medium">Foods</a>
+              <a routerLink="/post-login/product" routerLinkActive="activated-route" class="text-white rounded-md px-3 py-2 text-sm font-medium">Product</a>
             </div>
           </div>
         </div>
@@ -60,9 +60,9 @@
 
 <div class="absolute backdrop-filter backdrop-blur-md bg-opacity-90 right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" [ngClass]="{ block: isCart, hidden: !isCart }">
   <!-- Loop through the itemsList array -->
-  <div *ngFor="let item of itemsList" class="flex justify-between px-4 py-2 text-sm text-white" role="menuitem">
-      <span>{{ item.name }}</span>
-      <span>{{ item.quantity }}</span>
+  <div *ngFor="let item of cartDetailsList" class="flex justify-between px-4 py-2 text-sm text-white" role="menuitem">
+      <span>{{ item.mealName }}</span>
+      <span>{{ item.qty }}</span>
   </div>
 
   <!-- Checkout button with styled SVG -->
@@ -77,11 +77,7 @@
       </button>
   </div>
 </div>
-
-            
-            
-            
-          
+ 
             <div class="absolute backdrop-filter backdrop-blur-md bg-opacity-90 right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" [ngClass]="{ block: isProfile, hidden: !isProfile }">
                 <!-- Active: "bg-gray-100", Not Active: "" -->
               <a (click)="profileMgt()" class="block px-4 py-2 text-sm text-white" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
@@ -98,7 +94,7 @@
       <div class="space-y-1 px-2 pb-3 pt-2">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
         <a routerLink="/post-login/home" routerLinkActive="activated-route" class="text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Home</a>
-        <a routerLink="/post-login/foods" routerLinkActive="activated-route" class="text-white rounded-md px-3 py-2 text-sm font-medium">Foods</a>
+        <a routerLink="/post-login/product" routerLinkActive="activated-route" class="text-white rounded-md px-3 py-2 text-sm font-medium">Product</a>
       
       </div>
     </div>

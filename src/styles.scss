@@ -37,13 +37,204 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     }
 }
 
-button:focus {
-    outline: none;
-}
+
 
 .mat-dialog-container {
-    background-color: transparent !important; /* Set background to transparent */
-    box-shadow: none !important; /* Remove any box shadow */
-    border: none !important; /* Remove any border */
-    // Add any other styles as needed
+    border-radius: 20px !important;
   }
+
+  .cdk-overlay-pane.my-dialog {
+    position: relative!important;
+  }
+  .close.mat-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px;
+    line-height: 14px;
+    min-width: auto;
+    background-color: transparent;
+  }
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+  border-color:rgb(66, 134, 244);
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle{
+  color:rgb(66, 134, 244);
+  background-color:rgb(66, 134, 244) ;
+}
+
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color:rgb(255, 37, 37,.26);
+}
+
+#toast-container > div {
+  opacity:1;
+}
+
+// .success-custome {
+//   background-color: white;
+//   color: green;
+//   -webkit-text-fill-color: green;
+// }
+
+#toast-container > .toast-success {
+
+  color: #4CAF50;
+  // width: auto !important;
+  max-width: 300px !important;
+  min-width: 200px !important;
+  max-height: 70px !important;
+  // padding: 15px 15px 15px 15px !important;
+  background-image:none !important;
+  background-image: url('assets/icons/success.svg') !important;
+  background-size: 26px;
+  background-color: #F4F4F4;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  font-family: "Open Sans", sans-serif !important;
+  font-weight: 500 !important;
+}
+
+.toast-success .toast-progress {
+  background-color: #4CAF50;
+  opacity: 1;
+}
+
+
+//eror
+/* Change toastr error background color */
+#toast-container > .toast-error {
+  color: #ff0000 !important;
+  max-width: 300px !important;
+  min-width: 180px !important;
+  // width: auto !important;
+  max-height: 70px !important;
+  // padding: 15px 15px 15px 15px !important;
+  background-image:none !important;
+  background-image: url('assets/icons/error.svg') !important;
+  background-size: 26px;
+  background-color: #F4F4F4;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  font-family: "Open Sans", sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+}
+
+
+.toast-error .toast-progress {
+  background-color: #ff0000 !important;
+  opacity: 1;
+}
+
+
+#toast-container > .toast-info {
+  color: #62B1F0 !important;
+  // width: auto !important;
+  max-width: 250px !important;
+  min-width: 150px !important;
+  max-height: 70px !important;
+  // padding: 15px 15px 15px 15px !important;
+  background-image:none !important;
+  background-image: url('assets/icons/info.svg') !important;
+  background-size: 26px;
+  background-color: #F4F4F4;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  font-family: "Open Sans", sans-serif !important;
+  font-weight: 500 !important;
+}
+
+
+.toast-info .toast-progress {
+  background-color: #62B1F0 !important;
+  opacity: 1;
+}
+
+.mat-option:not(:disabled):hover, .mat-option:not(:disabled):focus {
+  color: #62B1F0; // Change "red" to the color of your choice
+}
+
+::ng-deep .mat-option .mat-option-pseudo-checkbox-checked,
+::ng-deep .mat-option.mat-selected .mat-option-pseudo-checkbox {
+  background-color: red!important; // Replace "red" with the color of your choice
+}
+::ng-deep .mat-form-field.mat-focused .mat-form-field-outline {
+  border-color: red !important; // Replace "red" with the color of your choice
+}
+
+
+
+
+// Font families
+@font-face {
+  font-family: tFont;
+  src: url(assets/fonts/Roboto-Thin.ttf);
+}
+
+@font-face {
+  font-family: tiFont;
+  src: url(assets/fonts/Roboto-ThinItalic.ttf);
+}
+
+@font-face {
+  font-family: lFont;
+  src: url(assets/fonts/Roboto-Light.ttf);
+}
+
+@font-face {
+  font-family: liFont;
+  src: url(assets/fonts/Roboto-LightItalic.ttf);
+}
+
+@font-face {
+  font-family: rFont;
+  src: url(assets/fonts/Roboto-Regular.ttf);
+}
+
+@font-face {
+  font-family: riFont;
+  src: url(assets/fonts/Roboto-Italic.ttf);
+}
+
+@font-face {
+  font-family: mFont;
+  src: url(assets/fonts/Roboto-Medium.ttf);
+}
+
+@font-face {
+  font-family: miFont;
+  src: url(assets/fonts/Roboto-MediumItalic.ttf);
+}
+
+@font-face {
+  font-family: boFont;
+  src: url(assets/fonts/Roboto-Bold.ttf);
+}
+
+@font-face {
+  font-family: boiFont;
+  src: url(assets/fonts/Roboto-BoldItalic.ttf);
+}
+
+@font-face {
+  font-family: blFont;
+  src: url(assets/fonts/Roboto-Black.ttf);
+}
+
+@font-face {
+  font-family: bliFont;
+  src: url(assets/fonts/Roboto-BlackItalic.ttf);
+}
+::ng-deep .mat-form-field-outline-start {
+  border-radius: 28px 0 0 28px !important;
+  min-width: 28px !important;
+}
+
+::ng-deep .mat-form-field-outline-end {
+  border-radius: 0 28px 28px 0 !important;
+}
+
+
+  

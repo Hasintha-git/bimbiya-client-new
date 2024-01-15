@@ -1,8 +1,8 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
-import { CommonFunctionService } from '../common-functions/common-function.service';
-import { SECURE, getEndpoint } from 'src/app/utility/constants/end-point';
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { CommonFunctionService } from "../common-functions/common-function.service";
+import { SECURE, getEndpoint } from "src/app/utility/constants/end-point";
+import { Observable, throwError } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +10,10 @@ import { SECURE, getEndpoint } from 'src/app/utility/constants/end-point';
 export class AddToCartService {
 
   requestUrl: string;
-  requestUrlPreLogin: string;
 
   constructor(public httpClient: HttpClient,public commonFunctionService: CommonFunctionService) { 
     this.requestUrl = `${getEndpoint(SECURE)}/cart/v1/client-cart`;
+    console.log('Service initialized with request URL:', this.requestUrl);
   }
 
   

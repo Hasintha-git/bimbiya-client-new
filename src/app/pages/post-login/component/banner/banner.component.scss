@@ -8,12 +8,12 @@
 
 .swiper-slide-1 img {
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 100vh;
+  object-fit: cover; 
 }
 
-.swiper-button-prev,
-.swiper-button-next {
+.swiper-button-prev-1,
+.swiper-button-next-1 {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -25,15 +25,15 @@
   border-radius: 50%; /* Makes them circular */
 }
 
-.swiper-button-prev {
+.swiper-button-prev-1 {
   left: 10px;
 }
 
-.swiper-button-next {
+.swiper-button-next-1 {
   right: 10px;
 }
 
-.swiper-pagination {
+.swiper-pagination-1 {
   position: absolute;
   bottom: 10px;
   left: 50%;

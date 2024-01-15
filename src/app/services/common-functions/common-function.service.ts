@@ -62,7 +62,7 @@ export class CommonFunctionService {
     return searchMap;
   }
 
-  getDataTableParam(paginator: MatPaginator, sort: MatSort): Map<string, any> {
+  getDataTableParam(paginator: MatPaginator): Map<string, any> {
     let searchMap = new Map<string, any>();
     // searchMap.set('draw', dtp.draw.toString());
     searchMap.set('start', paginator.pageIndex.toString());

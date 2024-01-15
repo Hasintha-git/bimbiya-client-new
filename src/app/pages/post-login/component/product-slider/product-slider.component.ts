@@ -8,10 +8,16 @@ import Swiper from 'swiper';
 })
 export class ProductSliderComponent implements OnInit ,AfterViewInit {
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
+  @ViewChild('scrollViewport') scrollViewport!: ElementRef;
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+
+// Inside your component class
+showText: boolean = false;
+
   ngAfterViewInit(): void {
     setTimeout(() => {
       const swiper = new Swiper('.swiper-container', {
-        slidesPerView: 3,
+        slidesPerView: 1,
         spaceBetween: 20,
         loop: true,
         autoplay: {
@@ -58,6 +64,64 @@ export class ProductSliderComponent implements OnInit ,AfterViewInit {
   ngOnInit(): void {
   }
 
-
+  foodData = [
+    {
+      image: '../../../../../assets/images/banner2.png',
+      dishName: 'Delicious Dish Test Food',
+      ingredients: [
+        'Ingredient 1',
+        'Ingredient 2',
+        'Ingredient 3',
+        'Ingredient 4',
+        'Ingredient 5',
+        'Ingredient 6',
+        'Ingredient 7',
+        'Ingredient 8',
+      ],
+      price: 800,
+    },
+    {
+      image: '../../../../../assets/images/banner2.png',
+      dishName: 'Delicious Dish',
+      ingredients: [
+        'Ingredient 1',
+        'Ingredient 2',
+        'Ingredient 3',
+        'Ingredient 4'
+      ],
+      price: 800,
+    },
+    {
+      image: '../../../../../assets/images/banner2.png',
+      dishName: 'Delicious Dish Test Food',
+      ingredients: [
+        'Ingredient 1',
+        'Ingredient 2',
+        'Ingredient 3',
+        'Ingredient 4',
+        'Ingredient 5',
+        'Ingredient 6',
+        'Ingredient 7',
+        'Ingredient 8',
+      ],
+      price: 800,
+    },
+    {
+      image: '../../../../../assets/images/banner2.png',
+      dishName: 'Delicious Dish Test Food',
+      ingredients: [
+        'Ingredient 1',
+        'Ingredient 2',
+        'Ingredient 3',
+        'Ingredient 4',
+        'Ingredient 5',
+        'Ingredient 6',
+        'Ingredient 7',
+        'Ingredient 8',
+      ],
+      price: 800,
+    },
+    // Add more objects for additional product slides
+  ];
 
 }

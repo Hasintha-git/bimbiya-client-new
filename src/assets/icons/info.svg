@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 57.045 56.589">
+ <defs>
+  <linearGradient id="d" x1="-.051092" x2=".33577" y1=".085272" y2=".66667">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <linearGradient id="c" x1=".106" x2=".73104" y1=".21103" y2=".83559">
+   <stop stop-color="#1c97e1" offset="0"/>
+   <stop stop-color="#006798" offset="1"/>
+  </linearGradient>
+ </defs>
+ <path transform="rotate(45.96 29.104 28.787)" d="m55.586 28.787c0.011051 14.633-11.848 26.502-26.482 26.502-14.633 0-26.493-11.868-26.482-26.502-0.01105-14.633 11.848-26.502 26.482-26.502 14.633 0 26.493 11.868 26.482 26.502z" fill="#166496" stroke-width="3.625"/>
+ <path transform="rotate(45.96 29.104 28.787)" d="m53.283 28.787c0.010101 13.361-10.818 24.197-24.179 24.197s-24.189-10.836-24.179-24.197c-0.01009-13.361 10.818-24.197 24.179-24.197s24.189 10.836 24.179 24.197z" fill="url(#c)" stroke="#fff" stroke-width=".722"/>
+ <path transform="rotate(45.96 30.022 24.21)" d="m32.658 3.8858c-13.347 0-24.175 10.828-24.175 24.175 0 6.4126 2.6169 12.143 6.6955 16.472 2.1188-17.5 16.89-31.107 34.959-31.107 0.48719 0 0.93961 0.09896 1.4221 0.1185-4.4215-5.7507-11.092-9.6581-18.901-9.6581z" fill="url(#d)" stroke-width=".616"/>
+ <text transform="matrix(.77901 0 0 .84603 2.607 8.9995)" x="33.054047" y="41.225791" fill="#fff" font-family="Arial" font-size="52" font-weight="bold" stroke-width="0" text-anchor="middle">?</text>
+</svg>
