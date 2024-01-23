@@ -21,7 +21,6 @@
       </div>
 
       <h2 class="text-center text-white text-2xl font-bold pt-6">{{ product.mealName }}</h2> <!-- Dish name -->
-      <h2 class="text-center text-white text-2xl font-bold pt-6">{{ product.portionDescription }}</h2> <!-- Dish name -->
 
 
       
@@ -33,18 +32,17 @@
           class="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-bold rounded-lg text-sm px-6 py-2 ml-4 text-center">Order
           Now</button> -->
 
-          <!-- // button start -->
-          <div class="b animate-bounce mx-auto h-12 w-auto flex justify-center items-center relative">
-            <div class="text-white bg-black backdrop-filter backdrop-blur-md bg-opacity-40 rounded-xl px-3 py-1 cursor-pointer">
-              <div class="i h-10 w-auto bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-xl shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out">
-                <img src="../../../../../assets/icons/checkout.svg" alt="Add to Cart" class="w-5 h-5 absolute inset-0 m-auto" />
+          <div class="mx-auto h-12 w-auto flex justify-center items-center relative">
+            <button class="bg-gradient-to-br from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-2 px-6 rounded-full focus:outline-none focus:shadow-outline-blue active:bg-blue-800">
+              <div class="flex items-center">
+                <!-- You can include an icon here if needed -->
+                <img src="assets/icons/checkout.png" style="fill: antiquewhite;" alt="Add to Cart" class="w-5 h-5 mr-2" />
+                <span>Add to Cart</span>
               </div>
-            
-              <span class="text-white">
-                Add to cart
-              </span>
-            </div>
+            </button>
           </div>
+          
+          
           
           
 

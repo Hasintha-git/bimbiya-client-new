@@ -61,3 +61,10 @@
 .card-list-container.mobile-view .card-list-row {
   display: none;
 }
+
+@media (max-width: 640px) {
+  .mobile-view {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+  }
+}

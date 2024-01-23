@@ -16,7 +16,7 @@ import { ProductPurchaseComponent } from './component/product-purchase/product-p
 import { CheckoutComponent } from './component/checkout/checkout.component';
 import { ProductFilterComponent } from './component/product-filter/product-filter.component';
 import {MatSliderModule} from '@angular/material/slider';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductComponent } from './component/product/product.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 @NgModule({
@@ -35,14 +35,15 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     CheckoutComponent,
     ProductFilterComponent,
     ProductComponent,
-    
   ],
   imports: [
     CommonModule,
     PostLoginRoutingModule,
     MatSliderModule,
     FormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    ReactiveFormsModule,
+    FormsModule,
   ]
 })
 export class PostLoginModule { }

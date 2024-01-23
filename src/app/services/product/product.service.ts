@@ -34,6 +34,13 @@ export class ProductService {
     });
   }
 
+  getTrendingList(): Observable<DataTable<any>> {
+    return this.httpClient.get(this.requestUrl + `/trending-list`, {
+      responseType: 'json'
+    });
+  }
+
+
   get(object: any): Observable<any> {
     return this.httpClient.post(this.requestUrl + `/find-id`, object, { responseType: 'json' });
   }

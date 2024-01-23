@@ -1,4 +1,11 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Product } from 'src/app/models/product';
+import { DataTable } from 'src/app/pages/models/data-table';
+import { CommonFunctionService } from 'src/app/services/common-functions/common-function.service';
+import { ProductService } from 'src/app/services/product/product.service';
+import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
 import Swiper from 'swiper';
 
 @Component({
@@ -13,6 +20,8 @@ export class ProductSliderComponent implements OnInit ,AfterViewInit {
 
 // Inside your component class
 showText: boolean = false;
+
+public foodData: Product[];
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -59,69 +68,30 @@ showText: boolean = false;
       lastSlide.style.display = 'none';
     }, 0);
   }
-  constructor() { }
+  constructor(
+    private productService: ProductService,
+    public toast: ToastServiceService,
+    private commonFunctionService: CommonFunctionService,
+    private spinner: NgxSpinnerService,
+    private formBuilder: FormBuilder,) { }
 
   ngOnInit(): void {
+    this.getList();
   }
 
-  foodData = [
-    {
-      image: '../../../../../assets/images/banner2.png',
-      dishName: 'Delicious Dish Test Food',
-      ingredients: [
-        'Ingredient 1',
-        'Ingredient 2',
-        'Ingredient 3',
-        'Ingredient 4',
-        'Ingredient 5',
-        'Ingredient 6',
-        'Ingredient 7',
-        'Ingredient 8',
-      ],
-      price: 800,
-    },
-    {
-      image: '../../../../../assets/images/banner2.png',
-      dishName: 'Delicious Dish',
-      ingredients: [
-        'Ingredient 1',
-        'Ingredient 2',
-        'Ingredient 3',
-        'Ingredient 4'
-      ],
-      price: 800,
-    },
-    {
-      image: '../../../../../assets/images/banner2.png',
-      dishName: 'Delicious Dish Test Food',
-      ingredients: [
-        'Ingredient 1',
-        'Ingredient 2',
-        'Ingredient 3',
-        'Ingredient 4',
-        'Ingredient 5',
-        'Ingredient 6',
-        'Ingredient 7',
-        'Ingredient 8',
-      ],
-      price: 800,
-    },
-    {
-      image: '../../../../../assets/images/banner2.png',
-      dishName: 'Delicious Dish Test Food',
-      ingredients: [
-        'Ingredient 1',
-        'Ingredient 2',
-        'Ingredient 3',
-        'Ingredient 4',
-        'Ingredient 5',
-        'Ingredient 6',
-        'Ingredient 7',
-        'Ingredient 8',
-      ],
-      price: 800,
-    },
-    // Add more objects for additional product slides
-  ];
-
+  
+  getList() {
+    this.productService.getTrendingList()
+      .subscribe((data: DataTable<Product>) => {
+        console.log("data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",data)
+        this.foodData = data.records;
+        console.log("---->", this.foodData)
+        this.spinner.hide();
+      },
+        error => {
+          this.spinner.hide();
+          this.toast.errorMessage(error.error['errorDescription']);
+        }
+      );
+  }
 }
