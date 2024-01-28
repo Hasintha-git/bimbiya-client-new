@@ -19,6 +19,12 @@ import {MatSliderModule} from '@angular/material/slider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductComponent } from './component/product/product.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { ScheduleOrderComponent } from './component/schedule-order/schedule-order.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -35,6 +41,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     CheckoutComponent,
     ProductFilterComponent,
     ProductComponent,
+    ScheduleOrderComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +51,11 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatPaginatorModule,
     ReactiveFormsModule,
     FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgxMaterialTimepickerModule,
+    MatOptionModule,
+    MatSelectModule
   ]
 })
 export class PostLoginModule { }

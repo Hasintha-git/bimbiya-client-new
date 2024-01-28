@@ -15,6 +15,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +35,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     FormsModule,
     HttpClientModule,
     NgxSpinnerModule,
+    MatSelectModule,
     ToastrModule.forRoot({
       timeOut: 5000, // 5 seconds
       positionClass: 'toast-top-right',

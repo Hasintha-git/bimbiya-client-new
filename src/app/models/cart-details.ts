@@ -3,7 +3,8 @@ export class CartDetails {
     qty: number;
     packageId: number;
     userName: string;
-
+    personCount: number;
+    scheduledTime: string;
     mealName: string;
     userId: string;
     status: string;

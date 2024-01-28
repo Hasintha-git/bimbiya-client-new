@@ -1,0 +1,43 @@
+<div class="input-dialog-container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="cartModelForm">
+        <div class="dialog-title">Confirm Schedule With Cart</div>
+        <div class="btn-close" (click)="closeDialog()">
+        </div>
+        <div class="title-content-devider"></div>
+        <div class="dialog-input-fields">
+
+            <div class="input-fields">
+                <mat-form-field class="min-field" appearance="outline">
+                  <mat-label>Start Time</mat-label>
+                  <input matInput class="timepicker" [formControl]="scheduleTime" required
+                         [(ngModel)]="cartModelAdd.scheduledTime" [ngxTimepicker]="timepicker" [format]=24>
+                  <mat-error *ngIf="scheduleTime.hasError('required')">Start Time cannot be empty
+                  </mat-error>
+                </mat-form-field>
+      
+                <ngx-material-timepicker appendToInput=true class="timePicker" #timepicker></ngx-material-timepicker>
+              </div>
+    
+              <div class="input-fields">
+                <mat-form-field class="min-field" appearance="outline">
+                  <mat-label>Person Count</mat-label>
+                  <mat-select [formControl]="pCount" required
+                              [(ngModel)]="cartModelAdd.personCount">
+                    <mat-option [value]="">Select Status</mat-option>
+                    <mat-option *ngFor="let st of countList" [value]="st">
+                      {{st}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="pCount.hasError('required')">Person Count cannot be empty
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+        </div>
+        <div class="dialog-buttons">
+            <button type="submit" mat-button class="custom-button primary">Add to cart
+            </button>
+            <button type="reset" mat-button class="custom-button secondary" (click)="resetForm()">Reset</button>
+        </div>
+    </form>
+</div>
