@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PlaceOrderComponent } from './place-order.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {path:'',component:PlaceOrderComponent, children:[
+    {path:'',redirectTo:'verify',pathMatch:'full'},
+    {path:'verify',component:PlaceOrderComponent},
+  ]},
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

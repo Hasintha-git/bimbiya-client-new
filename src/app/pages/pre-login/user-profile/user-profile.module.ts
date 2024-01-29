@@ -13,7 +13,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { ForgetPasswordComponent } from '../forget-password/forget-password.component';
+import { ForgetPasswordComponent } from '../authentication/forget-password/forget-password.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RegexFormateModule } from 'src/app/utility/directive/regex-formate.module';
 
@@ -22,7 +22,6 @@ import { RegexFormateModule } from 'src/app/utility/directive/regex-formate.modu
     DashboardComponent,
     ProfileComponent,
     UserProfileComponent,
-    ForgetPasswordComponent
   ],
   imports: [
     CommonModule,

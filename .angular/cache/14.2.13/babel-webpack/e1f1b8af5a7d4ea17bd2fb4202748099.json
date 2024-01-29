@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class Product {\n  constructor() {\n    this.portion = [];\n    this.showIngredients = false;\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

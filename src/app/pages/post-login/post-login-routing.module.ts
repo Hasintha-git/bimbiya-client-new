@@ -5,6 +5,7 @@ import { PostLoginComponent } from './post-login.component';
 import { FoodsComponent } from './foods/foods.component';
 import { ProductPurchaseComponent } from './component/product-purchase/product-purchase.component';
 import { ProductFilterComponent } from './component/product-filter/product-filter.component';
+import { PlaceOrderModule } from './place-order/place-order.module';
 
 const routes: Routes = [
   {path:'',component:PostLoginComponent, children:[
@@ -12,7 +13,10 @@ const routes: Routes = [
     {path:'home',component:HomeComponent},
     {path:'product',component:ProductFilterComponent}
   ]},
-
+  {
+    path: 'place-order',
+    loadChildren: () => PlaceOrderModule,
+  },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

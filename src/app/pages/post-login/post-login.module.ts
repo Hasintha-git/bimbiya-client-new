@@ -25,6 +25,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -55,7 +56,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     NgxMaterialTimepickerModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatAutocompleteModule
   ]
 })
 export class PostLoginModule { }

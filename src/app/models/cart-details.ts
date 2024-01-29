@@ -4,6 +4,8 @@ export class CartDetails {
     packageId: number;
     userName: string;
     personCount: number;
+    productPrice: number;
+    isPriceChange: boolean = false;
     scheduledTime: string;
     mealName: string;
     userId: string;

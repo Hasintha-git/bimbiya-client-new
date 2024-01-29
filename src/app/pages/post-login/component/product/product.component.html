@@ -6,7 +6,27 @@
     <div class="bg-gray-800 backdrop-filter backdrop-blur-md bg-opacity-40 shadow-2xl rounded-b-3xl">
 
 
-<h2 class="text-center text-white text-3xl font-bold pt-6">LKR {{ product.price }}.00</h2> <!-- Dish name -->
+<h2 class="text-center text-white text-3xl font-bold pt-6">LKR {{ product.price }}</h2> <!-- Dish name -->
+
+<div class="text-center mt-3 mx-auto max-w-xs">
+  <mat-form-field class="example-full-width" style="width: 100px;">
+    <mat-label class="text-white">Person Count</mat-label>
+    <input type="text"
+           placeholder="Pick one"
+           aria-label="Number"
+           matInput
+           [formControl]="myControl"
+           [matAutocomplete]="auto"
+           [(ngModel)]="cartModel.personCount"
+           (change)="onChange(product)">
+    <mat-autocomplete style="background-color: blue;" autoActiveFirstOption #auto="matAutocomplete" class="dark-dropdown-bg" (optionSelected)="onChange(product)">
+      <mat-option *ngFor="let option of filteredOptions | async; trackBy: trackOption" [value]="option">{{ option }}</mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+
+
+
 
 
       <div class="text-center m-auto mt-3 w-full col-span-3 pt-1">

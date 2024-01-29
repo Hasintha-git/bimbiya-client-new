@@ -1,0 +1,1 @@
+{"ast":null,"code":"const HOST = 'localhost'; // const HOST: string = '104.152.222.98';\n\nconst PORT = '8080';\nexport const SECURE = false;\nexport const getEndpoint = isHttps => {\n  return `${isHttps ? 'https' : 'http'}://${HOST}:${PORT}/admin`;\n};","map":null,"metadata":{},"sourceType":"module"}

@@ -30,12 +30,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: #dbdbdb;
 }
 
-@supports(scrollbar-color: rgb(255, 179, 179) blue) {
-    * {
-        scrollbar-color: rgb(252, 179, 179) blue;
-        scrollbar-width: 0.1em;
-    }
-}
 
 
 .mat-dialog-container {
@@ -162,9 +156,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 ::ng-deep .mat-form-field.mat-focused .mat-form-field-outline {
   border-color: red !important; // Replace "red" with the color of your choice
 }
-
-
-
 
 // Font families
 @font-face {

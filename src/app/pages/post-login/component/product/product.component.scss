@@ -4,3 +4,20 @@
     padding: 20px;
     text-align: center;
   }
+
+  .dark-dropdown-bg {
+    background-color: #333;  /* Set the background color to match your dark theme */
+  }
+  
+  .dark-dropdown-bg .mat-option {
+    color: white;            /* Set text color to white */
+  }
+  
+  .dark-dropdown-bg .mat-option:hover {
+    background-color: #555;  /* Adjust hover color if needed */
+  }
+  
+  .dark-dropdown-bg .mat-option.mat-selected {
+    background-color: #777;  /* Adjust selected color if needed */
+  }
+  

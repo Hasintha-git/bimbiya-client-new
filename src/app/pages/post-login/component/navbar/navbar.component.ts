@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonResponse } from 'src/app/models/CommonResponse';
 import { CartDetails } from 'src/app/models/cart-details';
-import { ForgetPasswordComponent } from 'src/app/pages/pre-login/forget-password/forget-password.component';
+import { ForgetPasswordComponent } from 'src/app/pages/pre-login/authentication/forget-password/forget-password.component';
 import { UserProfileComponent } from 'src/app/pages/pre-login/user-profile/user-profile.component';
 import { AddToCartService } from 'src/app/services/Cart/add-to-cart.service';
 
