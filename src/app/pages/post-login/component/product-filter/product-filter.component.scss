@@ -56,6 +56,8 @@
 /* Adjust card width for mobile view */
 .card-list-container.mobile-view .card-item {
   width: 100%;
+  height: auto;
+  padding-bottom: 20px;
 }
 
 /* Remove unnecessary gap for mobile view */

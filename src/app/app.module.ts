@@ -53,7 +53,7 @@ const INTERCEPTORS = [{
     }),
   ],
   providers: [
-    INTERCEPTORS,
+    {provide: HTTP_INTERCEPTORS, useClass:Interceptor, multi:true},
     StorageService,
   ],
   bootstrap: [AppComponent],

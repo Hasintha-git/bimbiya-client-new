@@ -27,9 +27,15 @@ export class StorageService {
 
   getUser(): string {
     return sessionStorage.getItem('user');
-
   }
 
+  setCategory(type: string): void {
+    sessionStorage.setItem('category', type);
+  }
+
+  getCategory(): string {
+    return sessionStorage.getItem('category');
+  }
   setPwd(pwd: string): void {
     sessionStorage.setItem('pwd', pwd);
   }

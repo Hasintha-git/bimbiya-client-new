@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
   selector: 'app-category',
@@ -8,12 +9,14 @@ import { Router } from '@angular/router';
 })
 export class CategoryComponent implements OnInit {
 
-  constructor(private router: Router,) { }
+  constructor(private router: Router,
+              private storage: StorageService) { }
 
   ngOnInit(): void {
   }
 
-  routeToProduct() {
+  routeToProduct(type: any) {
+    this.storage.setCategory(type);
     this.router.navigate(['/post-login/product']);
   }
 }

@@ -4,6 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { CartDetails } from 'src/app/models/cart-details';
+import { AddToCartService } from 'src/app/services/Cart/add-to-cart.service';
+import { CommonResponse } from 'src/app/models/CommonResponse';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
 
 @Component({
   selector: 'app-product',
@@ -19,10 +23,14 @@ export class ProductComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   constructor(   
     public dialog: MatDialog,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private cartService: AddToCartService,
+    
+    public toastService: ToastServiceService,
+    private spinner: NgxSpinnerService,) { }
 
   ngOnInit(): void {
-    this.cartModel.personCount =4;
+    this.product.personCount =4;
     this.initialForm();
   }
 
@@ -34,29 +42,42 @@ export class ProductComponent implements OnInit {
   }
 
   
-  onChange(product: any) {
-    console.log("this.cartModel.personCount >", this.cartModel.personCount);
-
-    // Check if the person count is 4 and set the initial product price
-    if (!this.cartModel.isPriceChange) {
-      this.cartModel.productPrice = product.price;
+  peronCountUp(product: any) {
+    if (!this.product.priceChange) {
+      product.productBasicPrice =product.price;
+      product.perPersonPrice = product.productBasicPrice / this.product.personCount;
     }
 
-    // Handle the change event logic here
-    console.log('Selection changed:', this.myControl.value);
-    const personCount = +this.myControl.value; // Use + to cast the value to a number
+    console.log("this.cartModel.personCount >>", this.product.personCount);
 
-    this.cartModel.isPriceChange = true;
-    if (!isNaN(personCount) && personCount !== 0) {
-      console.log("Calculated value:", this.cartModel.personCount);
-      var perProductPrice = this.cartModel.productPrice / 4;
-      console.log("perProductPrice:", perProductPrice);
-      product.price = perProductPrice * this.cartModel.personCount;
-    } else {
-      console.log("Invalid person count");
+
+    console.log("this.product.personCount <50",this.product.personCount <50)
+    if(this.product.personCount <50) {
+      this.product.personCount =this.product.personCount+2;
+      console.log("product",product)
+  
+      product.price =product.perPersonPrice * this.product.personCount;
+      this.product.priceChange = true;
     }
   }
 
+  peronCountDown(product: any) {
+    console.log("this.cartModel.personCount >", this.product.personCount);
+
+    if (!this.product.priceChange) {
+      product.productBasicPrice =product.price;
+      product.perPersonPrice = product.productBasicPrice / this.product.personCount;
+    }
+
+    if(this.product.personCount > 4) {
+      this.product.personCount =this.product.personCount-2;
+      console.log("product",product)
+      console.log(this.product.personCount+2)
+      product.price =product.perPersonPrice * this.product.personCount;
+      this.product.priceChange = true;
+    }
+
+  }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
   
@@ -69,10 +90,27 @@ export class ProductComponent implements OnInit {
   trackOption(index: number, option: any): any {
     return option; // Replace with a unique identifier for each option if possible
   }
-  scheduleOrder() {
-    const dialogRef = this.dialog.open(ScheduleOrderComponent, { width: '550px', height: '220px' });
+  addToCart() {
+    this.spinner.show();
+    console.log(this.product);
+    this.cartModel.productPrice=this.product.price;
+    this.cartModel.packageId=this.product.packageId;
+    this.cartModel.userName="admin";
+    this.cartModel.personCount=this.product.personCount;
+    this.cartModel.status="active";
+    this.cartModel.qty=1;
 
-    dialogRef.afterClosed().subscribe(result => {
-    });
+    console.log(this.cartModel);
+
+    this.cartService.addToCart(this.cartModel).subscribe(
+      (response: CommonResponse) => {
+        this.toastService.successMessage(response.responseDescription);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+          this.toastService.errorMessage(error.error['errorDescription']);
+      }
+    );
   }
 }

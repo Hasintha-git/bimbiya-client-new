@@ -10,6 +10,7 @@ import { DataTable } from 'src/app/pages/models/data-table';
 import { Product } from 'src/app/models/product';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
   selector: 'app-product-filter',
@@ -46,7 +47,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   totalItems: number;
 
   // BEVERAGES
-  productCategory: any = "BITE";
+  productCategory: any;
 
   products = [];
   isBite: boolean = true;
@@ -60,6 +61,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
     private commonFunctionService: CommonFunctionService,
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
+    private storage: StorageService
   ) {
 
   }
@@ -67,6 +69,11 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.searchModel = new Product();
     this.spinner.show();
+
+    const type=this.storage.getCategory();
+    this.productCategory =type;
+    console.log("type>>",type)
+    console.log("productCategory>>>>>>>>>>>",this.productCategory)
     this.initialValidator();
     // Initialize the paginator after the view has been initialized
     setTimeout(() => {
@@ -76,6 +83,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
     this.initialDataLoader();
 
 
+    console.log("productCategory>>>>>>>>>>> 2222",this.productCategory)
   }
 
 
@@ -96,8 +104,8 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
       this.getList();
     });
 
-    // Subscribe to changes in the form
-    this.productFilter.get('beverages').valueChanges.subscribe((beverages) => {
+     // Subscribe to changes in the form
+     this.productFilter.get('beverages').valueChanges.subscribe((beverages) => {
       console.log("beverages >>>", this.productFilter.get('beverages').value)
       this.isBeverages = this.productFilter.get('beverages').value;
       this.isBite = !this.productFilter.get('beverages').value;
@@ -118,7 +126,6 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
         this.getList();
       }
     });
-
   }
 
   prepareReferenceData(): void {
@@ -150,7 +157,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
 
   initialDataTable() {
     this.paginator.pageIndex = 0;
-    this.paginator.pageSize = 5;
+    this.paginator.pageSize = 4;
   }
 
   ngAfterViewInit() {

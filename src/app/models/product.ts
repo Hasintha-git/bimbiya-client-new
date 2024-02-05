@@ -18,6 +18,11 @@ export class Product {
     lastUpdatedUser:string;
     createdTime:Date;
     lastUpdatedTime:Date;
+    price:number;
+    priceChange:number;
+    productBasicPrice: number;
+    perPersonPrice: number;
+    personCount: number;
   
     userRole: string;
     userRoleDescription:string;

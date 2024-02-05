@@ -18,13 +18,17 @@ export class AddToCartService {
 
   
   removeToCart(id: any): Observable<any> {
-    return this.httpClient.delete(this.requestUrl+ `/remove-to-cart`+ `${id}`, {
+    return this.httpClient.delete(this.requestUrl+ `/remove-to-cart/`+ `${id}`, {
       responseType: 'json'
     });
   }
 
   findCartList(object: any): Observable<any> {
     return this.httpClient.post(this.requestUrl+`/get-to-cart`, object, { responseType: 'json' });
+  }
+
+  checkoutCartList(object: any): Observable<any> {
+    return this.httpClient.post(this.requestUrl+`/get-to-checkout`, object, { responseType: 'json' });
   }
 
   addToCart(object: any): Observable<any> {

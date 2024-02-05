@@ -6,7 +6,7 @@ import { AuthenticationModule } from './pages/pre-login/authentication/authentic
 
 
 const routes: Routes = [
-  {path:'',redirectTo:'post-login',pathMatch:'full'},
+  {path:'',redirectTo:'auth',pathMatch:'full'},
   {
     path: 'post-login',
     loadChildren: () => PostLoginModule,

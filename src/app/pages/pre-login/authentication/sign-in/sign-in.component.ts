@@ -11,6 +11,8 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BrowserData } from 'src/app/models/browser';
 import { User } from 'src/app/pages/models/user';
+import { ForgetPasswordComponent } from '../forget-password/forget-password.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -36,7 +38,8 @@ export class SignInComponent implements OnInit {
     private loginService: LoginService, 
     private sessionStorage: StorageService,
     public authService: AuthService,
-    public route: ActivatedRoute,) { }
+    public route: ActivatedRoute,
+    public dialog: MatDialog,) { }
 
   ngOnInit(): void {
 
@@ -72,18 +75,24 @@ onSubmit() {
     if (this.userForm.valid) {
       this.spinner.show();
       this.loginService.login(this.signInModel).subscribe(
-        (response: HttpResponse<any>) => {
-          console.log('Response Headers:', response.headers.keys()); 
-          const authorizationHeader = response.headers.get('Authorization');
-          const refreshTokenHeader = response.headers.get('Refresh-Token');
+        (response) => {
+          console.log('Response Headers:', response.headers.keys());
+          console.log('All Response Headers:', response.headers.getAll);
+          console.log('Full Response:', response);
+          console.log('All Headers:', response.headers.keys());
           
-          // if (authorizationHeader) {
+          const authorizationHeader = response.headers.get('Authorization') || response.headers.get('authorization');
+          const refreshTokenHeader = response.headers.get('RefreshToken');
+          
+          console.log('Received Token:', refreshTokenHeader);
+          if (authorizationHeader) {
             this.sessionStorage.setSession(authorizationHeader);
-          // }
-      
-          // if (refreshTokenHeader) {
+          }
+          
+          if (refreshTokenHeader) {
             this.sessionStorage.setRefreshToken(refreshTokenHeader);
-          // }
+          }
+          
           this.authService.logIn();
         },
         (        error: { status: number; error: { [x: string]: string; }; }) => {
@@ -172,9 +181,14 @@ onSubmit() {
   }
 
   signUp() {
-    this.routerLink.navigateByUrl('/register')
+    this.routerLink.navigateByUrl('/auth/signup')
   }
+  forgetPassword() {
+    const dialogRef = this.dialog.open(ForgetPasswordComponent, { data: 12, width: '500px', height: '300px' });
 
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
   get username() {
     return this.userForm.get('username');
   }
