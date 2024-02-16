@@ -63,7 +63,6 @@ export class CheckoutComponent implements OnInit {
       .subscribe((response: any) => {
         this.statusList = response.statusList;
         this.timeSlot = response.timeSlot;
-        console.log(this.timeSlot[0].description)
       },
         error => {
           this.toastService.errorMessage(error.error['message']);
