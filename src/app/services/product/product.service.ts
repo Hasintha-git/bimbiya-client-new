@@ -14,7 +14,6 @@ export class ProductService {
 
   constructor(public httpClient: HttpClient,public commonFunctionService: CommonFunctionService) { 
     this.requestUrl = `${getEndpoint(SECURE)}/product/v1`;
-    console.log('Service initialized with request URL:', this.requestUrl);
   }
 
   

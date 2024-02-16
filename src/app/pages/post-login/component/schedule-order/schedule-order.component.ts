@@ -32,10 +32,6 @@ export class ScheduleOrderComponent implements OnInit {
   ngOnInit(): void {
     this.countList= [2, 4, 6, 8, 10, 12, 14, 16, 18, 20];
     this.initialForm();
-    console.log("init")
-    for(let st of this.countList ) {
-      console.log(st)
-    }
   }
 
   initialForm() {

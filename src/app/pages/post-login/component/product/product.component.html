@@ -1,32 +1,11 @@
-<div class="w-140 mt-24 m-auto lg:mt-16 max-w-sm">
+<div class="w-130 mt-24 m-auto lg:mt-16 max-w-sm max-w-md card-resize">
   <img [src]="product.img" alt="Food Image"
-  class="rounded-t-2xl shadow-2xl w-full object-cover"
+  class="rounded-t-2xl  shadow-2xl w-full object-cover"
   style="max-height: 200px;" />
     <div class="bg-gray-800 backdrop-filter backdrop-blur-md bg-opacity-40 shadow-2xl rounded-b-3xl">
 
 
-<h2 class="text-center text-white text-3xl font-bold pt-6">LKR {{ product.price }}</h2> 
-
-<!-- <div class="text-center mt-3 mx-auto max-w-xs">
-  <mat-form-field class="example-full-width" style="width: 100px;">
-    <mat-label class="text-white">Person Count</mat-label>
-    <input type="text"
-           placeholder="Pick one"
-           aria-label="Number"
-           matInput
-           [formControl]="myControl"
-           [matAutocomplete]="auto"
-           [(ngModel)]="cartModel.personCount"
-           (change)="onChange(product)">
-    <mat-autocomplete style="background-color: blue;" autoActiveFirstOption #auto="matAutocomplete" class="dark-dropdown-bg" (optionSelected)="onChange(product)">
-      <mat-option *ngFor="let option of filteredOptions | async; trackBy: trackOption" [value]="option">{{ option }}</mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-</div> -->
-
-
-
-
+<h2 class="text-center text-white text-3xl font-bold pt-6">LKR {{ product.price }}.00</h2> 
 
 <div class="text-center mt-3 mx-auto max-w-xs">
 <form class="max-w-xs mx-auto">
@@ -48,7 +27,7 @@
 </div>
 
       <div class="text-center m-auto mt-3 w-full col-span-3 pt-1">
-        <button class="text-gray-500 font-bold text-sm focus:outline-none mb-2"
+        <button class="text-gray-400 font-bold text-sm focus:outline-none mb-2"
           (click)="product.showIngredients = !product.showIngredients">
           Ingredients <span class="inline-block">{{ product.showIngredients ? '▲' : '▼' }}</span>
         </button>
@@ -64,7 +43,7 @@
       
       <div class="text-center m-auto mt-4 w-full h-8">
         <div class="mx-auto h-12 w-auto flex justify-center items-center relative">
-          <button (click)="addToCart()" class="bg-white text-black font-bold py-2 px-6 rounded-full hover:bg-gray-100 focus:outline-none focus:shadow-outline-blue active:bg-gray-200">
+          <button (click)="addToCart()" class="bg-white text-black font-bold py-2 px-6 rounded-full hover:bg-gray-100 focus:outline-none focus:shadow-outline-blue active:bg-gray-200 ">
               <div class="flex items-center">
                   <img src="assets/icons/checkout.svg" style="fill: black;" alt="Add to Cart" class="w-5 h-5 mr-2" />
                   <span class="text-black">Add to Cart</span>

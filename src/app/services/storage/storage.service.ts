@@ -44,22 +44,6 @@ export class StorageService {
     return sessionStorage.getItem('pwd');
   }
 
-  setActiveSection(activeSection: string): void {
-    sessionStorage.setItem('activeSection', activeSection);
-  }
-
-  getActiveSection(): string {
-    return sessionStorage.getItem('activeSection');
-  }
-
-  setActivePage(activePage: string): void {
-    sessionStorage.setItem('activePage', activePage);
-  }
-
-  getActivePage(): string {
-    return sessionStorage.getItem('activePage');
-  }
-
 
   getRefreshToken():string {
     try {
@@ -73,25 +57,12 @@ export class StorageService {
   getSession():string {
     try {
       let session = sessionStorage.getItem('session');
-      console.log("uuuuuuuuuuuuuu",session)
       return session;
     } catch (ex) {
       return null;
     }
   }
 
-  setLeftMenu(leftMenu: string): void {
-    sessionStorage.setItem('leftMenu', leftMenu);
-  }
-
-  getLeftMenu() {
-    try {
-      let leftMenu = sessionStorage.getItem('leftMenu');
-      return leftMenu;
-    } catch (ex) {
-      return null;
-    }
-  }
 
   clear() {
     sessionStorage.clear();

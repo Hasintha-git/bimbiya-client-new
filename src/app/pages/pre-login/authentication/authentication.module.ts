@@ -18,7 +18,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { RegexFormateModule } from 'src/app/utility/directive/regex-formate.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     AuthenticationComponent,
@@ -41,7 +43,10 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     RegexFormateModule,
     MatSnackBarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatAutocompleteModule
   ]
 })
 export class AuthenticationModule { }

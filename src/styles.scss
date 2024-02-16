@@ -141,20 +141,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 .toast-info .toast-progress {
-  background-color: #62B1F0 !important;
+  background-color: #ffffff !important;
   opacity: 1;
 }
 
 .mat-option:not(:disabled):hover, .mat-option:not(:disabled):focus {
-  color: #62B1F0; // Change "red" to the color of your choice
+  color: #1F2937; // Change "red" to the color of your choice
 }
 
 ::ng-deep .mat-option .mat-option-pseudo-checkbox-checked,
 ::ng-deep .mat-option.mat-selected .mat-option-pseudo-checkbox {
-  background-color: red!important; // Replace "red" with the color of your choice
+  background-color: #1F2937!important; // Replace "red" with the color of your choice
 }
 ::ng-deep .mat-form-field.mat-focused .mat-form-field-outline {
-  border-color: red !important; // Replace "red" with the color of your choice
+  border-color: #1F2937 !important; // Replace "red" with the color of your choice
 }
 
 // Font families

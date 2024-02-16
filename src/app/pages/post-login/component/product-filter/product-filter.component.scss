@@ -33,19 +33,25 @@
   }
   
   ::ng-deep .mat-paginator {
-    background-color: gray !important; // Set the background color to gray
-    color: white !important; // Set the text color to white
+    background-color: gray !important; /* Set the background color to gray */
+    color: white !important; /* Set the text color to white */
     width: 400px !important;
     border-radius: 20px !important;
+    padding: 0 !important;
+    font-size: 11px !important;
   }
+  
   .paginator {
     width: 100%;
     height: auto;
     margin-top: 20px;
+    padding: 0 !important;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    font-size: 11px !important;
   }
+  
 
   /* Add this style for mobile view */
 .card-list-container.mobile-view {
@@ -65,9 +71,14 @@
   display: none;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1022px) {
   .mobile-view {
     grid-template-columns: repeat(1, 1fr);
     gap: 1rem;
   }
+}
+.svg-icon path {
+  width: 20px; 
+  height: auto; 
+  fill: white !important; /* Set the color of the SVG elements */
 }

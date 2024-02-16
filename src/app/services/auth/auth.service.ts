@@ -19,12 +19,14 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
+  readySession(): void {
+    this.storageService.clear();
+    this.router.navigateByUrl('/auth/signin');
+  }
+
+
   logIn(): void {
-    // this.router.navigate(['/post-login/main/base/dashboard']);
-    // this.storageService.setActiveSection('')
-    console.log("ready to route")
-    this.router.navigate(['/post-login/place-order']);
-    console.log("after  route",this.router)
+    this.router.navigate(['/post-login/product']);
   }
 
 
@@ -43,7 +45,6 @@ export class AuthService {
   isChildAuthenticated(): boolean {
     try {
       let session = this.isAuthenticated();
-      console.log("kkkkkkkkk",session)
       if (session) {
         return true;
       }

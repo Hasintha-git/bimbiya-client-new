@@ -17,6 +17,8 @@ import {MatIconModule} from '@angular/material/icon';
 import { StorageService } from './services/storage/storage.service';
 import { Interceptor } from './services/intercept/intercept.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { NavbarComponent } from './pages/template/navbar/navbar.component';
+import { RouterModule } from '@angular/router';
 const INTERCEPTORS = [{
   provide: HTTP_INTERCEPTORS,
   useClass: Interceptor,
@@ -30,6 +32,7 @@ const INTERCEPTORS = [{
   declarations: [
     AppComponent,
     PostLoginComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,9 +44,11 @@ const INTERCEPTORS = [{
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    // NgxSpinnerModule.forRoot({ type: 'square-jelly-box' }),
     NgxSpinnerModule,
     MatSelectModule,
     MatIconModule,
+    RouterModule,
     ToastrModule.forRoot({
       timeOut: 5000, // 5 seconds
       positionClass: 'toast-top-right',

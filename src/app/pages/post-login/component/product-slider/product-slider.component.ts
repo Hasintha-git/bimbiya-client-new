@@ -71,11 +71,10 @@ public foodData: Product[];
   constructor(
     private productService: ProductService,
     public toast: ToastServiceService,
-    private commonFunctionService: CommonFunctionService,
-    private spinner: NgxSpinnerService,
-    private formBuilder: FormBuilder,) { }
+    private spinner: NgxSpinnerService,) { }
 
   ngOnInit(): void {
+    this.spinner.show();
     this.getList();
   }
 
@@ -83,10 +82,7 @@ public foodData: Product[];
   getList() {
     this.productService.getTrendingList()
       .subscribe((data: DataTable<Product>) => {
-        console.log("data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",data)
         this.foodData = data.records;
-        console.log("---->", this.foodData)
-        this.spinner.hide();
       },
         error => {
           this.spinner.hide();

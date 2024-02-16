@@ -2,6 +2,7 @@ export class User {
   id:number;
   username: string;
   password: string;
+  district: string;
   confirmPassword: string;
   email: string;
   nic: string;

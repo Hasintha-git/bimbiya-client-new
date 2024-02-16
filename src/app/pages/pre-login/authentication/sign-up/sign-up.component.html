@@ -1,1 +1,198 @@
-<p>sign-up works!</p>
+<h1 class="text-lg font-bold text-white leading-tight text-center mt-12 mb-5 " style="position: relative; z-index: 9999;">Join with bimbiya</h1>
+      
+
+<div class="p-5 shadow-md rounded-2xl bg-gray-700 container" >
+  
+    <!-- start step indicators -->
+    <!-- <div class="form-header flex gap-3 mb-4 text-xs text-center">
+        <span class="stepIndicator flex-1 pb-8 relative">Account Setup</span>
+        <span class="stepIndicator flex-1 pb-8 relative">Social Profiles</span>
+        <span class="stepIndicator flex-1 pb-8 relative">Personal Details</span>
+    </div> -->
+    <!-- end step indicators -->
+
+    <!-- step one -->
+    <div  *ngIf="step ==1">
+        <form [formGroup]="form1">
+        <p class="text-md text-white leading-tight text-center mt-8 ">Create your account</p>
+        <div style="display: flex;flex-direction: column;">
+            <label style="font-weight: 500;" class="text-white">User Name</label>
+            <mat-form-field class="ultra-max-field" appearance="outline">
+                <input matInput placeholder="sandun" formControlName="username"
+                    [(ngModel)]="signUpModel.username" [maxlength]="10">
+                <mat-error *ngIf="username?.hasError('required')">User name cannot be empty
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div style="display: flex;flex-direction: column;">
+            <label style="font-weight: 500;" class="text-white">Full Name</label>
+            <mat-form-field class="ultra-max-field" appearance="outline">
+                <input matInput placeholder="sandun sulakshana" formControlName="fullName"
+                    [(ngModel)]="signUpModel.fullName" [maxlength]="32">
+
+                <mat-error *ngIf="fullName?.hasError('required')">Full name cannot be empty
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div style="display: flex;flex-direction: column;">
+            <label style="font-weight: 500;" class="text-white">NIC</label>
+            <mat-form-field class="ultra-max-field" appearance="outline">
+                    <input matInput [formControl]="nic" placeholder="905658079V" [maxlength]="12" [(ngModel)]="signUpModel.nic" required
+                    autoComplete='off'
+                    (change)="onNicInputChange($event)">
+                <mat-error *ngIf="nic.hasError('required')">NIC cannot be empty</mat-error>
+                <mat-error *ngIf="nic.hasError('pattern')">Invalid NIC
+                </mat-error>
+                
+            </mat-form-field>
+        </div>
+    </form>
+    </div>
+
+    <!-- step two -->
+    <div *ngIf="step ==2">
+        <form [formGroup]="form2">
+        <p class="text-md text-white leading-tight text-center mt-8 mb-5">Your contact details</p>
+        <!-- <div style="display: flex;flex-direction: column;">
+            <mat-form-field class="ultra-max-field" appearance="outline">
+              <mat-label>Date of Birth</mat-label>
+              <input matInput name="dateOfBirth" [formControl]="dob" disabled =true
+                     [(ngModel)]="signUpModel.dateOfBirth" autoComplete='off' [max]="maxDate"
+                     [matDatepicker]="picker1" (click)="picker1.open()" required readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+              <mat-error *ngIf="dob.hasError('required')">Date of birth cannot be
+                empty
+              </mat-error>
+            </mat-form-field>
+          </div> -->
+          <div style="display: flex;flex-direction: column;">
+            <label style="font-weight: 500;" class="text-white">Email</label>
+            <mat-form-field class="ultra-max-field" appearance="outline">
+                <input matInput placeholder="sandun@gmail.com" [maxlength]="32" formControlName="email" required
+                    [(ngModel)]="signUpModel.email">
+    
+                <mat-error *ngIf="email.hasError('required')">Email cannot be empty
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div style="display: flex;flex-direction: column;">
+            <label style="font-weight: 500;" class="text-white">Mobile Number</label>
+            <mat-form-field class="ultra-max-field" appearance="outline">
+                <input matInput placeholder="0777888999" [maxlength]="10" formControlName="mobile" required
+                    [(ngModel)]="signUpModel.mobileNo">
+    
+                <mat-error *ngIf="mobile.hasError('required')">Mobile Number cannot be empty
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+    </div>
+
+    <!-- step three -->
+    <div *ngIf="step ==3">
+        <form [formGroup]="form3">
+        <p class="text-md text-white leading-tight text-center mt-8 mb-5">Your delivery address's</p>
+        <div style="display: flex;flex-direction: column;">
+            
+            <label style="font-weight: 500;" class="text-white">District</label>
+            <mat-form-field class="ultra-max-field" appearance="outline">
+                <mat-select [formControl]="district" required [(ngModel)]="signUpModel.district">
+                    <mat-option [value]="">Select District</mat-option>
+                    <mat-option *ngFor="let st of districtList" [value]="st.code">
+                        {{st.description}}
+                    </mat-option>
+                </mat-select>
+
+                <mat-error *ngIf="district.hasError('required')">District cannot be empty
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div style="display: flex;flex-direction: column;">
+            <label style="font-weight: 500;" class="text-white">City</label>
+            <mat-form-field class="ultra-max-field" appearance="outline">
+                <input matInput placeholder="Nugegoda" formControlName="city" [maxlength]="20"
+                    [(ngModel)]="signUpModel.city">
+
+                <mat-error *ngIf="city.hasError('required')">City cannot be empty
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div style="display: flex;flex-direction: column;">
+            <label style="font-weight: 500;" class="text-white">Address</label>
+            <mat-form-field class="ultra-max-field" appearance="outline">
+                <input matInput placeholder="Jhon road, Kirulapahan" formControlName="address" [maxlength]="64"
+                    [(ngModel)]="signUpModel.address">
+                <mat-error *ngIf="address.hasError('required')">Address cannot be empty
+                </mat-error>
+            </mat-form-field>
+        </div>
+        </form>
+    </div>
+
+ <!-- step 4 -->
+ <div *ngIf="step ==4">
+    <form [formGroup]="form4">
+    <p class="text-md text-white leading-tight text-center mt-8 mb-5">Secure your account with bimbiya</p>
+
+    <div style="display: flex;flex-direction: column;">
+        <label style="font-weight: 500;" class="text-white">Password</label>
+        <mat-form-field class="ultra-max-field" appearance="outline">
+            <input matInput placeholder="XXXXXXXX" formControlName="password" [minlength]="6" [maxlength]="12"
+                [(ngModel)]="signUpModel.password">
+
+            <mat-error *ngIf="password.hasError('required')">password cannot be empty
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div style="display: flex;flex-direction: column;">
+        <label style="font-weight: 500;" class="text-white">Confirm Password</label>
+        <mat-form-field class="ultra-max-field" appearance="outline">
+            <input matInput placeholder="XXXXXXXX" formControlName="confirmPassword" [minlength]="6" [maxlength]="12"
+                [(ngModel)]="signUpModel.confirmPassword">
+            <mat-error *ngIf="confirmPassword.hasError('required')">Confirm Password cannot be empty
+            </mat-error>
+            <mat-error *ngIf="confirmPassword.hasError('NoPassswordMatch')">Password
+                mismatched
+            </mat-error>
+        </mat-form-field>
+    </div>
+    </form>
+</div>
+
+<!-- step three -->
+<div *ngIf="step ==5">
+    <form [formGroup]="otpForm">
+    <p class="text-md text-white leading-tight text-center mt-1 mb-3">Verify your account</p>
+
+    <p class="text-md text-yellow leading-tight text-center"  *ngIf="step == 5" >{{otpSend}}</p>
+
+    
+    <div style="display: flex;flex-direction: column;">
+        <label style="font-weight: 500;" class="text-white">OTP</label>
+        <mat-form-field class="ultra-max-field" appearance="outline">
+            <input matInput placeholder="******" formControlName="otpReq" [minlength]="6" [maxlength]="6"
+                [(ngModel)]="otp">
+
+            <mat-error *ngIf="otpReq.hasError('required')">Otp cannot be empty
+            </mat-error>
+        </mat-form-field>
+    </div>
+    </form>
+</div>
+    <!-- start previous / next buttons -->
+    <div class="form-footer flex gap-3">
+        
+        <button type="button" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center text-gray-700 bg-gray-200 hover:bg-gray-300 text-md" style="height: 38px;"  *ngIf="step != 5" (click)="backPrev()"      >Back</button>
+        <button type="button" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center text-white hover:bg-indigo-700 text-md"  style="height: 38px;background-color: #FEC230;" *ngIf="step != 4 && step != 5" (click)="nextPrev(1)">Next</button>
+        <button type="submit" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center text-white bg-indigo-600 hover:bg-indigo-700 text-md" style="height: 38px;" *ngIf="step == 4 "   (click)="submitData()">Submit</button>
+        <button type="button" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center text-white bg-indigo-600 hover:bg-indigo-700 text-md" style="height: 38px;" *ngIf="step == 5"   (click)="otpConfirm()">Confirm OTP</button>
+    </div>
+    <br>
+    <br>
+    <div class="login-side1-row" style="display: flex;justify-content: center;align-items: center;">
+        <button type="button" id="nextBtn" class="txt_register flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center bg-gray-400 hover:bg-gray-300 text-md"  (click)="signIn()">Login</button>
+    </div>
+
+</div>

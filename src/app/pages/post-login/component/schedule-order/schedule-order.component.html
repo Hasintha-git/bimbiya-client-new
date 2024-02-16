@@ -5,18 +5,6 @@
         </div>
         <div class="title-content-devider"></div>
         <div class="dialog-input-fields">
-
-            <div class="input-fields">
-                <mat-form-field class="min-field" appearance="outline">
-                  <mat-label>Start Time</mat-label>
-                  <input matInput class="timepicker" [formControl]="scheduleTime" required
-                         [(ngModel)]="cartModelAdd.scheduledTime" [ngxTimepicker]="timepicker" [format]=24>
-                  <mat-error *ngIf="scheduleTime.hasError('required')">Start Time cannot be empty
-                  </mat-error>
-                </mat-form-field>
-      
-                <ngx-material-timepicker appendToInput=true class="timePicker" #timepicker></ngx-material-timepicker>
-              </div>
     
               <div class="input-fields">
                 <mat-form-field class="min-field" appearance="outline">

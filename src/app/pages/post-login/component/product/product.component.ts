@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { ScheduleOrderComponent } from '../schedule-order/schedule-order.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -8,6 +8,8 @@ import { AddToCartService } from 'src/app/services/Cart/add-to-cart.service';
 import { CommonResponse } from 'src/app/models/CommonResponse';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -21,17 +23,23 @@ export class ProductComponent implements OnInit {
 
   cartModel= new CartDetails();
   filteredOptions: Observable<string[]>;
+  activeUser:string;
   constructor(   
     public dialog: MatDialog,
     private fb: FormBuilder,
     private cartService: AddToCartService,
     
     public toastService: ToastServiceService,
-    private spinner: NgxSpinnerService,) { }
+    private spinner: NgxSpinnerService,
+    private storageService: StorageService,
+    private router: Router,) { }
 
   ngOnInit(): void {
+    this.spinner.show();
+    this.activeUser=this.storageService.getUser();
     this.product.personCount =4;
     this.initialForm();
+    this.spinner.hide();
   }
 
   initialForm() {
@@ -40,21 +48,14 @@ export class ProductComponent implements OnInit {
       map(value => this._filter(value || '')),
     );
   }
-
   
   peronCountUp(product: any) {
     if (!this.product.priceChange) {
       product.productBasicPrice =product.price;
       product.perPersonPrice = product.productBasicPrice / this.product.personCount;
     }
-
-    console.log("this.cartModel.personCount >>", this.product.personCount);
-
-
-    console.log("this.product.personCount <50",this.product.personCount <50)
     if(this.product.personCount <50) {
       this.product.personCount =this.product.personCount+2;
-      console.log("product",product)
   
       product.price =product.perPersonPrice * this.product.personCount;
       this.product.priceChange = true;
@@ -62,7 +63,6 @@ export class ProductComponent implements OnInit {
   }
 
   peronCountDown(product: any) {
-    console.log("this.cartModel.personCount >", this.product.personCount);
 
     if (!this.product.priceChange) {
       product.productBasicPrice =product.price;
@@ -71,8 +71,6 @@ export class ProductComponent implements OnInit {
 
     if(this.product.personCount > 4) {
       this.product.personCount =this.product.personCount-2;
-      console.log("product",product)
-      console.log(this.product.personCount+2)
       product.price =product.perPersonPrice * this.product.personCount;
       this.product.priceChange = true;
     }
@@ -90,17 +88,23 @@ export class ProductComponent implements OnInit {
   trackOption(index: number, option: any): any {
     return option; // Replace with a unique identifier for each option if possible
   }
+
+  signIn() {
+    this.spinner.hide();
+    this.router.navigate(['/auth/signin']);
+  }
+
   addToCart() {
     this.spinner.show();
-    console.log(this.product);
+    if(this.activeUser == null) {
+      return this.signIn();
+    }
     this.cartModel.productPrice=this.product.price;
     this.cartModel.packageId=this.product.packageId;
-    this.cartModel.userName="admin";
+    this.cartModel.userName=this.activeUser;
     this.cartModel.personCount=this.product.personCount;
     this.cartModel.status="active";
     this.cartModel.qty=1;
-
-    console.log(this.cartModel);
 
     this.cartService.addToCart(this.cartModel).subscribe(
       (response: CommonResponse) => {

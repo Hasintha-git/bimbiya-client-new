@@ -18,8 +18,6 @@ export class HomeComponent implements OnInit {
               private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    console.log("call time")
-    console.log("addToCartService",this.addToCartService)
     // this.cartDataGet();
   }
 

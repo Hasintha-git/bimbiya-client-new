@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { SimpleBase } from 'src/app/models/SimpleBase';
 import { ProductService } from 'src/app/services/product/product.service';
@@ -71,19 +71,22 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
     this.spinner.show();
 
     const type=this.storage.getCategory();
-    this.productCategory =type;
-    console.log("type>>",type)
-    console.log("productCategory>>>>>>>>>>>",this.productCategory)
+    if(type != null) {
+      this.productCategory =type;
+    }else {
+      this.productCategory = "BITE";
+    }
     this.initialValidator();
     // Initialize the paginator after the view has been initialized
     setTimeout(() => {
       this.paginator.pageSize = this.itemsPerPage;
     });
     this.prepareReferenceData();
-    this.initialDataLoader();
+    if(this.productCategory) {
+      this.initialDataLoader();
+    }
 
 
-    console.log("productCategory>>>>>>>>>>> 2222",this.productCategory)
   }
 
 
@@ -98,7 +101,6 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
       ingredient: this.formBuilder.control(''),
     });
 
-    console.log("called")
     // Subscribe to changes in the form
     this.productFilter.valueChanges.subscribe((formValues) => {
       this.getList();
@@ -106,7 +108,6 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
 
      // Subscribe to changes in the form
      this.productFilter.get('beverages').valueChanges.subscribe((beverages) => {
-      console.log("beverages >>>", this.productFilter.get('beverages').value)
       this.isBeverages = this.productFilter.get('beverages').value;
       this.isBite = !this.productFilter.get('beverages').value;
       if(this.isBeverages) {
@@ -118,7 +119,6 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
     // Subscribe to changes in the form
     this.productFilter.get('foods').valueChanges.subscribe((foods) => {
       
-      console.log("foods >>>", this.productFilter.get('foods').value)
       this.isBite = this.productFilter.get('foods').value;
       this.isBeverages = !this.productFilter.get('foods').value;
       if(this.isBite) {
@@ -127,6 +127,19 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  @HostListener('document:click', ['$event'])
+  handleDocumentClick(event: MouseEvent) {
+    const cart1 = document.getElementById('mobile-view');
+  
+    if ((cart1 && cart1.contains(event.target as Node))) {
+      return;
+    } else {
+      this.isClosed = false;
+    }
+  }
+  
+
 
   prepareReferenceData(): void {
     this.productService.getSearchData(true)
@@ -176,7 +189,6 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   }
 
   onPortionChange(portionId: any): void {
-    console.log("called !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",portionId)
     
     const index = this.portion.indexOf(portionId);
     if (index !== -1) {
@@ -185,12 +197,10 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
       this.portion.push(portionId);
     }
   
-    console.log("this.searchModel.portion >>>>>>>>>>>",this.portion)
     this.getList();
   }
   
   onIngredientChange(ingredientId: any): void {
-    console.log("called !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",ingredientId)
     
     const index = this.ingredientList.indexOf(ingredientId);
     if (index !== -1) {
@@ -199,7 +209,6 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
       this.ingredientList.push(ingredientId);
     }
   
-    console.log("this.searchModel.portion >>>>>>>>>>>",this.ingredientList)
     this.getList();
   }
   
@@ -210,11 +219,8 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
     searchParamMap = this.getSearchString(searchParamMap, this.searchModel);
     this.productService.getList(searchParamMap)
       .subscribe((data: DataTable<Product>) => {
-        console.log("data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",data)
         this.productList = data.records;
-        console.log("---->", this.productList)
         this.dataSource.datalist = this.productList;
-        console.log(this.dataSource)
         this.dataSource.usersSubject.next(this.productList);
         this.dataSource.countSubject.next(data.totalRecords);
         this.spinner.hide();
@@ -227,7 +233,6 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   }
 
   getSearchString(searchParamMap: Map<string, any>, searchModel: Product): Map<string, string> {
-    console.log("clllllllllllll")
     if (this.productFilter.get('toPrice').value) {
       searchParamMap.set("toPrice", this.productFilter.get('toPrice').value);
     }
@@ -236,12 +241,9 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
       searchParamMap.set("fromPrice", this.productFilter.get('fromPrice').value);
     }
 
-    console.log("searchModel.portion>>>",searchModel.portion)
     if (this.portion) {
       searchParamMap.set("portion",this.portion);
     }
-
-    console.log("searchModel.ingredientList>>>",searchModel.ingredientList)
 
     if (this.ingredientList) {
       searchParamMap.set("ingredientList", this.ingredientList);
@@ -267,9 +269,6 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   }
 
   onRangeChange() {
-    console.log("****************", this.stepValue)
-    console.log(this.selectedMinValue)
-    console.log(this.selectedMaxValue)
     // Handle the range change logic here
   }
 

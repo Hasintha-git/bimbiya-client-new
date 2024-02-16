@@ -7,9 +7,11 @@ export class Cart {
     city: string;
     userName: string;
     fullName: string;
-
+    subTotal:number;
+    deliveryPrice:number;
+    total:number;
     activeUser: string;
     
-    cartList:Array<CartDetails>
+    cartList:CartDetails[];
 }
   

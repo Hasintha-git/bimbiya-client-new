@@ -1,0 +1,55 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  
+      .flex {
+        flex: 1;
+      }
+  
+      .flex > a {
+        margin-right: 1.5rem;
+      }
+  
+      .justify-center {
+        display: flex;
+        justify-content: center;
+      }
+  
+      button {
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .activated-route {
+    // border-right: 5px solid #24A0ED !important;
+    // background-color: #ffffff !important;
+    max-width: 95% !important;
+    // border-top-right-radius: 50px !important;
+    // border-bottom-right-radius: 50px !important;
+    border-radius: 50px !important;
+    color: #FFC001 !important;
+    font-weight: bold;
+
+}
+
+.icon_cart_remove :hover{
+  color: black;
+  cursor: pointer !important;
+}

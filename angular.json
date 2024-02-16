@@ -33,7 +33,8 @@
               "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
               "./node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": []
+            "scripts": [
+            ]
           },
           "configurations": {
             "production": {

@@ -1,0 +1,22 @@
+
+.error {
+    color: red !important;
+    font-size: 12px !important;
+    display: flex !important;
+  }
+  .custom-mat-form-field {
+    --mat-focused-border-color: #FEC230 !important; /* Set the outline color */
+  }
+  
+  .text-white.mat-form-field-appearance-outline .mat-form-field-label {
+    color: white !important; /* Set the text color to white */
+  }
+  .txt_register {
+    width: 90% !important;
+    height: 37px;
+     color: #333333;
+
+     & :hover {
+         cursor: pointer;
+     }
+ }

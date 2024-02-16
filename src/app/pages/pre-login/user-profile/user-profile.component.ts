@@ -24,7 +24,6 @@ export class UserProfileComponent implements OnInit {
 
 
   titleChange(title:string) {
-    console.log(title)
     let routUrl = title.replace('/user-profile/','')
     const rout = routUrl.split('?')[0];
 

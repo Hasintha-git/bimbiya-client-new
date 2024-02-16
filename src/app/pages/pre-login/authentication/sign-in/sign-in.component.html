@@ -2,7 +2,7 @@
     <div class="login-side1-div">
         <div class="login-side1-row">
             <!-- <span class="new-line "></span> -->
-            <img class="login-side2-image" src="../../../../../assets/images/bimbiya.png" alt="">
+            <img class="login-side2-image" src="../../../../../assets/images/bimbiya_white.png" alt="">
             <!-- <span class="new-line "></span> -->
 
         </div>
@@ -13,12 +13,12 @@
         <span class="new-line "></span>
         <div class="login-side1-row">
             <div style="display: flex;flex-direction: column;">
-                <label style="font-weight: 500;color: white;">User Name</label>
+                <label style="font-weight: 500;" class="text-white">User Name</label>
                 <mat-form-field class="ultra-max-field" appearance="outline">
                     <input matInput placeholder="username" formControlName="username"
                         [(ngModel)]="signInModel.username">
                     <button mat-icon-button matSuffix type="button">
-                        <mat-icon style="color: white;">people</mat-icon>
+                        <mat-icon style="color: #ffffff;">people</mat-icon>
                     </button>
                     <mat-error *ngIf="username?.hasError('required')">User name cannot be empty
                     </mat-error>
@@ -27,13 +27,13 @@
         </div>
         <div class="login-side1-row">
             <div style="display: flex;flex-direction: column;">
-                <label style="font-weight: 500;color: white;">Password</label>
+                <label style="font-weight: 500;" class="text-white">Password</label>
                 <mat-form-field class="ultra-max-field" appearance="outline">
                     <input matInput placeholder="password" [type]="hide ? 'password' : 'text'"
-                        formControlName="password" [(ngModel)]="signInModel.password">
+                        formControlName="password" [(ngModel)]="signInModel.password" autocomplete="new-password">
                     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                         [attr.aria-pressed]="hide" type="button">
-                        <mat-icon style="color: white;">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        <mat-icon style="color: #ffffff;">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
                     <mat-error *ngIf="password?.hasError('required')">Password cannot be empty
                     </mat-error>
@@ -42,11 +42,11 @@
         </div>
         <span class="new-line "></span>
         <div class="login-side1-row">
-            <button type="submit" class="btn-login" mat-flat-button>LOG IN</button>
+            <button type="submit" class="btn-login" mat-flat-button>Login with bimbiya</button>
         </div>
         <span class="new-line "></span>
         <div class="login-side1-row" style="display: flex;justify-content: center;align-items: center;">
-            <p class="des" (click)="forgetPassword()">Forgot Password ? </p>
+            <!-- <p class="des" (click)="forgetPassword()">Forgot Password ? </p> -->
 
         </div>
         <div class="login-side1-row" style="display: flex;justify-content: center;align-items: center;">

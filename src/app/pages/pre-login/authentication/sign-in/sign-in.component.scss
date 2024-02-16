@@ -14,7 +14,9 @@
         width: 400px;
         height: 480px;
         border-radius: 20px;
+        background-color: #333333;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        z-index: 9999;
     }
 
     .login-side1-row {
@@ -34,7 +36,7 @@
             font-family: "Poppins", sans-serif;
             font-size: 18px;
             font-weight: bold;
-            color: white;
+            color: #ffffff;
         }
 
         .welcome_des {
@@ -50,7 +52,7 @@
                 cursor: pointer;
             }
             .txt_register {
-                color: #0096FE;
+                color: #FFCC31;
 
                 & :hover {
                     cursor: pointer;
@@ -63,10 +65,10 @@
         }
 
         .btn-login {
-            width: 100px;
+            width: 150px;
             height: auto;
-          background-color: white;
-          color:#333;
+          background-color: #ffffff;
+          color:#333333;
         }
     }
 
@@ -111,28 +113,47 @@
     }
 }
 .login-side2-image {
-    width: 150px;
+    width: 70px !important;
     height: auto;
+    padding: 10px;
 }
 
 // >>>>> Mobile responsive
 
-@media screen and (max-width: 1000px) {
-    .login-side1 {
-        width: 50% !important;
-    }
+// @media screen and (max-width: 1000px) {
+//     .login-side1 {
+//         width: 50% !important;
+//     }
 
-    .login-side2 {
-        width: 50% !important;
-    }
-}
+//     .login-side2 {
+//         width: 50% !important;
+//     }
+// }
 
 @media screen and (max-width: 768px) {
     .login-side1 {
-        width: 100% !important;
+        width: 400px !important;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 20px;
+        overflow: hidden;
     }
-
+    .login-side1-div {
+        width: 380px !important;
+        height: auto;
+        border-radius: 20px;
+        background-color: #333333;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        z-index: 9999;
+    }
     .login-side2 {
         display: none !important;
     }
 }
+
+::ng-deep input.mat-input-element {
+    color: #ffffff;
+  }

@@ -1,0 +1,79 @@
+.container {
+    position: relative;
+    z-index: 9999 !important;
+    background-color: #333333;
+}
+
+.login-side1-row {
+    display: inline-block;
+    z-index: 9999 !important;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .login-side1-row-logo {
+      width: 120px;
+    }
+
+ .welcome {
+     font-family: "Poppins", sans-serif;
+     font-size: 18px;
+     font-weight: bold;
+     color: white;
+ }
+
+ .welcome_des {
+     color: #1565C0;
+     font-size: 14px;
+     font-weight: 500;
+ }
+ .txt_register {
+    width: 100% !important;
+    height: 37px;
+     color: #ffffff;
+
+     & :hover {
+         cursor: pointer;
+     }
+ }
+ .des {
+     color: gray;
+     font-size: 16px;
+     & :hover {
+         cursor: pointer;
+     }
+
+ }
+
+ .input-field {
+     outline: 1px solid red;
+ }
+
+ .btn-login {
+     width: 100px;
+     height: auto;
+   background-color: white;
+   color:#333;
+ }
+}
+::ng-deep input.mat-input-element {
+    color: #ffffff;
+  }
+
+  @media screen and (max-width: 768px) {
+
+    .login-side1-row {
+        display: inline-block;
+        z-index: 9999 !important;
+        width: 97% !important;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    
+    }
+}

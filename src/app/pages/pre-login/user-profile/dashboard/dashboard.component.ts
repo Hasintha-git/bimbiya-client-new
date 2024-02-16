@@ -24,9 +24,6 @@ export class DashboardComponent implements OnInit {
 const year = today.getFullYear();
 const month = today.getMonth() + 1; // Adding 1 to get the actual month number (zero-based index)
 const day = today.getDate();
-console.log(`Year: ${year}`);
-console.log(`Month: ${month}`);
-console.log(`Day: ${day}`);
     this.toDay = year+"-"+month+"-"+day;
   }
 

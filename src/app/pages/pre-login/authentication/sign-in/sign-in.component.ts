@@ -76,15 +76,10 @@ onSubmit() {
       this.spinner.show();
       this.loginService.login(this.signInModel).subscribe(
         (response) => {
-          console.log('Response Headers:', response.headers.keys());
-          console.log('All Response Headers:', response.headers.getAll);
-          console.log('Full Response:', response);
-          console.log('All Headers:', response.headers.keys());
           
-          const authorizationHeader = response.headers.get('Authorization') || response.headers.get('authorization');
-          const refreshTokenHeader = response.headers.get('RefreshToken');
+          const authorizationHeader = response.body.data.accessToken;
+          const refreshTokenHeader = response.body.data.refreshToken;
           
-          console.log('Received Token:', refreshTokenHeader);
           if (authorizationHeader) {
             this.sessionStorage.setSession(authorizationHeader);
           }
@@ -93,6 +88,10 @@ onSubmit() {
             this.sessionStorage.setRefreshToken(refreshTokenHeader);
           }
           
+          if (response.body.data.userName) {
+            this.sessionStorage.setUser(response.body.data.userName);
+          }
+          this.spinner.hide();
           this.authService.logIn();
         },
         (        error: { status: number; error: { [x: string]: string; }; }) => {
@@ -111,7 +110,6 @@ onSubmit() {
             this.spinner.hide();
           }
           
-          console.log("errorMessage",this.errorMessage)
           this.toastr.errorMessage(this.errorMessage);
         }
       );
@@ -159,7 +157,6 @@ onSubmit() {
   }
   isAuthenticated(): void {
     if (this.authService.isAuthenticated()) {
-      console.log("***********")
       this.authService.logIn();
     }
   }
