@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { PostLoginComponent } from './post-login.component';
 import { ProductFilterComponent } from './component/product-filter/product-filter.component';
-import { CheckoutComponent } from './place-order/checkout/checkout.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 import { PrivacyPolicyComponent } from './component/footer/privacy-policy/privacy-policy.component';
 import { ReturnPolicyComponent } from './component/footer/return-policy/return-policy.component';
 import { TermConditionComponent } from './component/footer/term-condition/term-condition.component';

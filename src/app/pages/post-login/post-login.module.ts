@@ -28,6 +28,7 @@ import { TermConditionComponent } from './component/footer/term-condition/term-c
 import { ReturnPolicyComponent } from './component/footer/return-policy/return-policy.component';
 import { FaqComponent } from './component/footer/faq/faq.component';
 import { ContactUsComponent } from './component/footer/contact-us/contact-us.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { ContactUsComponent } from './component/footer/contact-us/contact-us.com
     ReturnPolicyComponent,
     FaqComponent,
     ContactUsComponent,
+    CheckoutComponent
   ],
   imports: [
     CommonModule,
