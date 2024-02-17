@@ -40,8 +40,8 @@
     <div class="mt-8 space-y-3 rounded-lg border bg-gray-800 px-2 py-4 sm:px-6">
       <!-- <div *ngIf="cardList.cartList.length > 0" class="text-gray-400">Cart is empty... go to shopping with <span style="color: yellow; cursor: pointer;" (click)="home()">bimbiya</span> </div> -->
 
-      <div *ngIf="cardList?.cartList && cardList.cartList.length > 0">
-        <div class="flex flex-row rounded-lg bg-gray-700 sm:flex-row m-2" *ngFor="let cart of cardList?.cartList">
+      <!-- <div >
+        <div class="flex flex-row rounded-lg bg-gray-200 sm:flex-row" *ngFor="let cart of cardList?.cartList">
           <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" [src]="cart.image" alt="" />
           <div class="flex w-full flex-col px-4 py-4">
             <span class="font-semibold text-gray-400">{{cart.mealName}}</span>
@@ -51,7 +51,8 @@
           <img style="cursor: pointer; width: 30px;height: auto;" src="../../../../../assets/icons/ic_delete.svg"
             (click)="cartRemove(cart)" alt="">
         </div>
-      </div>
+      </div> -->
+
 
       <!-- <section class="flex flex-col rounded-lg bg-gray-800 sm:flex-row" *ngFor="let cart of cartDataList;">
         <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" [src]="cart.image" alt="{{ cart.mealName }}" />
@@ -63,12 +64,12 @@
         <img style="cursor: pointer; width: 30px;height: auto;" src="../../../../../assets/icons/ic_delete.svg" alt="Delete" (click)="deleteCartItem(cart.cartId)">
       </section> -->
       
-      <!-- <div *ngIf="cardList?.cartList && cardList.cartList.length > 0">
-  <div class="flex flex-row rounded-lg bg-gray-200 sm:flex-row" *ngFor="let cart of cardList.cartList">
-    <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" [src]="cart.image || ''" alt="" />
+      <div *ngIf="cardList?.cartList && cardList.cartList.length > 0">
+  <div class="flex flex-row rounded-lg bg-gray-700 sm:flex-row" *ngFor="let cart of cardList.cartList">
+    <img class="m-2 h-26 w-28 rounded-md border object-cover object-center" [src]="cart.image || ''" alt="" />
     <div class="flex w-full flex-col px-4 py-4">
-      <span class="font-semibold text-gray-400">{{cart.mealName || 'Undefined'}}</span>
-      <span class="float-right text-gray-400">Person Count:{{cart.personCount || 'Undefined'}}</span>
+      <span class="font-semibold text-gray-200">{{cart.mealName || 'Undefined'}}</span>
+      <span class="float-right text-gray-200">Person Count:{{cart.personCount || 'Undefined'}}</span>
       <p class="text-lg font-bold text-white">LKR:{{cart.price || 'Undefined'}}.00</p>
     </div>
     <img style="cursor: pointer; width: 30px;height: auto;" src="../../../../../assets/icons/ic_delete.svg"
@@ -79,7 +80,7 @@
   No items available.
 </div>
 
-    </div> -->
+    </div>
 
     <form class="mt-5 grid gap-6 bg-gray-800">
       <p class="mt-8 text-lg font-medium text-white">Shipping Methods</p>
@@ -148,20 +149,18 @@
         <p class="text-sm font-medium text-white">Delivery Time</p>
 
         <div>
-          
-<button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white bg-gray-700 hover:bg-gray-900 font-medium  text-sm px-5 py-2.5 text-center inline-flex items-center " type="button">Pick your time <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-  </svg>
-  </button>
-  
-  <!-- Dropdown menu -->
-  <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-      <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton" *ngIf="timeSlot && timeSlot.length > 0">
-        <li *ngFor="let slot of timeSlot">
-          <div class="block px-4 py-2 text-gray-700  hover:bg-gray-100 dark:hover:bg-gray-600 ">{{slot}}</div>
-        </li>
-      </ul>
-  </div>
+          <div class="relative" (click)="toggleDropdown()">
+            <button id="dropdownDefaultButton" class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-200 bg-gray-700 border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+              {{ selectedTimeDesc }}
+            </button>
+            <div id="dropdown" [ngClass]="{'hidden': !isDropdownOpen}" class="z-10 absolute right-0 mt-2 bg-gray-700 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+              <ul class="py-2 text-sm text-gray-300 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                <li *ngFor="let slot of timeSlot">
+                  <div (click)="selectTime(slot)" class="block px-4 py-2 text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600 ">{{slot.description}}</div>
+                </li>
+              </ul>
+            </div>
+          </div>
   
         </div>
     </div>

@@ -18,7 +18,7 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">User Name</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="sandun" formControlName="username"
+                <input matInput placeholder="enter your username" formControlName="username"
                     [(ngModel)]="signUpModel.username" [maxlength]="10">
                 <mat-error *ngIf="username?.hasError('required')">User name cannot be empty
                 </mat-error>
@@ -27,7 +27,7 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">Full Name</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="sandun sulakshana" formControlName="fullName"
+                <input matInput placeholder="enter your full name" formControlName="fullName"
                     [(ngModel)]="signUpModel.fullName" [maxlength]="32">
 
                 <mat-error *ngIf="fullName?.hasError('required')">Full name cannot be empty
@@ -37,7 +37,7 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">NIC</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                    <input matInput [formControl]="nic" placeholder="905658079V" [maxlength]="12" [(ngModel)]="signUpModel.nic" required
+                    <input matInput [formControl]="nic" placeholder="enter your nic" [maxlength]="12" [(ngModel)]="signUpModel.nic" required
                     autoComplete='off'
                     (change)="onNicInputChange($event)">
                 <mat-error *ngIf="nic.hasError('required')">NIC cannot be empty</mat-error>
@@ -69,7 +69,7 @@
           <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">Email</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="sandun@gmail.com" [maxlength]="32" formControlName="email" required
+                <input matInput placeholder="enter your mail address" [maxlength]="32" formControlName="email" required
                     [(ngModel)]="signUpModel.email">
     
                 <mat-error *ngIf="email.hasError('required')">Email cannot be empty
@@ -79,7 +79,7 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">Mobile Number</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="0777888999" [maxlength]="10" formControlName="mobile" required
+                <input matInput placeholder="enter your mobile no" [maxlength]="10" formControlName="mobile" required
                     [(ngModel)]="signUpModel.mobileNo">
     
                 <mat-error *ngIf="mobile.hasError('required')">Mobile Number cannot be empty
@@ -112,7 +112,7 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">City</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="Nugegoda" formControlName="city" [maxlength]="20"
+                <input matInput placeholder="enter your city" formControlName="city" [maxlength]="20"
                     [(ngModel)]="signUpModel.city">
 
                 <mat-error *ngIf="city.hasError('required')">City cannot be empty
@@ -122,7 +122,7 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">Address</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="Jhon road, Kirulapahan" formControlName="address" [maxlength]="64"
+                <input matInput placeholder="enter your address" formControlName="address" [maxlength]="64"
                     [(ngModel)]="signUpModel.address">
                 <mat-error *ngIf="address.hasError('required')">Address cannot be empty
                 </mat-error>
@@ -139,7 +139,7 @@
     <div style="display: flex;flex-direction: column;">
         <label style="font-weight: 500;" class="text-white">Password</label>
         <mat-form-field class="ultra-max-field" appearance="outline">
-            <input matInput placeholder="XXXXXXXX" formControlName="password" [minlength]="6" [maxlength]="12"
+            <input matInput placeholder="enter your password" formControlName="password" [minlength]="6" [maxlength]="12"
                 [(ngModel)]="signUpModel.password">
 
             <mat-error *ngIf="password.hasError('required')">password cannot be empty
@@ -149,7 +149,7 @@
     <div style="display: flex;flex-direction: column;">
         <label style="font-weight: 500;" class="text-white">Confirm Password</label>
         <mat-form-field class="ultra-max-field" appearance="outline">
-            <input matInput placeholder="XXXXXXXX" formControlName="confirmPassword" [minlength]="6" [maxlength]="12"
+            <input matInput placeholder="re enter your password" formControlName="confirmPassword" [minlength]="6" [maxlength]="12"
                 [(ngModel)]="signUpModel.confirmPassword">
             <mat-error *ngIf="confirmPassword.hasError('required')">Confirm Password cannot be empty
             </mat-error>
@@ -192,7 +192,7 @@
     <br>
     <br>
     <div class="login-side1-row" style="display: flex;justify-content: center;align-items: center;">
-        <button type="button" id="nextBtn" class="txt_register flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center bg-gray-400 hover:bg-gray-300 text-md"  (click)="signIn()">Login</button>
+        <button type="button" id="nextBtn" class="txt_register flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center hover:bg-gray-300 text-md"  (click)="signIn()">Login</button>
     </div>
 
 </div>

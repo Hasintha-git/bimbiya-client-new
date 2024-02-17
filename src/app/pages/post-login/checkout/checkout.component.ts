@@ -11,6 +11,7 @@ import { AddToCartService } from 'src/app/services/Cart/add-to-cart.service';
 import { OrderService } from 'src/app/services/order/order.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-checkout',
@@ -32,9 +33,13 @@ export class CheckoutComponent implements OnInit {
   selectedAmPm: string;
   defaultDelivery = 4;
   selectedTime: string;
+  selectedTimeDesc: string;
   isCartAvailable: boolean = false;
   orderReq = new Order();
   activeUser: string;
+
+  isDropdownOpen: boolean = false;
+  timeSlotControl: FormControl = new FormControl();
 
   constructor(private router: Router,
     public dialog: MatDialog,
@@ -50,9 +55,46 @@ export class CheckoutComponent implements OnInit {
     this.activeUser = this.storageService.getUser();
     this.prepareReferenceData();
     this.cartDataGet();
-    this.populateHours();
-    this.populateMinutes();
-    this.setDefaultTime();
+    // this.populateHours();
+    // this.populateMinutes();
+    // this.setDefaultTime();
+
+  }
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  setDefaultTime4() {
+    const currentTime = new Date();
+    let currentHour = currentTime.getHours();
+  
+    // Add 4 hours to the current hour
+    currentHour = (currentHour + 4) % 24;
+  
+    // Find the index of the corresponding time slot in the timeSlot array
+    const nearestSlotIndex = this.timeSlot.findIndex(slot => {
+      const slotHour = Number(slot.code.split(':')[0]);
+      return slotHour === currentHour;
+    });
+  
+    // Set the selected time and description
+    if (nearestSlotIndex !== -1) {
+      this.selectedTime = this.timeSlot[nearestSlotIndex].code;
+      this.selectedTimeDesc = this.timeSlot[nearestSlotIndex].description;
+      this.timeSlotControl.setValue(this.timeSlot[nearestSlotIndex].code);
+    } else {
+      console.error('No matching time slot found for the current time + 4 hours');
+    }
+  }
+  
+
+  selectTime(timeCode: any) {
+    console.log(timeCode)
+    this.selectedTime = timeCode.code;
+    this.selectedTimeDesc = timeCode.description;
+    this.timeSlotControl.setValue(timeCode);
+    console.log(this.selectTime)
+    this.toggleDropdown();
   }
   ngAfterViewChecked(): void {
     this.cdRef.detectChanges();
@@ -85,6 +127,7 @@ export class CheckoutComponent implements OnInit {
             this.home();
             this.spinner.hide();
           }
+          this.setDefaultTime4();
         } else {
           this.isCartAvailable = false;
         }
@@ -107,8 +150,9 @@ export class CheckoutComponent implements OnInit {
     this.orderReq.activeUser = this.activeUser;
     this.placeOrderService.placeOrder(this.orderReq).subscribe(
       (response: CommonResponse) => {
-        this.toastService.successMessage(response.responseDescription);
+        this.toastService.successMessage("Order placed, we will contact soon");
         this.spinner.hide();
+        this.home();
       },
       error => {
         this.spinner.hide();

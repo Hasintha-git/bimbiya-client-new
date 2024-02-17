@@ -4,5 +4,6 @@ export class  SimpleBase {
     code: string;
     description: string;
     name: string;
+    
   }
   
