@@ -7,14 +7,14 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 20px;
+    padding: 30px;
     overflow: hidden;
 
     .login-side1-div {
         width: 400px;
         height: 480px;
         border-radius: 20px;
-        background-color: #333333;
+        background-color: #1F2937;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         z-index: 9999;
     }
@@ -52,10 +52,11 @@
                 cursor: pointer;
             }
             .txt_register {
-                color: #FFCC31;
+                color: #ffffff;
 
                 & :hover {
                     cursor: pointer;
+                    color: #210366 !important;
                 }
             }
         }
@@ -67,8 +68,13 @@
         .btn-login {
             width: 150px;
             height: auto;
-          background-color: #ffffff;
-          color:#333333;
+            border-radius: 20px;
+            background-color: #1F2937;
+            box-shadow: rgba(78, 78, 78, 0.35) 0px 5px 15px;
+            color: white;
+            &:hover {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            }
         }
     }
 
@@ -132,7 +138,7 @@
 
 @media screen and (max-width: 768px) {
     .login-side1 {
-        width: 400px !important;
+        width: 95% !important;
         height: 100%;
         display: flex;
         justify-content: center;
@@ -142,7 +148,7 @@
         overflow: hidden;
     }
     .login-side1-div {
-        width: 380px !important;
+        width: 95% !important;
         height: auto;
         border-radius: 20px;
         background-color: #333333;

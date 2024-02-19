@@ -1,7 +1,7 @@
 .container {
     position: relative;
     z-index: 9999 !important;
-    background-color: #333333;
+    background-color: #1F2937;
 }
 
 .login-side1-row {
@@ -69,12 +69,44 @@
     .login-side1-row {
         display: inline-block;
         z-index: 9999 !important;
-        width: 97% !important;
+        width: 95% !important;
         max-width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
     
+    }
+}
+
+.btn-back {
+    width: 150px;
+    height: auto;
+    background-color: #1F2937;
+    box-shadow: rgba(78, 78, 78, 0.35) 0px 5px 15px;
+    color: white !important;
+    &:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+}
+.btn-next {
+    width: 150px;
+    height: auto;
+    background-color: #1F2937;
+    box-shadow: rgba(78, 78, 78, 0.35) 0px 5px 15px;
+    color: #FFBE2E !important;
+    &:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+}
+
+.btn-submit {
+    width: 100%;
+    height: auto;
+    background-color: #1F2937;
+    box-shadow: rgba(78, 78, 78, 0.35) 0px 5px 15px;
+    color: white !important;
+    &:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
 }

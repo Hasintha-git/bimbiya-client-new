@@ -1,4 +1,4 @@
-<h1 class="text-lg font-bold text-white leading-tight text-center mt-12 mb-5 " style="position: relative; z-index: 9999;">Join with bimbiya</h1>
+<!-- <h1 class="text-lg font-bold text-white leading-tight text-center mt-12 mb-5 " style="position: relative; z-index: 9999;">Join with bimbiya</h1> -->
       
 
 <div class="p-5 shadow-md rounded-2xl bg-gray-700 container" >
@@ -184,15 +184,15 @@
     <!-- start previous / next buttons -->
     <div class="form-footer flex gap-3">
         
-        <button type="button" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center text-gray-700 bg-gray-200 hover:bg-gray-300 text-md" style="height: 38px;"  *ngIf="step != 5" (click)="backPrev()"      >Back</button>
-        <button type="button" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center text-white hover:bg-indigo-700 text-md"  style="height: 38px;background-color: #FEC230;" *ngIf="step != 4 && step != 5" (click)="nextPrev(1)">Next</button>
-        <button type="submit" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center text-white bg-indigo-600 hover:bg-indigo-700 text-md" style="height: 38px;" *ngIf="step == 4 "   (click)="submitData()">Submit</button>
+        <button type="button" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center btn-back text-md"  *ngIf="step != 5" (click)="backPrev()"      >Back</button>
+        <button type="button" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center btn-next text-md"  style="height: 38px;background-color: #29323d;" *ngIf="step != 4 && step != 5" (click)="nextPrev(1)">Next</button>
+        <button type="submit" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center btn-submit text-md" style="height: 38px;" *ngIf="step == 4 "   (click)="submitData()">Submit</button>
         <button type="button" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center text-white bg-indigo-600 hover:bg-indigo-700 text-md" style="height: 38px;" *ngIf="step == 5"   (click)="otpConfirm()">Confirm OTP</button>
     </div>
     <br>
     <br>
     <div class="login-side1-row" style="display: flex;justify-content: center;align-items: center;">
-        <button type="button" id="nextBtn" class="txt_register flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center hover:bg-gray-300 text-md"  (click)="signIn()">Login</button>
+        <button type="button" id="nextBtn" class="txt_register flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center text-md"  (click)="signIn()">Login</button>
     </div>
 
 </div>

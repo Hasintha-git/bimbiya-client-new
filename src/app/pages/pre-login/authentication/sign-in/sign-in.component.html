@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="login-side1-row">
-            <div style="display: flex;flex-direction: column;">
+            <!-- <div style="display: flex;flex-direction: column;">
                 <label style="font-weight: 500;" class="text-white">Password</label>
                 <mat-form-field class="ultra-max-field" appearance="outline">
                     <input matInput placeholder="password" [type]="hide ? 'password' : 'text'"
@@ -38,7 +38,23 @@
                     <mat-error *ngIf="password?.hasError('required')">Password cannot be empty
                     </mat-error>
                 </mat-form-field>
+            </div> -->
+
+            
+            <div style="display: flex; flex-direction: column;">
+                <label style="font-weight: 500;" class="text-white">Password</label>
+                <mat-form-field class="ultra-max-field" appearance="outline" style="border: none; border-radius: 0;">
+                    <input matInput placeholder="Enter your password" formControlName="password" [type]="hide ? 'password' : 'text'"
+                        [minlength]="6" [maxlength]="12" [(ngModel)]="signInModel.password" style="border: none; box-shadow: none;">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"
+                        type="button" style="background-color: transparent; border: none;">
+                        <mat-icon style="color: #ffffff;">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="password.hasError('required')">Password cannot be empty</mat-error>
+                </mat-form-field>
             </div>
+            
+            
         </div>
         <span class="new-line "></span>
         <div class="login-side1-row">

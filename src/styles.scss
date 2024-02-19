@@ -237,3 +237,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .timepicker-backdrop-overlay {
   z-index: 10000000 !important;
 }
+::ng-deep .mat-form-field-placeholder {
+  color: #999 !important;
+}
+::ng-deep .mat-form-field.mat-input-container .mat-input-element::placeholder {
+  color: #999 !important; 
+}
