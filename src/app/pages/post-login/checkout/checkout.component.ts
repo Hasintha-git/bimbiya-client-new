@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -12,6 +12,7 @@ import { OrderService } from 'src/app/services/order/order.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
 import { FormControl } from '@angular/forms';
+import { Time } from '@angular/common';
 
 @Component({
   selector: 'app-checkout',
@@ -31,15 +32,37 @@ export class CheckoutComponent implements OnInit {
   selectedHour: number;
   selectedMinute: number;
   selectedAmPm: string;
-  defaultDelivery = 4;
+  defaultDelivery = 5;
   selectedTime: string;
   selectedTimeDesc: string;
   isCartAvailable: boolean = false;
   orderReq = new Order();
   activeUser: string;
+// Initialize an array to store time slots
+ timeSlots = [];
 
   isDropdownOpen: boolean = false;
   timeSlotControl: FormControl = new FormControl();
+  // minTime: Date;
+  // maxTime: Date;
+
+  // @Input()	
+  // value: string
+
+  // oktTheme = {
+  //   container: {
+  //     bodyBackgroundColor: "#424242",
+  //     buttonColor: "#fff"
+  //   },
+  //   dial: {
+  //     dialBackgroundColor: "#555"
+  //   },
+  //   clockFace: {
+  //     clockFaceBackgroundColor: "#555",
+  //     clockHandColor: "#01806b",
+  //     clockFaceTimeInactiveColor: "#fff"
+  //   }
+  // };
 
   constructor(private router: Router,
     public dialog: MatDialog,
@@ -49,9 +72,22 @@ export class CheckoutComponent implements OnInit {
     private toastService: ToastServiceService,
     private storageService: StorageService,
     private cdRef: ChangeDetectorRef
-  ) { }
+  ) { 
+    // const currentTime = new Date();
+    // this.minTime = currentTime;
+    // const next5Hours = new Date(currentTime);
+    // next5Hours.setHours(next5Hours.getHours() + 5);
+    // this.maxTime = next5Hours;
+    // this.value = currentTime.toISOString();
+
+  }
+
+  onTimeset(event:any) {
+    console.log(event)
+  }
 
   ngOnInit(): void {
+
     this.activeUser = this.storageService.getUser();
     this.prepareReferenceData();
     this.cartDataGet();
@@ -60,6 +96,7 @@ export class CheckoutComponent implements OnInit {
     // this.setDefaultTime();
 
   }
+
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
@@ -67,14 +104,23 @@ export class CheckoutComponent implements OnInit {
   setDefaultTime4() {
     const currentTime = new Date();
     let currentHour = currentTime.getHours();
-  
+    let currentMinute = currentTime.getMinutes();
+    
     // Add 4 hours to the current hour
-    currentHour = (currentHour + 4) % 24;
+    currentHour = (currentHour + 5) % 24;
+  
+    // Round up the minutes to the nearest 30 minutes
+    currentMinute = Math.ceil(currentMinute / 30) * 30;
+    if (currentMinute === 60) {
+      currentMinute = 0;
+      currentHour = (currentHour + 1) % 24;
+    }
   
     // Find the index of the corresponding time slot in the timeSlot array
     const nearestSlotIndex = this.timeSlot.findIndex(slot => {
       const slotHour = Number(slot.code.split(':')[0]);
-      return slotHour === currentHour;
+      const slotMinute = Number(slot.code.split(':')[1]);
+      return slotHour === currentHour && slotMinute === currentMinute;
     });
   
     // Set the selected time and description
@@ -83,8 +129,80 @@ export class CheckoutComponent implements OnInit {
       this.selectedTimeDesc = this.timeSlot[nearestSlotIndex].description;
       this.timeSlotControl.setValue(this.timeSlot[nearestSlotIndex].code);
     } else {
-      console.error('No matching time slot found for the current time + 4 hours');
+      console.error('No matching time slot found for the current time + 5 hours');
     }
+    this.slotListCreateForDisable();
+
+  }
+
+  slotListCreateForDisable() {
+    const currentTime = new Date();
+    let currentHour = currentTime.getHours();
+    let currentMinute = currentTime.getMinutes();
+
+    // Calculate the nearest 30-minute increment
+    currentMinute = Math.ceil(currentMinute / 30) * 30;
+    if (currentMinute === 60) {
+        currentMinute = 0;
+        currentHour++;
+    }
+
+    
+
+    // Loop through the next 5 hours, adding 30-minute intervals
+    for (let i = 0; i < 10; i++) { // Loop 10 times for the next 5 hours
+        // Ensure hour wraps around after 24
+        currentHour = currentHour % 24;
+
+        // Format hour and minute as strings with leading zeros if necessary
+        const formattedHour = String(currentHour).padStart(2, '0');
+        const formattedMinute = String(currentMinute).padStart(2, '0');
+
+        // Create slot code (e.g., "HH:MM")
+        const slotCode = `${formattedHour}:${formattedMinute}`;
+
+        // Push the slot code into the array
+        this.timeSlots.push(slotCode);
+
+        // Increment the time by 30 minutes
+        currentMinute += 30;
+        if (currentMinute >= 60) {
+            currentMinute = 0;
+            currentHour++;
+        }
+    }
+  }
+  slotDisable(slotCode: string): boolean {
+    console.log("slotCode",slotCode)
+    console.log("timeSlots",this.timeSlots)
+    console.log("timeSlots.length",this.timeSlots.length)
+    console.log("timeSlots.length[0]",this.timeSlots[1])
+    for (let index = 0; index < this.timeSlots.length; index++) {
+      console.log("this.timeSlots[index]",this.timeSlots[index])
+      if (slotCode === this.timeSlots[index]) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  
+  isTimeBeforeMin(): boolean {
+    if (!this.selectedTimeDesc) {
+      return false; // Allow selection if no time is selected yet
+    }
+  
+    const selectedTime = new Date();
+    const [hours, minutes] = this.selectedTimeDesc.split(':').map(Number);
+    selectedTime.setHours(hours);
+    selectedTime.setMinutes(minutes);
+  
+    // Compare with the minimum time (09:00)
+    const minTime = new Date();
+    minTime.setHours(9);
+    minTime.setMinutes(0);
+  
+    return selectedTime < minTime;
   }
   
 
@@ -188,6 +306,11 @@ export class CheckoutComponent implements OnInit {
       this.hours.push(i);
     }
   }
+
+  
+
+
+
   populateMinutes(): void {
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
@@ -197,10 +320,10 @@ export class CheckoutComponent implements OnInit {
     let minSelectableMinute = currentMinute;
 
     // If the current hour is within 4 hours from now, disable minutes before the current minute
-    if (currentHour + 4 >= 24) {
+    if (currentHour + 5 >= 24) {
       minSelectableMinute = 0; // Start from 0 if it's past midnight
     } else {
-      minSelectableMinute = (minSelectableMinute + 4 * 60) % 60; // Add 4 hours and ensure it's within 0-59 range
+      minSelectableMinute = (minSelectableMinute + 5 * 60) % 60; // Add 4 hours and ensure it's within 0-59 range
     }
 
     // Populate the minutes array starting from the minimum selectable minute

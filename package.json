@@ -29,6 +29,7 @@
     "bootstrap-icons": "^1.10.2",
     "file-saver": "^2.0.5",
     "flowbite": "^2.3.0",
+    "ngx-material-timepicker": "^12.1.0",
     "ngx-spinner": "^16.0.2",
     "ngx-toastr": "^14.2.1",
     "postcss-scss": "^4.0.9",

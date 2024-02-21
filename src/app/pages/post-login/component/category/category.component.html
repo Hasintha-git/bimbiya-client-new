@@ -1,45 +1,26 @@
-<div class="flex ">
-    <div class="w-1/2 cart-div p-4" (click)="routeToProduct('BITE')" style="cursor: pointer;">
-      <div class="relative bg-black rounded-lg "  style="height: 300px;">
-        <div class="absolute inset-0">
-          <!-- <img style="width: 100%;" class="h-full bg-cover bg-center  rounded-lg filter   brightness-80 hover:brightness-50   transition duration-300" src="../../../../../assets/images/BITE.jpg" alt="Image 1"> -->
-          <img style="width: 100%;" class="h-full bg-cover bg-center  rounded-lg filter" src="../../../../../assets/images/BITE.jpg" alt="Image 1">
-          
-        </div>
-        <div class="relative z-10 max-w-sm w-full lg:max-w-full lg:flex bg-transparent">
-          <div class="p-4 flex flex-col justify-between leading-normal opacity-90">
-            <!-- <div class="mb-8 text-white">
-              <p class="text-white font-bold text-xl mb-2">Category 1</p>
-              <p class="text-white-700 text-base">Description for Category 1</p>
-            </div>
-            <div class="flex items-center">
-              <p class="text-white leading-none">Author 1</p>
-              <p class="text-gray-600">Date 1</p>
-            </div> -->
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="w-1/2 cart-div p-4" (click)="routeToProduct('BEVERAGES')" style="cursor: pointer;">
-      <div class="relative bg-black rounded-lg"  style="height: 300px;">
-        <div class="absolute inset-0" >
-          <!-- <img style="width: 100%;" class="h-full bg-cover bg-center rounded-lg filter  brightness-80 hover:brightness-50 rounded-md transition duration-300" src="../../../../../assets/images/BEVERAGER.jpg" alt="Image 2"> -->
-          <img style="width: 100%;" class="h-full bg-cover bg-center rounded-lg filter " src="../../../../../assets/images/BEVERAGER.jpg" alt="Image 2">
-        </div>
-        <div class="relative z-10 max-w-sm w-full lg:max-w-full lg:flex bg-transparent">
-          <div class="p-4 flex flex-col justify-between leading-normal opacity-90">
-            <!-- <div class="mb-8 text-white ">
-              <p class="text-white font-bold text-xl mb-2">Category 2</p>
-              <p class="text-white-700 text-base">Description for Category 2</p>
-            </div>
-            <div class="flex items-center">
-              <p class="text-white leading-none">Author 2</p>
-              <p class="text-gray-600">Date 2</p>
-            </div> -->
-          </div>
+<div class="flex">
+  <div class="w-1/2 cart-div p-4" (click)="routeToProduct('BITE')" style="cursor: pointer;">
+    <div class="relative bg-black rounded-lg" style="height: 300px;">
+      <div class="absolute inset-0">
+        <img style="width: 100%;" class="h-full bg-cover bg-center rounded-lg filter" src="../../../../../assets/images/BITE.jpg" alt="Image 1">
+        <div class="text-white absolute bottom-0 left-0 right-0 p-4">
+          <!-- Text content here -->
+          <button  (click)="routeToProduct('BITE')" class="btn">Order Now</button>
         </div>
       </div>
     </div>
   </div>
-  
+
+  <div class="w-1/2 cart-div p-4" (click)="routeToProduct('BEVERAGES')" style="cursor: pointer;">
+    <div class="relative bg-black rounded-lg" style="height: 300px;">
+      <div class="absolute inset-0">
+        <img style="width: 100%;" class="h-full bg-cover bg-center rounded-lg filter" src="../../../../../assets/images/BEVERAGER.jpg" alt="Image 2">
+        <div class="text-white absolute bottom-0 left-0 right-0 p-4">
+          <!-- Text content here -->
+          <button (click)="routeToProduct('BEVERAGES')" class="btn">Order Now</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

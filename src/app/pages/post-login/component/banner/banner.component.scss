@@ -61,3 +61,28 @@
     height: 50vh !important;
   }
 }
+
+
+.btn {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  // margin: 4px 8px !important;
+  position: absolute;
+  bottom: 20%; 
+  left: 50%; 
+  transform: translateX(-50%);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #45a049; /* Darker Green */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}

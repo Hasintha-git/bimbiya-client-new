@@ -1,5 +1,5 @@
 
-html, body { height: 100%; }
+html, body { height: auto;background-color: #1F2937 !important; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import 'assets/scss/variables';
 @import 'assets/scss/common'; 
@@ -82,7 +82,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-image:none !important;
   background-image: url('assets/icons/success.svg') !important;
   background-size: 26px;
-  background-color: #F4F4F4;
+  background-color: #1F2937;
+  color: #ffffff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   font-family: "Open Sans", sans-serif !important;
@@ -90,7 +91,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .toast-success .toast-progress {
-  background-color: #4CAF50;
+  background-color: #1F2937;
   opacity: 1;
 }
 
@@ -107,7 +108,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-image:none !important;
   background-image: url('assets/icons/error.svg') !important;
   background-size: 26px;
-  background-color: #F4F4F4;
+  background-color: #1F2937;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   font-family: "Open Sans", sans-serif !important;
@@ -117,13 +118,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 .toast-error .toast-progress {
-  background-color: #ff0000 !important;
+  background-color: #1F2937 !important;
   opacity: 1;
 }
 
 
 #toast-container > .toast-info {
-  color: #62B1F0 !important;
+  color: #1F2937 !important;
   // width: auto !important;
   max-width: 250px !important;
   min-width: 150px !important;
@@ -141,7 +142,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 .toast-info .toast-progress {
-  background-color: #ffffff !important;
+  background-color: #1F2937 !important;
   opacity: 1;
 }
 

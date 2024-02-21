@@ -50,7 +50,7 @@ const INTERCEPTORS = [{
     MatIconModule,
     RouterModule,
     ToastrModule.forRoot({
-      timeOut: 5000, // 5 seconds
+      timeOut: 3000, // 5 seconds
       positionClass: 'toast-top-right',
       preventDuplicates: true,
       closeButton: true,

@@ -1,5 +1,26 @@
-.dropdown-menu {
-    max-height: 50px;
-    overflow-y: auto;
+.option-select {
+    background-color: #1F2937; 
+    color: #ffffff !important; 
+    min-height: 36px; 
   }
   
+
+
+  .custome-class {
+    direction: ltr;
+    .timepicker__header {
+      padding: 0px 30px !important;
+      border-top-right-radius: 12px;
+      border-top-left-radius: 12px;
+    }
+    .timepicker-dial__control {
+      font-size: 20px !important;
+    }
+  
+    .timepicker-dial {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      display: flex;
+      justify-content: center;
+      height: 44px;
+    }
+  }

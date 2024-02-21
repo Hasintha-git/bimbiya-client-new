@@ -63,22 +63,22 @@
         </div>
         <img style="cursor: pointer; width: 30px;height: auto;" src="../../../../../assets/icons/ic_delete.svg" alt="Delete" (click)="deleteCartItem(cart.cartId)">
       </section> -->
-      
+
       <div *ngIf="cardList?.cartList && cardList.cartList.length > 0">
-  <div class="flex flex-row rounded-lg bg-gray-700 sm:flex-row" *ngFor="let cart of cardList.cartList">
-    <img class="m-2 h-26 w-28 rounded-md border object-cover object-center" [src]="cart.image || ''" alt="" />
-    <div class="flex w-full flex-col px-4 py-4">
-      <span class="font-semibold text-gray-200">{{cart.mealName || 'Undefined'}}</span>
-      <span class="float-right text-gray-200">Person Count:{{cart.personCount || 'Undefined'}}</span>
-      <p class="text-lg font-bold text-white">LKR:{{cart.price || 'Undefined'}}.00</p>
-    </div>
-    <img style="cursor: pointer; width: 30px;height: auto;" src="../../../../../assets/icons/ic_delete.svg"
-      (click)="cartRemove(cart)" alt="">
-  </div>
-</div>
-<div *ngIf="!cardList?.cartList || cardList.cartList.length === 0">
-  No items available.
-</div>
+        <div class="flex flex-row rounded-lg bg-gray-700 sm:flex-row" style="margin-bottom: 5px;" *ngFor="let cart of cardList.cartList">
+          <img class="m-2 h-26 w-28 rounded-md border object-cover object-center" [src]="cart.image || ''" alt="" />
+          <div class="flex w-full flex-col px-4 py-4">
+            <span class="font-semibold text-gray-200">{{cart.mealName || 'Undefined'}}</span>
+            <span class="float-right text-gray-200">Person Count:{{cart.personCount || 'Undefined'}}</span>
+            <p class="text-lg font-bold text-white">LKR:{{cart.price || 'Undefined'}}.00</p>
+          </div>
+          <img style="cursor: pointer; width: 30px;height: auto;padding-right: 10px;"
+            src="../../../../../assets/icons/ic_delete.svg" (click)="cartRemove(cart)" alt="">
+        </div>
+      </div>
+      <div *ngIf="!cardList?.cartList || cardList.cartList.length === 0">
+        No items available.
+      </div>
 
     </div>
 
@@ -147,25 +147,28 @@
 
       <div class="mt-6 flex items-center justify-between">
         <p class="text-sm font-medium text-white">Delivery Time</p>
-
         <div>
-          <div class="relative" (click)="toggleDropdown()">
-            <button id="dropdownDefaultButton" class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-200 bg-gray-700 border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-              {{ selectedTimeDesc }}
-            </button>
-            <div id="dropdown" [ngClass]="{'hidden': !isDropdownOpen}" class="z-10 absolute right-0 mt-2 bg-gray-700 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dropdown-menu">
-              <ul class="py-2 text-sm text-gray-300 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                <li *ngFor="let slot of timeSlot">
-                  <div (click)="selectTime(slot)" class="block px-4 py-2 text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600 ">{{slot.description}}</div>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <mat-form-field appearance="outline">
+            <mat-select [(ngModel)]="selectedTimeDesc" (click)="toggleDropdown()" [ngClass]="{'opened': isDropdownOpen}"
+              class="w-full bg-gray-700 text-gray-200" disableOptionCentering>
+              <mat-option class="option-select" *ngFor="let slot of timeSlot" [value]="slot.description"
+                [disabled]="slotDisable(slot.code)">{{slot.description}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-        
+
+        <!-- <input matInput type="time" [(ngModel)]="selectedTimeDesc" min="09:00" max="14:00"/> -->
+
+        <!-- <div class="clock">
+          <input placeholder="24hr format" aria-label="24hr format" [ngxTimepicker]="fullTime" [format]="24" readonly />
+          <ngx-material-timepicker [appendToInput]="true" [disableAnimation]="true" [theme]="oktTheme"
+            [timepickerClass]="'custome-class'" (timeSet)="onTimeset($event)"
+            [attr.min]="minTime ? minTime.toISOString() : null" [attr.max]="maxTime ? maxTime.toISOString() : null"
+            #fullTime></ngx-material-timepicker>
+        </div> -->
+      </div>
+
+      <button class="mt-4 mb-8 w-full rounded-md bg-gray-700 px-6 py-3 font-medium text-white"
+        (click)="placeOrder()">Place Order</button>
     </div>
-    
-    <button class="mt-4 mb-8 w-full rounded-md bg-gray-700 px-6 py-3 font-medium text-white"
-      (click)="placeOrder()">Place Order</button>
   </div>
-</div>

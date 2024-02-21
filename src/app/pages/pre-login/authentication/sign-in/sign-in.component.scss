@@ -72,6 +72,7 @@
             background-color: #1F2937;
             box-shadow: rgba(78, 78, 78, 0.35) 0px 5px 15px;
             color: white;
+            border: 1px solid white;
             &:hover {
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
             }
@@ -138,22 +139,15 @@
 
 @media screen and (max-width: 768px) {
     .login-side1 {
-        width: 95% !important;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        padding: 20px;
+        width: 100% !important;
+        height: auto !important;
+        padding: 20px !important;
         overflow: hidden;
     }
     .login-side1-div {
-        width: 95% !important;
-        height: auto;
-        border-radius: 20px;
-        background-color: #333333;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        z-index: 9999;
+        width: 100% !important;
+        height: auto !important;
+        padding: 20px !important;
     }
     .login-side2 {
         display: none !important;

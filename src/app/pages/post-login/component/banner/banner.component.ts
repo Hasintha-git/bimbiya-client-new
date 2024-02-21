@@ -1,4 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { StorageService } from 'src/app/services/storage/storage.service';
 import Swiper from 'swiper';
 @Component({
   selector: 'app-banner',
@@ -35,8 +37,16 @@ export class BannerComponent implements OnInit, AfterViewInit  {
 
     }, 0);
   }
-  ngOnInit() {
 
-  }
+  constructor(private router: Router,
+    private storage: StorageService) { }
+
+ngOnInit(): void {
+}
+
+productSection(type: any) {
+this.storage.setCategory(type);
+this.router.navigate(['/post-login/product']);
+}
 
 }

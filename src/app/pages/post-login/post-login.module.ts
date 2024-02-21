@@ -29,6 +29,7 @@ import { ReturnPolicyComponent } from './component/footer/return-policy/return-p
 import { FaqComponent } from './component/footer/faq/faq.component';
 import { ContactUsComponent } from './component/footer/contact-us/contact-us.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
     MatOptionModule,
     MatSelectModule,
     MatAutocompleteModule,
+    NgxMaterialTimepickerModule
   ]
 })
 export class PostLoginModule { }
