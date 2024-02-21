@@ -73,7 +73,7 @@ export class SignInComponent implements OnInit {
 onSubmit() {    
   this.errorMessage = null;
     if (this.userForm.valid) {
-      this.spinner.show();
+      
       this.loginService.login(this.signInModel).subscribe(
         (response) => {
           
@@ -91,23 +91,23 @@ onSubmit() {
           if (response.body.data.userName) {
             this.sessionStorage.setUser(response.body.data.userName);
           }
-          this.spinner.hide();
+          
           this.authService.logIn();
         },
         (        error: { status: number; error: { [x: string]: string; }; }) => {
           if (error.status === GATEWAY_TIMEOUT_ERROR_CODE || error.status === INTERNAL_SERVER_ERROR_CODE) {
             this.errorMessage = UNABLE_TO_SERVE_REQUEST_DES;
-            this.spinner.hide();
+            
           }else if(error.status === NOT_FOUND_ERROR_CODE) {
             this.errorMessage = USERNAME_WRONG;
-            this.spinner.hide();
+            
           }else if(error.status === UNAUTH_ERROR_CODE) {
             this.errorMessage = PASSWORD_WRONG;
-            this.spinner.hide();
+            
           }
            else {
             this.errorMessage = error.error['message'];
-            this.spinner.hide();
+            
           }
           
           this.toastr.errorMessage(this.errorMessage);
@@ -115,7 +115,7 @@ onSubmit() {
       );
     } else {
       this.toastr.errorMessage('Please fill in all required fields');
-      this.spinner.hide();
+      
       this.mandatoryValidation(this.userForm)
     }
   }

@@ -72,15 +72,15 @@ export class NavbarComponent implements OnInit {
   cartDataGet() {
     this.activeUser = this.storageService.getUser();
     this.cartDetails.userName = this.activeUser;
-    this.spinner.show();
+    
     this.cartDetails.checkout = false;
     this.addToCartService.findCartList(this.cartDetails).subscribe(
       (response: CommonResponse) => {
         this.cartDetailsList = response.records;
-        this.spinner.hide();
+        
       },
       error => {
-        this.spinner.hide();
+        
       }
     );
   }
@@ -115,15 +115,15 @@ export class NavbarComponent implements OnInit {
   }
 
   cartRemove(id: any) {
-    this.spinner.show();
+    
     this.addToCartService.removeToCart(id).subscribe(
       (response: CommonResponse) => {
         this.toastService.successMessage(response.responseDescription);
         this.cartDataGet();
-        this.spinner.hide();
+        
       },
       error => {
-        this.spinner.hide();
+        
         this.toastService.errorMessage(error.error['errorDescription']);
       }
     );

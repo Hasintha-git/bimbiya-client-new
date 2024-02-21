@@ -74,7 +74,7 @@ public foodData: Product[];
     private spinner: NgxSpinnerService,) { }
 
   ngOnInit(): void {
-    this.spinner.show();
+    
     this.getList();
   }
 
@@ -85,7 +85,7 @@ public foodData: Product[];
         this.foodData = data.records;
       },
         error => {
-          this.spinner.hide();
+          
           this.toast.errorMessage(error.error['errorDescription']);
         }
       );

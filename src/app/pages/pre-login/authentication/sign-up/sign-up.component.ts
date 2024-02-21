@@ -138,31 +138,31 @@ export class SignUpComponent implements OnInit {
 
 
   onSubmit() {
-    this.spinner.show();
+    
     this.signUpModel.status ="active";
     this.signUpModel.userRole = 'client';
       this.userService.add(this.signUpModel).subscribe(
         (response: CommonResponse) => {
-          this.spinner.hide();
+          
           this.otpSend = response.responseDescription;
           this.step = 5;
         },
         error => {
-          this.spinner.hide();
+          
             this.toastr.errorMessage(error.error['errorDescription']);
         }
       );
   }
 
   otpConfirm() {
-    this.spinner.show();
+    
       this.userService.otpConfirm(this.otp, this.signUpModel.username).subscribe(
         (response: CommonResponse) => {
-          this.spinner.hide();
+          
           this.signIn();
         },
         error => {
-          this.spinner.hide();
+          
             this.toastr.errorMessage(error.error['errorDescription']);
         }
       );

@@ -35,11 +35,11 @@ export class ProductComponent implements OnInit {
     private router: Router,) { }
 
   ngOnInit(): void {
-    this.spinner.show();
+    
     this.activeUser=this.storageService.getUser();
     this.product.personCount =4;
     this.initialForm();
-    this.spinner.hide();
+    
   }
 
   initialForm() {
@@ -90,12 +90,12 @@ export class ProductComponent implements OnInit {
   }
 
   signIn() {
-    this.spinner.hide();
+    
     this.router.navigate(['/auth/signin']);
   }
 
   addToCart() {
-    this.spinner.show();
+    
     if(this.activeUser == null) {
       return this.signIn();
     }
@@ -109,10 +109,10 @@ export class ProductComponent implements OnInit {
     this.cartService.addToCart(this.cartModel).subscribe(
       (response: CommonResponse) => {
         this.toastService.successMessage(response.responseDescription);
-        this.spinner.hide();
+        
       },
       error => {
-        this.spinner.hide();
+        
           this.toastService.errorMessage(error.error['errorDescription']);
       }
     );

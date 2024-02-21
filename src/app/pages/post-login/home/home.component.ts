@@ -23,14 +23,14 @@ export class HomeComponent implements OnInit {
 
   cartDataGet() {
     this.cartDetails.userName="yyy";
-    this.spinner.show();
+    
       this.addToCartService.removeToCart(this.cartDetails).subscribe(
         (response: CommonResponse) => {
           this.cartDetails=response.data;
-          this.spinner.hide();
+          
         },
         error => {
-          this.spinner.hide();
+          
         }
       );
   }

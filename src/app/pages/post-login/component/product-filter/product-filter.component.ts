@@ -68,7 +68,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.searchModel = new Product();
-    this.spinner.show();
+    
 
     const type=this.storage.getCategory();
     if(type != null) {
@@ -214,7 +214,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   
 
   getList() {
-    this.spinner.show();
+    
     let searchParamMap = this.commonFunctionService.getDataTableParam(this.paginator);
     searchParamMap = this.getSearchString(searchParamMap, this.searchModel);
     this.productService.getList(searchParamMap)
@@ -223,10 +223,10 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
         this.dataSource.datalist = this.productList;
         this.dataSource.usersSubject.next(this.productList);
         this.dataSource.countSubject.next(data.totalRecords);
-        this.spinner.hide();
+        
       },
         error => {
-          this.spinner.hide();
+          
           this.toast.errorMessage(error.error['errorDescription']);
         }
       );

@@ -232,7 +232,7 @@ export class CheckoutComponent implements OnInit {
 
   cartDataGet() {
     this.cartDetails.userName = this.activeUser;
-    this.spinner.show();
+    
     this.cartDetails.checkout = true;
     this.addToCartService.checkoutCartList(this.cartDetails).subscribe(
       (response: CommonResponse) => {
@@ -243,23 +243,23 @@ export class CheckoutComponent implements OnInit {
 
           if(this.cardList.cartList.length == 0  && this.cardList?.cartList) {
             this.home();
-            this.spinner.hide();
+            
           }
           this.setDefaultTime4();
         } else {
           this.isCartAvailable = false;
         }
-        this.spinner.hide();
+        
       },
       error => {
-        this.spinner.hide();
+        
       }
     );
   }
 
 
   placeOrder() {
-    this.spinner.show();
+    
     this.orderReq.userId = this.cardList.userId;
     this.orderReq.product = this.cardList.cartList
     this.orderReq.total = this.cardList.total
@@ -269,28 +269,28 @@ export class CheckoutComponent implements OnInit {
     this.placeOrderService.placeOrder(this.orderReq).subscribe(
       (response: CommonResponse) => {
         this.toastService.successMessage("Order placed, we will contact soon");
-        this.spinner.hide();
+        
         this.home();
       },
       error => {
-        this.spinner.hide();
+        
         this.toastService.errorMessage(error.error['errorDescription']);
       }
     );
   }
 
   cartRemove(cart: any) {
-    this.spinner.show();
+    
     this.addToCartService.removeToCart(cart.cartId).subscribe(
       (response: CommonResponse) => {
         this.toastService.successMessage(response.responseDescription);
         this.cartDataGet();
         this.cardList.subTotal = this.cardList.subTotal - cart.price;
         this.cardList.total = this.cardList.subTotal + this.cardList.deliveryPrice;
-        this.spinner.hide();
+        
       },
       error => {
-        this.spinner.hide();
+        
         this.toastService.errorMessage(error.error['errorDescription']);
       }
     );
@@ -387,6 +387,6 @@ export class CheckoutComponent implements OnInit {
     this.router.navigate(['/post-login/home']);
   }
   onDestroy() {
-    this.spinner.hide();
+    
   }
 }
