@@ -14,18 +14,18 @@ export class FooterComponent implements OnInit {
   }
 
   privacyPolicy() {
-    this.router.navigate(['/post-login/privacy-policy']);
+    this.router.navigate(['/delivery/privacy-policy']);
   }
   returnPolicy() {
-    this.router.navigate(['/post-login/return-policy']);
+    this.router.navigate(['/delivery/return-policy']);
   }
   termAndCondition() {
-    this.router.navigate(['/post-login/term-and-condition']);
+    this.router.navigate(['/delivery/term-and-condition']);
   }
   faq() {
-    this.router.navigate(['/post-login/faq']);
+    this.router.navigate(['/delivery/faq']);
   }
   contactUs() {
-    this.router.navigate(['/post-login/contact-us']);
+    this.router.navigate(['/delivery/contact-us']);
   }
 }

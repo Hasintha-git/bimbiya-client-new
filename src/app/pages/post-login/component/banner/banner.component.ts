@@ -46,7 +46,7 @@ ngOnInit(): void {
 
 productSection(type: any) {
 this.storage.setCategory(type);
-this.router.navigate(['/post-login/product']);
+this.router.navigate(['/delivery/product']);
 }
 
 }

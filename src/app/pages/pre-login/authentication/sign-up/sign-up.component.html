@@ -94,20 +94,18 @@
         <form [formGroup]="form3">
         <p class="text-md text-white leading-tight text-center mt-8 mb-5">Your delivery address's</p>
         <div style="display: flex;flex-direction: column;">
-            
-            <label style="font-weight: 500;" class="text-white">District</label>
-            <mat-form-field class="ultra-max-field" appearance="outline">
-                <mat-select [formControl]="district" required [(ngModel)]="signUpModel.district">
-                    <mat-option [value]="">Select District</mat-option>
-                    <mat-option *ngFor="let st of districtList" [value]="st.code">
-                        {{st.description}}
-                    </mat-option>
-                </mat-select>
+            <label style="font-weight: 500; margin-right: 10px;" class="text-white">District</label>
+            <div style="display: flex; flex-direction: row; align-items: center;">
+              <mat-radio-group [formControl]="distr">
+                <mat-radio-button *ngFor="let st of districtList" [value]="st.code" style="margin-right: 10px;">{{ st.description }}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <mat-error *ngIf="distr.hasError('required')">District cannot be empty</mat-error>
+          </div>
+          
+          <br>
 
-                <mat-error *ngIf="district.hasError('required')">District cannot be empty
-                </mat-error>
-            </mat-form-field>
-        </div>
+
 
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">City</label>

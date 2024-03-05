@@ -63,7 +63,7 @@
 }
 
 
-.btn {
+.btn-order {
   background-color: #ffffff; /* Green */
   border: none;
   color: #000000;
@@ -82,8 +82,10 @@
   transition: background-color 0.3s ease;
 }
 
-.btn:hover {
+.btn-order:hover {
   background-color: #333333; 
   color: #ffffff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+
+

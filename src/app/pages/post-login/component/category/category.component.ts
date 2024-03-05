@@ -17,6 +17,6 @@ export class CategoryComponent implements OnInit {
 
   routeToProduct(type: any) {
     this.storage.setCategory(type);
-    this.router.navigate(['/post-login/product']);
+    this.router.navigate(['/delivery/product']);
   }
 }

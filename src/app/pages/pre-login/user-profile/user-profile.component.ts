@@ -46,7 +46,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   goToShopping() {
-    this.router.navigate(['/post-login']);
+    this.router.navigate(['/delivery']);
   }
 
 }

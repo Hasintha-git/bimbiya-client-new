@@ -44,9 +44,10 @@ export class SignUpComponent implements OnInit {
     public dialog: MatDialog,) { }
 
   ngOnInit(): void {
-    this.signUpModel.district ="colombo";
     this.prepareReferenceData();
+    this.signUpModel.district = "colombo";
     this.initialValidator();
+
   }
 
   prepareReferenceData(): void {
@@ -255,7 +256,7 @@ get city() {
   return this.form3.get('city');
 }
 
-get district() {
+get distr() {
   return this.form3.get('district');
 }
 get confirmPassword() {

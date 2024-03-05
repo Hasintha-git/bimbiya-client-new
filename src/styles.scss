@@ -244,3 +244,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 ::ng-deep .mat-form-field.mat-input-container .mat-input-element::placeholder {
   color: #999 !important; 
 }
+
+/* Change the placeholder color for Angular Material input fields */
+::ng-deep .mat-form-field-placeholder {
+  color: #999; /* Change placeholder color to gray */
+}

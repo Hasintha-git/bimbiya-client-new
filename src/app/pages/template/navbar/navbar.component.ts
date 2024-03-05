@@ -133,7 +133,7 @@ export class NavbarComponent implements OnInit {
   }
 
   home() {
-    this.router.navigate(['/post-login/home']);
+    this.router.navigate(['/delivery/home']);
   }
 
   accountCreate() {
@@ -146,9 +146,9 @@ export class NavbarComponent implements OnInit {
     this.home();
   }
   foods() {
-    this.router.navigate(['/post-login/product']);
+    this.router.navigate(['/delivery/product']);
   }
   checkout() {
-    this.router.navigate(['/post-login/place-order']);
+    this.router.navigate(['/delivery/place-order']);
   }
 }

@@ -28,7 +28,7 @@ const routes: Routes = [
     {path:'faq',component:FaqComponent},
     {path:'contact-us',component:ContactUsComponent},
     
-  {path: '**', redirectTo: 'post-login'}
+  {path: '**', redirectTo: 'delivery'}
   ]},
   // {
   //   path: 'place-order',

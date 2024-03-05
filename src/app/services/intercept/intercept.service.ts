@@ -1,6 +1,7 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, finalize, tap, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError, finalize, tap } from 'rxjs/operators';
 import { StorageService } from '../storage/storage.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -8,7 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   providedIn: 'root'
 })
 export class Interceptor implements HttpInterceptor {
-  private requests: HttpRequest<any>[] = [];
+  private activeRequests = 0;
 
   constructor(
     private storageService: StorageService,
@@ -16,7 +17,7 @@ export class Interceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.addRequest(request);
+    this.addRequest();
     this.showSpinner();
     const authToken = this.storageService.getSession();
 
@@ -34,38 +35,35 @@ export class Interceptor implements HttpInterceptor {
           // Response handling logic can go here
         }
       }),
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
+      catchError(error => {
+        if (error instanceof HttpErrorResponse && error.status === 401) {
           this.storageService.clear();
         }
         return throwError(error);
       }),
       finalize(() => {
-        this.removeRequest(request);
+        this.removeRequest();
         this.hideSpinner();
       })
     );
   }
 
-  private addRequest(request: HttpRequest<any>): void {
-    this.requests.push(request);
+  private addRequest(): void {
+    this.activeRequests++;
   }
 
-  private removeRequest(request: HttpRequest<any>): void {
-    const index = this.requests.indexOf(request);
-    if (index !== -1) {
-      this.requests.splice(index, 1);
-    }
+  private removeRequest(): void {
+    this.activeRequests--;
   }
 
   private showSpinner(): void {
-    if (this.requests.length === 1) {
+    if (this.activeRequests === 1) {
       this.spinner.show();
     }
   }
 
   private hideSpinner(): void {
-    if (this.requests.length === 0) {
+    if (this.activeRequests === 0) {
       this.spinner.hide();
     }
   }

@@ -375,7 +375,7 @@ export class CheckoutComponent implements OnInit {
 
 
   home() {
-    this.router.navigate(['/post-login/home']);
+    this.router.navigate(['/delivery/home']);
   }
   onDestroy() {
     

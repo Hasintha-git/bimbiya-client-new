@@ -11,6 +11,7 @@ import { Product } from 'src/app/models/product';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-filter',
@@ -68,27 +69,21 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.searchModel = new Product();
-    
-
-    const type=this.storage.getCategory();
-    if(type != null) {
-      this.productCategory =type;
-    }else {
+    const type = this.storage.getCategory();
+    if (type != null) {
+      this.productCategory = type;
+    } else {
       this.productCategory = "BITE";
     }
     this.initialValidator();
-    // Initialize the paginator after the view has been initialized
     setTimeout(() => {
       this.paginator.pageSize = this.itemsPerPage;
     });
     this.prepareReferenceData();
-    if(this.productCategory) {
+    if (this.productCategory) {
       this.initialDataLoader();
     }
-
-
   }
-
 
   initialValidator() {
     this.productFilter = this.formBuilder.group({
@@ -101,31 +96,11 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
       ingredient: this.formBuilder.control(''),
     });
 
-    // Subscribe to changes in the form
-    this.productFilter.valueChanges.subscribe((formValues) => {
-      this.getList();
-    });
-
-     // Subscribe to changes in the form
-     this.productFilter.get('beverages').valueChanges.subscribe((beverages) => {
-      this.isBeverages = this.productFilter.get('beverages').value;
-      this.isBite = !this.productFilter.get('beverages').value;
-      if(this.isBeverages) {
-        this.productCategory = "BEVERAGES";
+    this.productFilter.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe((formValues) => {
         this.getList();
-      }
-    });
-
-    // Subscribe to changes in the form
-    this.productFilter.get('foods').valueChanges.subscribe((foods) => {
-      
-      this.isBite = this.productFilter.get('foods').value;
-      this.isBeverages = !this.productFilter.get('foods').value;
-      if(this.isBite) {
-        this.productCategory = "BITE";
-        this.getList();
-      }
-    });
+      });
   }
 
   @HostListener('document:click', ['$event'])
@@ -215,6 +190,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
 
   getList() {
     
+    console.log("gooooooooooooo")
     let searchParamMap = this.commonFunctionService.getDataTableParam(this.paginator);
     searchParamMap = this.getSearchString(searchParamMap, this.searchModel);
     this.productService.getList(searchParamMap)
@@ -223,10 +199,8 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
         this.dataSource.datalist = this.productList;
         this.dataSource.usersSubject.next(this.productList);
         this.dataSource.countSubject.next(data.totalRecords);
-        
       },
         error => {
-          
           this.toast.errorMessage(error.error['errorDescription']);
         }
       );

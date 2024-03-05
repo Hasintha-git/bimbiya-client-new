@@ -13,7 +13,6 @@ export class AuthService {
   ) {
   }
 
-
   logOut(): void {
     this.storageService.clear();
     this.router.navigate(['/']);
@@ -24,11 +23,9 @@ export class AuthService {
     this.router.navigateByUrl('/auth/signin');
   }
 
-
   logIn(): void {
-    this.router.navigate(['/post-login/product']);
+    this.router.navigate(['/delivery/product']);
   }
-
 
   isAuthenticated(): boolean {
     try {

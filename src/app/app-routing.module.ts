@@ -6,9 +6,9 @@ import { AuthenticationModule } from './pages/pre-login/authentication/authentic
 
 
 const routes: Routes = [
-  {path:'',redirectTo:'post-login',pathMatch:'full'},
+  {path:'',redirectTo:'delivery',pathMatch:'full'},
   {
-    path: 'post-login',
+    path: 'delivery',
     loadChildren: () => PostLoginModule,
   },
   {
@@ -18,7 +18,7 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => AuthenticationModule,
   },
-  {path: '**', redirectTo: 'post-login'}
+  {path: '**', redirectTo: 'delivery'}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
