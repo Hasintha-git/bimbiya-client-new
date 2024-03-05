@@ -38,7 +38,6 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.activeUser = this.storageService.getUser();
-    console.log(this.activeUser)
     if(this.activeUser != null) {
       this.isUserLogged = true;
       this.cartDataGet();

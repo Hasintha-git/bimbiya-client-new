@@ -83,7 +83,6 @@ export class CheckoutComponent implements OnInit {
   }
 
   onTimeset(event:any) {
-    console.log(event)
   }
 
   ngOnInit(): void {
@@ -173,12 +172,7 @@ export class CheckoutComponent implements OnInit {
     }
   }
   slotDisable(slotCode: string): boolean {
-    console.log("slotCode",slotCode)
-    console.log("timeSlots",this.timeSlots)
-    console.log("timeSlots.length",this.timeSlots.length)
-    console.log("timeSlots.length[0]",this.timeSlots[1])
     for (let index = 0; index < this.timeSlots.length; index++) {
-      console.log("this.timeSlots[index]",this.timeSlots[index])
       if (slotCode === this.timeSlots[index]) {
         return true;
       }
@@ -207,11 +201,9 @@ export class CheckoutComponent implements OnInit {
   
 
   selectTime(timeCode: any) {
-    console.log(timeCode)
     this.selectedTime = timeCode.code;
     this.selectedTimeDesc = timeCode.description;
     this.timeSlotControl.setValue(timeCode);
-    console.log(this.selectTime)
     this.toggleDropdown();
   }
   ngAfterViewChecked(): void {
@@ -238,7 +230,6 @@ export class CheckoutComponent implements OnInit {
       (response: CommonResponse) => {
         if (response && response.data && response.data.cartList) {
           this.cardList = response.data;
-          console.log(this.cardList.cartList[0]);
           this.cartDataList = this.cardList.cartList;
 
           if(this.cardList.cartList.length == 0  && this.cardList?.cartList) {
