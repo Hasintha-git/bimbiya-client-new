@@ -8,6 +8,8 @@ const HOST: string = 'bimbiya.com';
 
 //production - true
 export const SECURE = true;
+//local - false
+// export const SECURE = false;
 
 export const getEndpoint = (isHttps:any) => {
   //production point

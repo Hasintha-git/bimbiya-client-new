@@ -96,7 +96,7 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500; margin-right: 10px;" class="text-white">District</label>
             <div style="display: flex; flex-direction: row; align-items: center;">
-              <mat-radio-group [formControl]="distr">
+              <mat-radio-group [formControl]="distr" (change)="onDistrictChange($event)">
                 <mat-radio-button *ngFor="let st of districtList" [value]="st.code" style="margin-right: 10px;">{{ st.description }}</mat-radio-button>
               </mat-radio-group>
             </div>
@@ -164,7 +164,7 @@
     <form [formGroup]="otpForm">
     <p class="text-md text-white leading-tight text-center mt-1 mb-3">Verify your account</p>
 
-    <p class="text-md text-blue leading-tight text-center"  *ngIf="step == 5" >{{otpSend}}</p>
+    <p class="text-md text-white leading-tight text-center"  *ngIf="step == 5" >{{otpSend}}</p>
 
     
     <div style="display: flex;flex-direction: column;">

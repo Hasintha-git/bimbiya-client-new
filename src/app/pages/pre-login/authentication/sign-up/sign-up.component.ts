@@ -47,7 +47,6 @@ export class SignUpComponent implements OnInit {
     this.prepareReferenceData();
     this.signUpModel.district = "colombo";
     this.initialValidator();
-
   }
 
   prepareReferenceData(): void {
@@ -60,6 +59,12 @@ export class SignUpComponent implements OnInit {
       }
     );
   }
+
+  // Method to handle district change event
+  onDistrictChange(event: any) {
+    
+    this.signUpModel.district = event.value;
+}
 
   passwordMatchValidator(control: AbstractControl) {
     const password: string = control.get('password').value; // get password from our password form control

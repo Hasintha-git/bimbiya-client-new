@@ -4,7 +4,7 @@ mat-form-field.mat-form-field.mat-form-field-appearance-outline>div.mat-form-fie
 }
 
 mat-form-field.mat-form-field.mat-form-field-appearance-outline>div.mat-form-field-wrapper>div.mat-form-field-flex>div.mat-form-field-infix>span.mat-form-field-label-wrapper {
-  top: -1.2em; //old -1.5em
+  top: -1.5em; //old -1.5em
 }
 
 .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
@@ -36,9 +36,9 @@ mat-form-field {
 
 // mat-input Font color
 input.mat-input-element {
-  font-family: rFont;
-  font-size: mText;
-  color: $formTextColor;
+  font-family: rFont !important;
+  font-size: $mText !important; 
+  // color: $formTextColor !important;
 }
 
 // mat-icon-stepper selected color change
@@ -76,7 +76,7 @@ input.mat-input-element {
 
 // mat-label normal state style
 .mat-form-field-label {
-  color: rgba(0, 0, 0, 0.6) !important;
+  color: rgba(204, 200, 200, 0.6) !important;
 }
 
 // mat-label focused style
@@ -1359,4 +1359,15 @@ mat-form-field {
 
 .mat-radio-label {
   color: white !important;
+}
+
+// ::ng-deep .mat-form-field-label {
+//   color: #999 !important; /* Change your-placeholder-color to the desired color */
+// }
+
+// ::ng-deep .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix input::placeholder {
+//   color: #999 !important;
+// }
+::ng-deep .mat-form-field-placeholder {
+  color: #999; /* Change placeholder color here */
 }
