@@ -76,23 +76,7 @@ onSubmit() {
       
       this.loginService.login(this.signInModel).subscribe(
         (response) => {
-          
-          const authorizationHeader = response.body.data.accessToken;
-          const refreshTokenHeader = response.body.data.refreshToken;
-          
-          if (authorizationHeader) {
-            this.sessionStorage.setSession(authorizationHeader);
-          }
-          
-          if (refreshTokenHeader) {
-            this.sessionStorage.setRefreshToken(refreshTokenHeader);
-          }
-          
-          if (response.body.data.userName) {
-            this.sessionStorage.setUser(response.body.data.userName);
-          }
-          
-          this.authService.logIn();
+          this.handleSuccess(response);
         },
         (        error: { status: number; error: { [x: string]: string; }; }) => {
           if (error.status === GATEWAY_TIMEOUT_ERROR_CODE || error.status === INTERNAL_SERVER_ERROR_CODE) {
@@ -119,6 +103,19 @@ onSubmit() {
       this.mandatoryValidation(this.userForm)
     }
   }
+
+  private handleSuccess(response: HttpResponse<any>): void {
+    //token set for session
+    this.sessionStorage.setSession(response.headers.get('token'));
+    this.sessionStorage.setRefreshToken(response.headers.get('refresh_token'));
+
+    //user details set for session
+    this.sessionStorage.setUser(response.body['user']);
+    
+    this.spinner.hide();
+    this.authService.logIn();
+  }
+
 
   checkIfErrorCodeIsPresent() {
     let errorVal = '';

@@ -80,7 +80,9 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
       this.paginator.pageSize = this.itemsPerPage;
     });
     this.prepareReferenceData();
+    console.log("hi")
     if (this.productCategory) {
+      console.log("productCategory>>.",this.productCategory)
       this.initialDataLoader();
     }
   }
@@ -95,12 +97,12 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
       portion: this.formBuilder.control(''),
       ingredient: this.formBuilder.control(''),
     });
-
-    this.productFilter.valueChanges
-      .pipe(debounceTime(300))
-      .subscribe((formValues) => {
-        this.getList();
-      });
+    // this.productFilter.valueChanges
+    //   .pipe(debounceTime(300))
+    //   .subscribe((formValues) => {
+    //     console.log("called???")
+    //     this.getList();
+    //   });
   }
 
   @HostListener('document:click', ['$event'])
@@ -114,7 +116,11 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
     }
   }
   
-
+  // categoryChange(type:any) {
+  //   this.productCategory =type;
+  //   console.log("calllll for this")
+  //   this.getList();
+  // }
 
   prepareReferenceData(): void {
     this.productService.getSearchData(true)
@@ -131,6 +137,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   }
 
   initialDataLoader(): void {
+    console.log("called")
     this.initialDataTable();
     this.dataSource = new Commondatasource();
     this.dataSource.counter$

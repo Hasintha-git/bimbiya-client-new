@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {getEndpoint, SECURE} from '../../utility/constants/end-point';
 import { Observable } from 'rxjs';
-
+import {map} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +15,10 @@ export class LoginService {
   }
 
   login(object: any): any {
-    return this.httpClient.post(this.requestUrl+'/user-login', object, {observe: 'response'});
+    const headers = new HttpHeaders({
+      'module': 'client'
+    });
+    return this.httpClient.post(this.requestUrl+'/authenticate', object, {    headers: headers,observe: 'response'});
   }
 
   add(object: any): Observable<any> {
@@ -45,6 +48,24 @@ export class LoginService {
   //   return this.httpClient.post<HttpResponse<any>>(this.requestUrl, object);
   // }
   
+// In your login service
+refreshToken() {
+  let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.httpClient.post(this.tokenRequestUrl, {}, {
+    observe: 'response', // Get the full HttpResponse
+    headers: httpHeaders,
+    responseType: 'json',
+  }).pipe(
+    // Directly tapping into the response to extract and store tokens might be handled here or after subscription
+    map(response => {
+      const tokens = {
+        jwt: response.headers.get('token'),
+        refreshToken: response.headers.get('refresh_token')
+      };
+      return tokens;
+    })
+  );
+}
 
 
 

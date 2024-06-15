@@ -19,6 +19,11 @@ export class ToastServiceService {
       toastClass: "error-custome"
     });
   }
+  warningMessage(msg:any) {
+    this.toastr.error(msg,null,{
+      toastClass: "warning-custome"
+    });
+  }
 
   infoMessage(msg:any) {
     this.toastr.info(msg,null,{
