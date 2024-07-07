@@ -1,8 +1,8 @@
 <form class="login-side1" (ngSubmit)="onSubmit()" [formGroup]="userForm">
     <div class="login-side1-div">
         <div class="login-side1-row">
-            <!-- <span class="new-line "></span> -->
-            <img class="login-side2-image" src="../../../../../assets/images/bimbiya_white.png" alt="">
+            <span class="new-line "></span>
+            <img class="login-side2-image" src="assets/images/bimbiya_white.png" alt="">
             <!-- <span class="new-line "></span> -->
 
         </div>
@@ -51,6 +51,7 @@
                         <mat-icon style="color: #ffffff;">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
                     </button>
                     <mat-error *ngIf="password.hasError('required')">Password cannot be empty</mat-error>
+                    <mat-error *ngIf="password.hasError('minlength')">Password must be at least 6 characters long</mat-error>
                 </mat-form-field>
             </div>
             

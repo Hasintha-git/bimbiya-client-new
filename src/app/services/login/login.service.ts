@@ -9,7 +9,7 @@ import {map} from 'rxjs/operators';
 export class LoginService {
 
   private requestUrl: string = `${getEndpoint(SECURE)}/auth`;
-  private tokenRequestUrl: string = `${getEndpoint(SECURE)}/token/refresh`;
+  private tokenRequestUrl: string = `${getEndpoint(SECURE)}/auth/refresh_token`;
 
   constructor(private httpClient: HttpClient) {
   }

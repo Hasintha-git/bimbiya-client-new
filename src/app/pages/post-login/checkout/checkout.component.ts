@@ -11,7 +11,7 @@ import { AddToCartService } from 'src/app/services/Cart/add-to-cart.service';
 import { OrderService } from 'src/app/services/order/order.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Time } from '@angular/common';
 
 @Component({
@@ -21,6 +21,7 @@ import { Time } from '@angular/common';
 })
 export class CheckoutComponent implements OnInit {
   cartDetails = new CartDetails();
+  userAdd: FormGroup;
   public cardList: Cart;
   public cartDataList: CartDetails[];
   public statusList: SimpleBase[];
@@ -71,7 +72,8 @@ export class CheckoutComponent implements OnInit {
     private placeOrderService: OrderService,
     private toastService: ToastServiceService,
     private storageService: StorageService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private formBuilder: FormBuilder,
   ) { 
     // const currentTime = new Date();
     // this.minTime = currentTime;
@@ -86,7 +88,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.initialValidator();
     this.activeUser = this.storageService.getUser();
     this.prepareReferenceData();
     this.cartDataGet();
@@ -94,6 +96,20 @@ export class CheckoutComponent implements OnInit {
     // this.populateMinutes();
     // this.setDefaultTime();
 
+  }
+
+  initialValidator() {
+    this.userAdd = this.formBuilder.group({
+    
+      email: this.formBuilder.control('', [
+        Validators.required, Validators.email
+      ]),
+      address: this.formBuilder.control('', [Validators.required]),
+      city: this.formBuilder.control('', [Validators.required])
+     
+    });
+
+    this.userAdd.get('email').setValidators(Validators.email);
   }
 
   toggleDropdown() {
@@ -230,6 +246,9 @@ export class CheckoutComponent implements OnInit {
       (response: CommonResponse) => {
         if (response && response.data && response.data.cartList) {
           this.cardList = response.data;
+          this.orderReq.email = this.cardList.email;
+          this.orderReq.address = this.cardList.address;
+          this.orderReq.city = this.cardList.city;
           this.cartDataList = this.cardList.cartList;
 
           if(this.cardList.cartList.length == 0  && this.cardList?.cartList) {
@@ -249,27 +268,43 @@ export class CheckoutComponent implements OnInit {
   }
 
 
-  placeOrder() {
-    
-    this.orderReq.userId = this.cardList.userId;
-    this.orderReq.product = this.cardList.cartList
-    this.orderReq.total = this.cardList.total
-    this.orderReq.deliveryPrice = this.cardList.deliveryPrice
-    this.orderReq.scheduledTime = this.selectedTime;
-    this.orderReq.activeUser = this.activeUser;
-    this.placeOrderService.placeOrder(this.orderReq).subscribe(
-      (response: CommonResponse) => {
-        this.toastService.successMessage("Order placed, we will contact soon");
-        
-        this.home();
-      },
-      error => {
-        
-        this.toastService.errorMessage(error.error['errorDescription']);
-      }
-    );
+  placeOrder() {  
+    if(this.userAdd.valid) {
+      this.orderReq.userId = this.cardList.userId;
+      this.orderReq.product = this.cardList.cartList
+      this.orderReq.total = this.cardList.total
+      this.orderReq.deliveryPrice = this.cardList.deliveryPrice
+      this.orderReq.scheduledTime = this.selectedTime;
+      this.orderReq.activeUser = this.activeUser;
+      this.placeOrderService.placeOrder(this.orderReq).subscribe(
+        (response: CommonResponse) => {
+          this.toastService.successMessage("Order placed, we will contact soon");
+          this.home();
+        },
+        error => {
+          this.toastService.errorMessage(error.error['errorDescription']);
+        }
+      );
+    }else {
+      this.mandatoryValidation(this.userAdd)
+    }
   }
 
+  mandatoryValidation(formGroup: FormGroup) {
+    for (const key in formGroup.controls) {
+      if (formGroup.controls.hasOwnProperty(key)) {
+        const control: FormControl = <FormControl>formGroup.controls[key];
+        if (Object.keys(control).includes('controls')) {
+          const formGroupChild: FormGroup = <FormGroup>formGroup.controls[key];
+          this.mandatoryValidation(formGroupChild);
+        }
+        control.markAsTouched();
+      }
+    }
+  }
+
+  updateUserAccount() {
+  }
   cartRemove(cart: any) {
     
     this.addToCartService.removeToCart(cart.cartId).subscribe(
@@ -379,5 +414,17 @@ export class CheckoutComponent implements OnInit {
   }
   onDestroy() {
     
+  }
+
+  get email() {
+    return this.userAdd.get('email');
+  }
+
+  get address() {
+    return this.userAdd.get('address');
+  }
+
+  get city() {
+    return this.userAdd.get('city');
   }
 }

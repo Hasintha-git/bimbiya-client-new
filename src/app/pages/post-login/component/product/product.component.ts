@@ -23,7 +23,7 @@ export class ProductComponent implements OnInit {
 
   cartModel= new CartDetails();
   filteredOptions: Observable<string[]>;
-  activeUser:string;
+  activeUser:any;
   constructor(   
     public dialog: MatDialog,
     private fb: FormBuilder,
@@ -95,7 +95,7 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart() {
-    
+    this.activeUser=this.storageService.getUser();
     if(this.activeUser == null) {
       return this.signIn();
     }

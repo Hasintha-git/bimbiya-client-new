@@ -29,6 +29,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   public dataSource: Commondatasource;
   public productList: Product[];
   public searchModel: Product;
+  public section:string = "Bimbiya Product";
 
   isSort = false;
   isCategory = true;
@@ -72,17 +73,21 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
     const type = this.storage.getCategory();
     if (type != null) {
       this.productCategory = type;
+      if(type == "BITE") {
+        this.section = "Bite Section";
+      }else {
+        this.section = "Beverages"
+      }
     } else {
       this.productCategory = "BITE";
+      this.section = "Bite Section";
     }
     this.initialValidator();
     setTimeout(() => {
       this.paginator.pageSize = this.itemsPerPage;
     });
     this.prepareReferenceData();
-    console.log("hi")
     if (this.productCategory) {
-      console.log("productCategory>>.",this.productCategory)
       this.initialDataLoader();
     }
   }
@@ -100,7 +105,6 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
     // this.productFilter.valueChanges
     //   .pipe(debounceTime(300))
     //   .subscribe((formValues) => {
-    //     console.log("called???")
     //     this.getList();
     //   });
   }
@@ -118,7 +122,6 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   
   // categoryChange(type:any) {
   //   this.productCategory =type;
-  //   console.log("calllll for this")
   //   this.getList();
   // }
 
@@ -137,7 +140,6 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   }
 
   initialDataLoader(): void {
-    console.log("called")
     this.initialDataTable();
     this.dataSource = new Commondatasource();
     this.dataSource.counter$
@@ -196,8 +198,6 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   
 
   getList() {
-    
-    console.log("gooooooooooooo")
     let searchParamMap = this.commonFunctionService.getDataTableParam(this.paginator);
     searchParamMap = this.getSearchString(searchParamMap, this.searchModel);
     this.productService.getList(searchParamMap)

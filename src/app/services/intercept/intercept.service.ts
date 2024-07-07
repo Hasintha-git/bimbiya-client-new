@@ -28,6 +28,7 @@ import {
   UNAUTHORIZED_ERROR_DES
 } from '../../utility/constants/message-var-list';
 import { ToastServiceService } from '../toast/toast-service.service';
+import { MatCardLgImage } from '@angular/material/card';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +61,11 @@ export class Interceptor implements HttpInterceptor {
           // Response handling logic can go here
         }
       }),
+      finalize(() => {
+        this.hideSpinner();
+      })
+    )
+      .pipe(
       catchError((error: HttpErrorResponse): any => {
         if (error.status === FORBIDDEN_ERROR_CODE) {
           return this.handleExpiredToken(request, next);
@@ -130,7 +136,7 @@ export class Interceptor implements HttpInterceptor {
   }
 
   private addToken(request: HttpRequest<any>, token: string) {
-    if (request.url.includes('/authentication/refresh_token')) {
+    if (request.url.includes('/auth/refresh_token')) {
       const refresh_token = this.storageService.getRefreshToken();
       return request.clone({
         setHeaders: {

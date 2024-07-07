@@ -110,3 +110,31 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
 }
+
+.signup-side1-div {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
+    border-radius: 20px !important;
+    background-color: #1F2937 !important;
+}
+
+.login-side2-image {
+    width: 60px !important;
+    height: auto;
+    padding: 10px;
+}
+.login-side1-row {
+    display: inline-block;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.new-line {
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}

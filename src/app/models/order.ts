@@ -8,6 +8,10 @@ export class Order {
     product:CartDetails[];
     scheduledTime: string;
     activeUser: string;
+    city:string;
+    email:string;
+    address:string;
+    
 
 }
   

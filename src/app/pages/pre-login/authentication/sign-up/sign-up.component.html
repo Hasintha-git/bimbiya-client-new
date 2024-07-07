@@ -1,7 +1,7 @@
 <!-- <h1 class="text-lg font-bold text-white leading-tight text-center mt-12 mb-5 " style="position: relative; z-index: 9999;">Join with bimbiya</h1> -->
       
 
-<div class="p-5 shadow-md rounded-2xl bg-gray-700 container" >
+<div class="p-5 container signup-side1-div" >
   
     <!-- start step indicators -->
     <!-- <div class="form-header flex gap-3 mb-4 text-xs text-center">
@@ -14,11 +14,15 @@
     <!-- step one -->
     <div  *ngIf="step ==1">
         <form [formGroup]="form1">
+            <div class="login-side1-row">
+                <img class="login-side2-image" src="assets/images/bimbiya_white.png" alt="">
+                <!-- <span class="new-line "></span> -->
+            </div>
         <p class="text-md text-white leading-tight text-center mt-8 ">Create your account</p>
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">User Name</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="enter your username" formControlName="username"
+                <input matInput placeholder="Enter your username" formControlName="username"
                     [(ngModel)]="signUpModel.username" [maxlength]="10">
                 <mat-error *ngIf="username?.hasError('required')">User name cannot be empty
                 </mat-error>
@@ -27,7 +31,7 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">Full Name</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="enter your full name" formControlName="fullName"
+                <input matInput placeholder="Enter your full name" formControlName="fullName"
                     [(ngModel)]="signUpModel.fullName" [maxlength]="32">
 
                 <mat-error *ngIf="fullName?.hasError('required')">Full name cannot be empty
@@ -37,13 +41,14 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">NIC</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                    <input matInput [formControl]="nic" placeholder="enter your nic" [maxlength]="12" [(ngModel)]="signUpModel.nic" required
+                    <input matInput [formControl]="nic" placeholder="Enter your nic" [maxlength]="12" [(ngModel)]="signUpModel.nic" required
                     autoComplete='off'
                     (change)="onNicInputChange($event)">
                 <mat-error *ngIf="nic.hasError('required')">NIC cannot be empty</mat-error>
                 <mat-error *ngIf="nic.hasError('pattern')">Invalid NIC
                 </mat-error>
-                
+                <mat-error *ngIf="nic.hasError('invalidNic')">Invalid NIC
+                </mat-error>
             </mat-form-field>
         </div>
     </form>
@@ -52,6 +57,10 @@
     <!-- step two -->
     <div *ngIf="step ==2">
         <form [formGroup]="form2">
+            <div class="login-side1-row">
+                <img class="login-side2-image" src="assets/images/bimbiya_white.png" alt="">
+                <!-- <span class="new-line "></span> -->
+            </div>
         <p class="text-md text-white leading-tight text-center mt-8 mb-5">Your contact details</p>
         <!-- <div style="display: flex;flex-direction: column;">
             <mat-form-field class="ultra-max-field" appearance="outline">
@@ -69,7 +78,7 @@
           <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">Email</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="enter your mail address" [maxlength]="32" formControlName="email" required
+                <input matInput placeholder="Enter your mail address" [maxlength]="32" formControlName="email" required
                     [(ngModel)]="signUpModel.email">
     
                 <mat-error *ngIf="email.hasError('required')">Email cannot be empty
@@ -79,7 +88,7 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">Mobile Number</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="enter your mobile no" [maxlength]="10" formControlName="mobile" required
+                <input matInput placeholder="Enter your mobile no" [maxlength]="10" formControlName="mobile" required
                     [(ngModel)]="signUpModel.mobileNo">
     
                 <mat-error *ngIf="mobile.hasError('required')">Mobile Number cannot be empty
@@ -92,6 +101,10 @@
     <!-- step three -->
     <div *ngIf="step ==3">
         <form [formGroup]="form3">
+            <div class="login-side1-row">
+                <img class="login-side2-image" src="assets/images/bimbiya_white.png" alt="">
+                <!-- <span class="new-line "></span> -->
+            </div>
         <p class="text-md text-white leading-tight text-center mt-8 mb-5">Your delivery address's</p>
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500; margin-right: 10px;" class="text-white">District</label>
@@ -110,7 +123,7 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">City</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="enter your city" formControlName="city" [maxlength]="20"
+                <input matInput placeholder="Enter your city" formControlName="city" [maxlength]="20"
                     [(ngModel)]="signUpModel.city">
 
                 <mat-error *ngIf="city.hasError('required')">City cannot be empty
@@ -120,7 +133,7 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">Address</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="enter your address" formControlName="address" [maxlength]="64"
+                <input matInput placeholder="Enter your address" formControlName="address" [maxlength]="64"
                     [(ngModel)]="signUpModel.address">
                 <mat-error *ngIf="address.hasError('required')">Address cannot be empty
                 </mat-error>
@@ -132,12 +145,16 @@
  <!-- step 4 -->
  <div *ngIf="step ==4">
     <form [formGroup]="form4">
+        <div class="login-side1-row">
+            <img class="login-side2-image" src="assets/images/bimbiya_white.png" alt="">
+            <!-- <span class="new-line "></span> -->
+        </div>
     <p class="text-md text-white leading-tight text-center mt-8 mb-5">Secure your account with bimbiya</p>
 
     <div style="display: flex;flex-direction: column;">
         <label style="font-weight: 500;" class="text-white">Password</label>
         <mat-form-field class="ultra-max-field" appearance="outline">
-            <input matInput placeholder="enter your password" formControlName="password" [minlength]="6" [maxlength]="12"
+            <input matInput placeholder="Enter your password" formControlName="password" [minlength]="6" [maxlength]="12"
                 [(ngModel)]="signUpModel.password">
 
             <mat-error *ngIf="password.hasError('required')">password cannot be empty
@@ -147,7 +164,7 @@
     <div style="display: flex;flex-direction: column;">
         <label style="font-weight: 500;" class="text-white">Confirm Password</label>
         <mat-form-field class="ultra-max-field" appearance="outline">
-            <input matInput placeholder="re enter your password" formControlName="confirmPassword" [minlength]="6" [maxlength]="12"
+            <input matInput placeholder="Re-enter your password" formControlName="confirmPassword" [minlength]="6" [maxlength]="12"
                 [(ngModel)]="signUpModel.confirmPassword">
             <mat-error *ngIf="confirmPassword.hasError('required')">Confirm Password cannot be empty
             </mat-error>
@@ -162,6 +179,10 @@
 <!-- step three -->
 <div *ngIf="step ==5">
     <form [formGroup]="otpForm">
+        <div class="login-side1-row">
+            <img class="login-side2-image" src="assets/images/bimbiya_white.png" alt="">
+            <!-- <span class="new-line "></span> -->
+        </div>
     <p class="text-md text-white leading-tight text-center mt-1 mb-3">Verify your account</p>
 
     <p class="text-md text-white leading-tight text-center"  *ngIf="step == 5" >{{otpSend}}</p>
@@ -170,7 +191,7 @@
     <div style="display: flex;flex-direction: column;">
         <label style="font-weight: 500;" class="text-white">OTP</label>
         <mat-form-field class="ultra-max-field" appearance="outline">
-            <input matInput placeholder="******" formControlName="otpReq" [minlength]="6" [maxlength]="6"
+            <input matInput placeholder="xxxxxx" formControlName="otpReq" [minlength]="6" [maxlength]="6"
                 [(ngModel)]="otp">
 
             <mat-error *ngIf="otpReq.hasError('required')">Otp cannot be empty

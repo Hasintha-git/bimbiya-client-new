@@ -24,3 +24,20 @@
       height: 44px;
     }
   }
+  ::ng-deep {
+    /* Change the color of the selected text */
+    .mat-select-value-text {
+      color: white !important; /* Force the color to white */
+    }
+  
+    /* Remove the shadow from the selected value area */
+    .mat-select {
+      &.mat-select {
+        .mat-select-value {
+          background-color: transparent; /* Make background transparent */
+          box-shadow: none; /* Remove any shadow */
+        }
+      }
+    }
+  }
+  

@@ -10,7 +10,11 @@ mat-form-field.mat-form-field.mat-form-field-appearance-outline>div.mat-form-fie
 .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
   transform: translateY(-1.3em) scale(0.75); //old -1.1em
   width: 133.33333%;
-  color: $primaryColor !important;
+  color: $secondaryColor !important;
+}
+//placeholder color change
+.mat-input-element::placeholder{
+  color: $secondaryColor !important;
 }
 
 mat-form-field {
@@ -1368,6 +1372,6 @@ mat-form-field {
 // ::ng-deep .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix input::placeholder {
 //   color: #999 !important;
 // }
-::ng-deep .mat-form-field-placeholder {
-  color: #999; /* Change placeholder color here */
+::ng-deep .mat-form-field .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix .mat-form-field-label {
+  color: #999 !important; /* Change placeholder color here */
 }

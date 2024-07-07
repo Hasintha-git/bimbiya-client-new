@@ -21,7 +21,7 @@ export class StorageService {
     sessionStorage.setItem('refresh_token', token);
   }
 
-  setUser(user: string): void {
+  setUser(user: any): void {
     sessionStorage.setItem('user', user);
   }
 

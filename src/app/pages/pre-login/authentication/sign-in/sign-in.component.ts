@@ -54,7 +54,7 @@ export class SignInComponent implements OnInit {
   initialValidator() {
     this.userForm = this.formBuilder.group({
       username: this.formBuilder.control('', [Validators.required]),
-      password: this.formBuilder.control('', [Validators.required])
+      password: this.formBuilder.control('', [Validators.required, Validators.minLength(6)])
     });
   }
   setBrowserData() {
@@ -78,28 +78,15 @@ onSubmit() {
         (response) => {
           this.handleSuccess(response);
         },
-        (        error: { status: number; error: { [x: string]: string; }; }) => {
-          if (error.status === GATEWAY_TIMEOUT_ERROR_CODE || error.status === INTERNAL_SERVER_ERROR_CODE) {
-            this.errorMessage = UNABLE_TO_SERVE_REQUEST_DES;
-            
-          }else if(error.status === NOT_FOUND_ERROR_CODE) {
-            this.errorMessage = USERNAME_WRONG;
-            
-          }else if(error.status === UNAUTH_ERROR_CODE) {
-            this.errorMessage = PASSWORD_WRONG;
-            
-          }
-           else {
-            this.errorMessage = error.error['message'];
-            
-          }
+        (error: { error: { message: string } }) => {
+          // Directly set the error message received from the server
+          this.errorMessage = error.error.message || 'An unknown error occurred';
           
+          // Display the error message using Toastr
           this.toastr.errorMessage(this.errorMessage);
         }
       );
     } else {
-      this.toastr.errorMessage('Please fill in all required fields');
-      
       this.mandatoryValidation(this.userForm)
     }
   }
@@ -110,7 +97,7 @@ onSubmit() {
     this.sessionStorage.setRefreshToken(response.headers.get('refresh_token'));
 
     //user details set for session
-    this.sessionStorage.setUser(response.body['user']);
+    this.sessionStorage.setUser(response.body['user'].username);
     
     this.spinner.hide();
     this.authService.logIn();

@@ -116,7 +116,7 @@ export class SignUpComponent implements OnInit {
     this.form1 = this.formBuilder.group({
       username: this.formBuilder.control('', [Validators.required]),
       fullName: this.formBuilder.control('', [Validators.required]),
-      nic: this.formBuilder.control('', [Validators.required]),
+      nic: this.formBuilder.control('', [Validators.required, this.nicValidator()]),
     })
     this.form2 = this.formBuilder.group({
       email: this.formBuilder.control('', [Validators.required]),
@@ -142,7 +142,26 @@ export class SignUpComponent implements OnInit {
     })  
   }
 
-
+  nicValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const nic = control.value;
+      const oldFormat = /^[0-9]{9}[vVxX]$/;
+      const newFormat = /^[0-9]{12}$/;
+      if (!nic) {
+        return null; // consider empty value as valid or use Validators.required to enforce value
+      }
+      // Validating against the old format
+      if (oldFormat.test(nic)) {
+        return null;
+      }
+      // Validating new NIC format
+      if (newFormat.test(nic)) {
+        return null;
+      }
+      // NIC doesn't match any valid format
+      return { 'invalidNic': { value: nic, reason: 'Does not match any NIC format' } };
+    };
+  }
   onSubmit() {
     
     this.signUpModel.status ="active";

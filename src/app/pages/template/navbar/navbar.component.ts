@@ -70,18 +70,22 @@ export class NavbarComponent implements OnInit {
 
   cartDataGet() {
     this.activeUser = this.storageService.getUser();
-    this.cartDetails.userName = this.activeUser;
+    if(this.activeUser) {
+      this.cartDetails.userName = this.activeUser;
     
-    this.cartDetails.checkout = false;
-    this.addToCartService.findCartList(this.cartDetails).subscribe(
-      (response: CommonResponse) => {
-        this.cartDetailsList = response.records;
-        
-      },
-      error => {
-        
-      }
-    );
+      this.cartDetails.checkout = false;
+      this.addToCartService.findCartList(this.cartDetails).subscribe(
+        (response: CommonResponse) => {
+          this.cartDetailsList = response.records;
+          
+        },
+        error => {
+          
+        }
+      );
+    } else {
+      this.logoutUser();
+    }
   }
 
   profileMgt() {
@@ -129,7 +133,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logoutUser() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/signin']);
   }
 
   home() {

@@ -15,7 +15,7 @@ export class AuthService {
 
   logOut(): void {
     this.storageService.clear();
-    this.router.navigate(['/']);
+    // this.router.navigate(['/']);
   }
 
   readySession(): void {
