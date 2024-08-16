@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse,HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { CommonFunctionService } from "../common-functions/common-function.service";
-import { SECURE, getEndpoint } from "src/app/utility/constants/end-point";
+import { getEndpoint } from "src/app/utility/constants/end-point";
 import { Observable, throwError } from "rxjs";
 import { DataTable } from "src/app/pages/models/data-table";
 
@@ -13,7 +13,7 @@ export class ProductService {
   requestUrl: string;
 
   constructor(public httpClient: HttpClient,public commonFunctionService: CommonFunctionService) { 
-    this.requestUrl = `${getEndpoint(SECURE)}/product/v1`;
+    this.requestUrl = `${getEndpoint()}/product/v1`;
   }
 
   

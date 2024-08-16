@@ -1,10 +1,12 @@
 {
   "name": "bimbiya-client",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:sit": "ng serve --configuration=production",
     "build": "ng build",
+    "build:sit": "ng build --configuration=production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -24,6 +26,8 @@
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
     "@auth0/angular-jwt": "^5.1.2",
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/core": "^6.1.0",
     "aos": "^2.3.4",
     "autoprefixer": "^10.4.16",
     "bootstrap": "^5.2.3",
@@ -43,6 +47,7 @@
   "devDependencies": {
     "@angular/cli": "~14.2.6",
     "@angular/compiler-cli": "^14.2.0",
+    "@capacitor/cli": "^6.1.0",
     "@types/file-saver": "^2.0.5",
     "@types/jasmine": "~4.0.0",
     "daisyui": "^4.5.0",

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {getEndpoint, SECURE} from '../../utility/constants/end-point';
+import {getEndpoint} from '../../utility/constants/end-point';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
 @Injectable({
@@ -8,8 +8,8 @@ import {map} from 'rxjs/operators';
 })
 export class LoginService {
 
-  private requestUrl: string = `${getEndpoint(SECURE)}/auth`;
-  private tokenRequestUrl: string = `${getEndpoint(SECURE)}/auth/refresh_token`;
+  private requestUrl: string = `${getEndpoint()}/auth`;
+  private tokenRequestUrl: string = `${getEndpoint()}/auth/refresh_token`;
 
   constructor(private httpClient: HttpClient) {
   }

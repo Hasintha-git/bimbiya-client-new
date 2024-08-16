@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {Observable,throwError} from 'rxjs';
-import { getEndpoint, SECURE } from 'src/app/utility/constants/end-point';
-import {timeout} from 'rxjs/operators';
-import { DataTable } from 'src/app/pages/models/data-table';
+import { getEndpoint } from 'src/app/utility/constants/end-point';
 import { CommonFunctionService } from '../common-functions/common-function.service';
 
 @Injectable({
@@ -16,8 +13,8 @@ export class OrderService {
   requestUrlPreLogin: string;
 
   constructor(public httpClient: HttpClient,public commonFunctionService: CommonFunctionService) { 
-    this.requestUrl = `${getEndpoint(SECURE)}/order/v1/admin-order`;
-    this.requestUrlPreLogin = `${getEndpoint(SECURE)}/auth`;
+    this.requestUrl = `${getEndpoint()}/order/v1/admin-order`;
+    this.requestUrlPreLogin = `${getEndpoint()}/auth`;
   }
 
   placeOrder(object: any): Observable<any> {

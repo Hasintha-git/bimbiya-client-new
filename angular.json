@@ -44,6 +44,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "outputPath": "dist/bimbiya-production",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,

@@ -9,9 +9,8 @@ import { CommonFunctionService } from 'src/app/services/common-functions/common-
 import { DataTable } from 'src/app/pages/models/data-table';
 import { Product } from 'src/app/models/product';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { StorageService } from 'src/app/services/storage/storage.service';
-import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-filter',
@@ -22,14 +21,14 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   productFilter: FormGroup;
-  public statusList: SimpleBase[];
-  public portionList: SimpleBase[];
-  public ingredientsList: SimpleBase[];
-  public productCatList: SimpleBase[];
-  public dataSource: Commondatasource;
-  public productList: Product[];
-  public searchModel: Product;
-  public section:string = "Bimbiya Product";
+  statusList: SimpleBase[];
+  portionList: SimpleBase[];
+  ingredientsList: SimpleBase[];
+  productCatList: SimpleBase[];
+  dataSource: Commondatasource;
+  productList: Product[];
+  searchModel: Product;
+  section: string = "Bimbiya Product";
 
   isSort = false;
   isCategory = true;
@@ -48,191 +47,171 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   itemsPerPage = 4; // Adjust as needed
   totalItems: number;
 
-  // BEVERAGES
-  productCategory: any;
-
+  productCategory: string;
   products = [];
-  isBite: boolean = true;
-  isBeverages: boolean = true;
+  isBite = false;
+  isBeverages = false;
 
-  portion: string[] = []; 
-  ingredientList: number[]= []; 
+  portion: string[] = [];
+  ingredientList: number[] = [];
+
   constructor(
     private productService: ProductService,
-    public toast: ToastServiceService,
+    private toast: ToastServiceService,
     private commonFunctionService: CommonFunctionService,
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private storage: StorageService
-  ) {
-
-  }
+  ) {}
 
   ngOnInit(): void {
     this.searchModel = new Product();
-    const type = this.storage.getCategory();
-    if (type != null) {
-      this.productCategory = type;
-      if(type == "BITE") {
-        this.section = "Bite Section";
-      }else {
-        this.section = "Beverages"
-      }
-    } else {
-      this.productCategory = "BITE";
-      this.section = "Bite Section";
-    }
+    this.productCategory = this.storage.getCategory() || "BITE";
+    this.section = this.productCategory === "BITE" ? "Bite Section" : "Beverages";
+    this.isBite = this.productCategory === "BITE";
+    this.isBeverages = this.productCategory !== "BITE";
+
     this.initialValidator();
-    setTimeout(() => {
-      this.paginator.pageSize = this.itemsPerPage;
-    });
+    this.paginator.pageSize = this.itemsPerPage;
     this.prepareReferenceData();
-    if (this.productCategory) {
-      this.initialDataLoader();
-    }
+    this.initialDataLoader();
   }
 
   initialValidator() {
     this.productFilter = this.formBuilder.group({
-      foods: this.formBuilder.control('', []),
-      beverages: this.formBuilder.control('', []),
-      status: this.formBuilder.control('', []),
-      toPrice: this.formBuilder.control('', []),
-      fromPrice: this.formBuilder.control('', []),
-      portion: this.formBuilder.control(''),
-      ingredient: this.formBuilder.control(''),
+      foods: new FormControl({ value: this.isBite, disabled: this.isBite }),
+      beverages: new FormControl({ value: this.isBeverages, disabled: this.isBeverages }),
+      status: new FormControl(''),
+      toPrice: new FormControl(''),
+      fromPrice: new FormControl(''),
+      portion: new FormControl(''),
+      ingredient: new FormControl(''),
     });
-    // this.productFilter.valueChanges
-    //   .pipe(debounceTime(300))
-    //   .subscribe((formValues) => {
-    //     this.getList();
-    //   });
+
+    this.setControlState('foods', this.isBite);
+    this.setControlState('beverages', this.isBeverages);
   }
 
   @HostListener('document:click', ['$event'])
   handleDocumentClick(event: MouseEvent) {
     const cart1 = document.getElementById('mobile-view');
-  
-    if ((cart1 && cart1.contains(event.target as Node))) {
-      return;
-    } else {
+    if (!cart1 || !cart1.contains(event.target as Node)) {
       this.isClosed = false;
     }
   }
-  
-  // categoryChange(type:any) {
-  //   this.productCategory =type;
-  //   this.getList();
-  // }
 
+  categoryChange(type: string) {
+    this.productCategory = type;
+    this.section = type === "BITE" ? "Bite Section" : "Beverages";
+    this.isBite = type === "BITE";
+    this.isBeverages = type !== "BITE";
+    this.setControlState('foods', this.isBite);
+    this.setControlState('beverages', this.isBeverages);
+    this.getList();
+  }
+
+  private setControlState(controlName: string, isDisabled: boolean) {
+    const control = this.productFilter.get(controlName);
+    if (isDisabled) {
+      control?.disable();
+    } else {
+      control?.enable();
+    }
+  }
   prepareReferenceData(): void {
-    this.productService.getSearchData(true)
-      .subscribe((response: any) => {
+    this.productService.getSearchData(true).subscribe(
+      (response: any) => {
         this.statusList = response.statusList;
         this.portionList = response.portionList;
         this.ingredientsList = response.ingredientsList;
         this.productCatList = response.productCatList;
       },
-        error => {
-          this.toast.errorMessage(error.error['message']);
-        }
-      );
+      error => {
+        this.toast.errorMessage(error.error['message']);
+      }
+    );
   }
 
   initialDataLoader(): void {
     this.initialDataTable();
     this.dataSource = new Commondatasource();
-    this.dataSource.counter$
-      .pipe(
-        tap((count) => {
-          this.paginator.length = count;
-        })
-      )
-      .subscribe();
+    this.dataSource.counter$.pipe(
+      tap((count) => {
+        this.paginator.length = count;
+      })
+    ).subscribe();
     this.getList();
   }
 
   initialDataTable() {
     this.paginator.pageIndex = 0;
-    this.paginator.pageSize = 4;
+    this.paginator.pageSize = this.itemsPerPage;
   }
 
   ngAfterViewInit() {
-    this.dataSource.counter$
-      .pipe(
-        tap((count) => {
-          this.paginator.length = count;
-        })
-      )
-      .subscribe();
-    merge(this.paginator.page)
-      .pipe(
-        tap(() => this.getList())
-      )
-      .subscribe();
+    this.dataSource.counter$.pipe(
+      tap((count) => {
+        this.paginator.length = count;
+      })
+    ).subscribe();
+    merge(this.paginator.page).pipe(
+      tap(() => this.getList())
+    ).subscribe();
   }
 
-  onPortionChange(portionId: any): void {
-    
-    const index = this.portion.indexOf(portionId);
-    if (index !== -1) {
-      this.portion.splice(index, 1);
-    } else {
-      this.portion.push(portionId);
-    }
-  
+  onPortionChange(portionId: string): void {
+    this.toggleSelection(this.portion, portionId);
     this.getList();
   }
-  
-  onIngredientChange(ingredientId: any): void {
-    
-    const index = this.ingredientList.indexOf(ingredientId);
-    if (index !== -1) {
-      this.ingredientList.splice(index, 1);
-    } else {
-      this.ingredientList.push(ingredientId);
-    }
-  
+
+  onIngredientChange(ingredientId: number): void {
+    this.toggleSelection(this.ingredientList, ingredientId);
     this.getList();
   }
-  
+
+  toggleSelection<T>(list: T[], item: T): void {
+    const index = list.indexOf(item);
+    if (index !== -1) {
+      list.splice(index, 1);
+    } else {
+      list.push(item);
+    }
+  }
 
   getList() {
     let searchParamMap = this.commonFunctionService.getDataTableParam(this.paginator);
     searchParamMap = this.getSearchString(searchParamMap, this.searchModel);
-    this.productService.getList(searchParamMap)
-      .subscribe((data: DataTable<Product>) => {
+    this.productService.getList(searchParamMap).subscribe(
+      (data: DataTable<Product>) => {
         this.productList = data.records;
         this.dataSource.datalist = this.productList;
         this.dataSource.usersSubject.next(this.productList);
         this.dataSource.countSubject.next(data.totalRecords);
       },
-        error => {
-          this.toast.errorMessage(error.error['errorDescription']);
-        }
-      );
+      error => {
+        this.toast.errorMessage(error.error['errorDescription']);
+      }
+    );
   }
 
   getSearchString(searchParamMap: Map<string, any>, searchModel: Product): Map<string, string> {
-    if (this.productFilter.get('toPrice').value) {
-      searchParamMap.set("toPrice", this.productFilter.get('toPrice').value);
-    }
+    const controls = this.productFilter.controls;
 
-    if (this.productFilter.get('fromPrice').value) {
-      searchParamMap.set("fromPrice", this.productFilter.get('fromPrice').value);
+    if (controls.toPrice.value) {
+      searchParamMap.set("toPrice", controls.toPrice.value);
     }
-
-    if (this.portion) {
-      searchParamMap.set("portion",this.portion);
+    if (controls.fromPrice.value) {
+      searchParamMap.set("fromPrice", controls.fromPrice.value);
     }
-
-    if (this.ingredientList) {
-      searchParamMap.set("ingredientList", this.ingredientList);
+    if (this.portion.length) {
+      searchParamMap.set("portion", this.portion.join(','));
+    }
+    if (this.ingredientList.length) {
+      searchParamMap.set("ingredientList", this.ingredientList.join(','));
     }
     searchParamMap.set("productCategory", this.productCategory);
     return searchParamMap;
   }
-
 
   toggleSortMenu() {
     this.isSort = !this.isSort;
@@ -245,6 +224,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   togglePortionMenu() {
     this.isPortion = !this.isPortion;
   }
+
   toggleIngredientMenu() {
     this.isIngredient = !this.isIngredient;
   }

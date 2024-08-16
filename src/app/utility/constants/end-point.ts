@@ -1,17 +1,11 @@
-const HOST: string = 'localhost';
+import { environment } from "src/environments/environment";
 
-const PORT: string = '8080';
+const HOST = environment.host;
+const PORT = environment.port || ''; // Fallback to an empty string if port is undefined
+const SECURE = environment.secure;
 
-//production
-// const HOST: string = 'bimbiya.com';
-
-
-//production - true | local - false
-export const SECURE = false;
-
-export const getEndpoint = (isHttps:any) => {
-  //production point
-  // return `${isHttps ? 'https' : 'http'}://${HOST}/admin`;
-  
-  return `${isHttps ? 'https' : 'http'}://${HOST}:${PORT}/admin`;
+export const getEndpoint = () => {
+  const protocol = SECURE ? 'https' : 'http';
+  const portPart = PORT ? `:${PORT}` : '';
+  return `${protocol}://${HOST}${portPart}/admin`;
 };

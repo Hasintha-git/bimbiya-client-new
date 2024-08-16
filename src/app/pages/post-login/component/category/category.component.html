@@ -1,25 +1,24 @@
 <div class="flex">
   <div class="w-1/2 cart-div p-4" (click)="routeToProduct('BITE')" style="cursor: pointer;">
-    <div class="relative bg-black rounded-lg" style="height: 300px;">
-      <div class="absolute inset-0">
-        <img style="width: 100%;" class="h-full bg-cover bg-center rounded-lg filter" src="../../../../../assets/images/BITE.jpg" alt="Image 1">
-        <div class="text-white absolute bottom-0 left-0 right-0 p-4">
-          <!-- Text content here -->
-          <button  (click)="routeToProduct('BITE')" class="btn">Buy Now</button>
-        </div>
+    <div class="relative rounded-lg overflow-hidden" style="height: 300px;">
+      <img class="w-full h-full object-cover" src="../../../../../assets/images/BITE.png" alt="Image 1">
+      <div class="overlay">
+        <button (click)="routeToProduct('BITE')" class="btn">
+          Shop Bites Now 
+          <img src="assets/icons/cart.svg" alt="Cart" class="icon" style="filter: grayscale(1) brightness(0) invert(1)">
+        </button>
       </div>
+      
     </div>
   </div>
 
   <div class="w-1/2 cart-div p-4" (click)="routeToProduct('BEVERAGES')" style="cursor: pointer;">
-    <div class="relative bg-black rounded-lg" style="height: 300px;">
-      <div class="absolute inset-0">
-        <img style="width: 100%;" class="h-full bg-cover bg-center rounded-lg filter" src="../../../../../assets/images/BEVERAGER.jpg" alt="Image 2">
-        <div class="text-white absolute bottom-0 left-0 right-0 p-4">
-          <!-- Text content here -->
-          <button (click)="routeToProduct('BEVERAGES')" class="btn">Buy Now</button>
-
-        </div>
+    <div class="relative rounded-lg overflow-hidden" style="height: 300px;">
+      <img class="w-full h-full object-cover" src="../../../../../assets/images/BEVERAGER.png" alt="Image 2">
+      <div class="overlay">
+        <button (click)="routeToProduct('BEVERAGES')" class="btn">Shop Beveragers Now
+          <img src="assets/icons/cart.svg" alt="Cart" class="icon" style="filter: grayscale(1) brightness(0) invert(1)">
+        </button>
       </div>
     </div>
   </div>

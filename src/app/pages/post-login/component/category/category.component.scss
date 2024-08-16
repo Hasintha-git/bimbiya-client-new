@@ -1,57 +1,81 @@
 /* Default styles for larger screens */
 @media (min-width: 768px) {
-    .flex {
-      /* Use flex layout for larger screens */
-      display: flex;
-    }
-    .cart-div {
-      /* Take up half width on larger screens */
-      width: 50%;
-    }
+  .flex {
+    display: flex;
   }
-  
-  /* Styles for smaller screens (mobile) */
-  @media (max-width: 767px) {
-    .flex {
-      /* Override flex layout for smaller screens */
-      display: block;
-    }
-    .cart-div {
-      /* Take up full width on smaller screens */
-      width: 100%;
-      margin-bottom: 20px; /* Optional: Add margin between items */
-    }
+  .cart-div {
+    width: 50%;
+    padding: 16px; /* Added padding for modern look */
   }
-  
-  .cart-div .bg-cover {
-    background-size: cover;
-    background-position: center;
-  }
-  
+}
 
-  .btn {
-    background-color: #ffffff; /* Green */
-    border: none;
-    color: #181818;
-    padding: 5px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    font-family: Arial, Helvetica, sans-serif !important;
-    // margin: 4px 8px !important;
-    position: absolute;
-    bottom: 50%; 
-    left: 20%; 
-    transform: translateX(-50%);
-    cursor: pointer;
-    border-radius: 8px;
-    transition: background-color 0.5s ease;
+/* Styles for smaller screens (mobile) */
+@media (max-width: 767px) {
+  .flex {
+    display: block;
   }
-  
-  .btn:hover {
-    background-color: #ffffff; 
-    color: #000000;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  .cart-div {
+    width: 100%;
+    margin-bottom: 20px;
   }
-  
+}
+
+.cart-div img {
+  border-radius: 10px;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  text-align: center;
+}
+
+.overlay:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+.btn {
+  // background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
+  border: none;
+  color: #fff; /* White text */
+  padding: 12px 24px; /* Ample padding for a modern look */
+  font-size: 18px;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 30px; /* Fully rounded button */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.icon {
+  margin-left: 10px; /* Space between text and icon */
+  height: 20px; 
+  width: 20px;
+  display: none; /* Hide icon by default */
+  transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transition for icon */
+}
+
+.overlay:hover .icon {
+  display: inline-block; /* Show icon when overlay is hovered */
+  opacity: 1;
+  transform: translateY(0); /* Reset transformation */
+}
+// .btn:hover {
+//   transform: translateY(-5px); /* Slight upward movement on hover */
+//   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+//   background: linear-gradient(135deg, #feb47b, #ff7e5f); /* Inverted gradient on hover */
+// }
+
+// .btn:active {
+//   transform: translateY(-2px); /* Slight downward movement on active state */
+//   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15); /* Slightly reduced shadow on active */
+// }
