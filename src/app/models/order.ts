@@ -10,6 +10,7 @@ export class Order {
     activeUser: string;
     city:string;
     email:string;
+    mobile:string;
     address:string;
     
 

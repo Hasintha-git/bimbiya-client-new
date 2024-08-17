@@ -98,15 +98,25 @@
         <!-- <p class="text-xl font-medium text-white">Payment Details</p>
     <p class="text-gray-400">Complete your order by providing your payment details.</p> -->
         <div class="">
-            <label for="email" class="mt-4 mb-2 block text-sm font-medium text-gray-400">Email</label>
+            <label for="mobile" class="mt-4 mb-2 block text-sm font-medium text-gray-400">Mobile Number</label>
             <div class="relative">
-                <input type="text" id="email" disabled [value]="cardList.email" name="email" [formControl]="email" required [maxlength]="255" autoComplete='off' [(ngModel)]="orderReq.email" class="w-full rounded-md border border-gray-200 text-gray-300 bg-gray-600 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="your.email@gmail.com" />
-            </div>
-            <mat-error *ngIf="email.hasError('required')">Email cannot be empty
-            </mat-error>
-            <mat-error *ngIf="email.hasError('email')">Invalid Email
-            </mat-error>
+                <input
+                  type="text"
+                  id="mobile"
+                  name="mobile"
+                  [formControl]="mobile"
+                  required
+                  [maxlength]="15" 
+                  autocomplete="off"
+                  [(ngModel)]="orderReq.mobile"
+                  class="w-full rounded-md border border-gray-200 text-gray-300 bg-gray-600 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
+              <mat-error *ngIf="mobile.hasError('required')">Mobile number cannot be empty</mat-error>
+              <mat-error *ngIf="mobile.hasError('minlength')">Mobile number must be at least 10 digits</mat-error>
+              <mat-error *ngIf="mobile.hasError('maxlength')">Mobile number cannot exceed 15 digits</mat-error>
+              <mat-error *ngIf="mobile.hasError('pattern')">Mobile number can only contain digits</mat-error>
+              
 
             <!-- <div class="input-fields">
         <mat-form-field class="min-field" appearance="outline">
@@ -169,16 +179,6 @@
                     </mat-form-field>
 
                 </div>
-
-                <!-- <input matInput type="time" [(ngModel)]="selectedTimeDesc" min="09:00" max="14:00"/> -->
-
-                <!-- <div class="clock">
-          <input placeholder="24hr format" aria-label="24hr format" [ngxTimepicker]="fullTime" [format]="24" readonly />
-          <ngx-material-timepicker [appendToInput]="true" [disableAnimation]="true" [theme]="oktTheme"
-            [timepickerClass]="'custome-class'" (timeSet)="onTimeset($event)"
-            [attr.min]="minTime ? minTime.toISOString() : null" [attr.max]="maxTime ? maxTime.toISOString() : null"
-            #fullTime></ngx-material-timepicker>
-        </div> -->
             </div>
 
             <button class="mt-4 mb-8 w-full rounded-md bg-gray-700 px-6 py-3 font-medium text-white" (click)="placeOrder()">Place Order</button>

@@ -11,6 +11,7 @@ export class Cart {
     deliveryPrice:number;
     total:number;
     activeUser: string;
+    mobile:string;
     
     cartList:CartDetails[];
 }

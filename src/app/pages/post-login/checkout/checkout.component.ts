@@ -101,15 +101,19 @@ export class CheckoutComponent implements OnInit {
   initialValidator() {
     this.userAdd = this.formBuilder.group({
     
-      email: this.formBuilder.control('', [
-        Validators.required, Validators.email
+      mobile: this.formBuilder.control('', [
+        Validators.required,
+        Validators.minLength(10),  // Minimum length (e.g., for a 10-digit number)
+        Validators.maxLength(15),  // Maximum length (e.g., for a 15-digit number)
+        Validators.pattern(/^[0-9]+$/)  // Only numbers allowed
       ]),
+      
       address: this.formBuilder.control('', [Validators.required]),
       city: this.formBuilder.control('', [Validators.required])
      
     });
 
-    this.userAdd.get('email').setValidators(Validators.email);
+    // this.userAdd.get('email').setValidators(Validators.email);
   }
 
   toggleDropdown() {
@@ -246,7 +250,7 @@ export class CheckoutComponent implements OnInit {
       (response: CommonResponse) => {
         if (response && response.data && response.data.cartList) {
           this.cardList = response.data;
-          this.orderReq.email = this.cardList.email;
+          this.orderReq.mobile = this.cardList.mobile;
           this.orderReq.address = this.cardList.address;
           this.orderReq.city = this.cardList.city;
           this.cartDataList = this.cardList.cartList;
@@ -416,8 +420,8 @@ export class CheckoutComponent implements OnInit {
     
   }
 
-  get email() {
-    return this.userAdd.get('email');
+  get mobile() {
+    return this.userAdd.get('mobile');
   }
 
   get address() {
