@@ -1,64 +1,101 @@
 <div class="w-130 mt-24 m-auto lg:mt-16 max-w-sm max-w-md card-resize">
-  <img [src]="product.img" alt="Food Image"
-  class="rounded-t-2xl  shadow-2xl w-full object-cover"
-  style="max-height: 200px;" />
-    <div class="bg-gray-800 backdrop-filter backdrop-blur-md bg-opacity-40 shadow-2xl rounded-b-3xl">
+  <img [src]="product.img" alt="Food Image" class="rounded-t-2xl  shadow-2xl w-full object-cover"
+    style="max-height: 200px;" />
+  <div class="bg-gray-800 backdrop-filter backdrop-blur-md bg-opacity-40 shadow-2xl rounded-b-3xl">
 
 
-<h2 class="text-center text-white text-3xl font-bold pt-6">LKR {{ product.price }}.00</h2> 
+    <h2 class="text-center text-white text-3xl font-bold pt-6">LKR {{ product.price }}.00</h2>
 
-<div class="text-center mt-3 mx-auto max-w-xs">
-<form class="max-w-xs mx-auto">
-  <label for="counter-input" class="block mb-1 text-sm font-medium text-gray-900 text-white">Person Count:</label>
-  <div class="text-center mt-3 mx-auto max-w-xs ">
-      <button type="button" id="decrement-button" (click)="peronCountDown(product)" data-input-counter-decrement="counter-input" class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-5 w-5 hover:ring-gray-100 dark:hover:ring-gray-700 hover:ring-2 hover:outline-none">
-          <svg class="w-2.5 h-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
-          </svg>
+    <div class="text-center mt-3 mx-auto max-w-xs"  *ngIf="product.productCategory != 'BEVERAGES'">
+      <form class="max-w-xs mx-auto">
+        <label for="counter-input" class="block mb-1 text-sm font-medium text-gray-900 text-white">Person Count:</label>
+        <div class="text-center mt-3 mx-auto max-w-xs ">
+          <button type="button" id="decrement-button" (click)="peronCountDown(product)"
+            data-input-counter-decrement="counter-input"
+            class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-5 w-5 hover:ring-gray-100 dark:hover:ring-gray-700 hover:ring-2 hover:outline-none">
+            <svg class="w-2.5 h-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 18 2">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+            </svg>
+          </button>
+          <input type="text" id="counter-input" [formControl]="myControl" disabled="true" data-input-counter
+            class="flex-shrink-0 text-gray-900 text-white border-0 bg-transparent text-sm font-normal focus:outline-none focus:ring-0 max-w-[2.5rem] text-center"
+            placeholder="" [(ngModel)]="product.personCount" required>
+          <button type="button" id="increment-button" (click)="peronCountUp(product)"
+            data-input-counter-increment="counter-input"
+            class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-5 w-5 hover:ring-gray-100 dark:hover:ring-gray-700 hover:ring-2 hover:outline-none">
+            <svg class="w-2.5 h-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 18 18">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 1v16M1 9h16" />
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="text-center mt-3 mx-auto max-w-xs"  *ngIf="product.productCategory == 'BEVERAGES'">
+      <form class="max-w-xs mx-auto">
+        <label for="counter-input" class="block mb-1 text-sm font-medium text-gray-900 text-white">Count:</label>
+        <div class="text-center mt-3 mx-auto max-w-xs ">
+          <button type="button" id="decrement-button" (click)="countDown(product)"
+            data-input-counter-decrement="counter-input"
+            class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-5 w-5 hover:ring-gray-100 dark:hover:ring-gray-700 hover:ring-2 hover:outline-none">
+            <svg class="w-2.5 h-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 18 2">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+            </svg>
+          </button>
+          <input type="text" id="counter-input" [formControl]="myControl" disabled="true" data-input-counter
+            class="flex-shrink-0 text-gray-900 text-white border-0 bg-transparent text-sm font-normal focus:outline-none focus:ring-0 max-w-[2.5rem] text-center"
+            placeholder="" [(ngModel)]="product.personCount" required>
+          <button type="button" id="increment-button" (click)="countUp(product)"
+            data-input-counter-increment="counter-input"
+            class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-5 w-5 hover:ring-gray-100 dark:hover:ring-gray-700 hover:ring-2 hover:outline-none">
+            <svg class="w-2.5 h-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 18 18">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 1v16M1 9h16" />
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="text-center m-auto mt-3 w-full col-span-3 pt-1"  *ngIf="product.productCategory != 'BEVERAGES'">
+      <button class="text-gray-400 font-bold text-sm focus:outline-none mb-2"
+        (click)="product.showIngredients = !product.showIngredients">
+        Ingredients <span class="inline-block">{{ product.showIngredients ? '▲' : '▼' }}</span>
       </button>
-      <input type="text" id="counter-input"  [formControl]="myControl" disabled="true" data-input-counter class="flex-shrink-0 text-gray-900 text-white border-0 bg-transparent text-sm font-normal focus:outline-none focus:ring-0 max-w-[2.5rem] text-center" placeholder="" [(ngModel)]="product.personCount" required>
-      <button type="button" id="increment-button" (click)="peronCountUp(product)" data-input-counter-increment="counter-input" class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-5 w-5 hover:ring-gray-100 dark:hover:ring-gray-700 hover:ring-2 hover:outline-none">
-          <svg class="w-2.5 h-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-          </svg>
-      </button>
+      <div *ngIf="product.showIngredients" class="flex flex-wrap gap-2 justify-center">
+        <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800"
+          *ngFor="let ingredient of product.ingredients">{{ ingredient.description }}</div>
+      </div>
+    </div>
+
+    <h2 class="text-center text-white text-2xl font-bold pt-6">{{ product.mealName }}</h2>
+
+
+
+    <div class="text-center m-auto mt-4 w-full h-8">
+      <div class="mx-auto h-12 w-auto flex justify-center items-center relative">
+        <button (click)="addToCart()"
+          class="bg-white text-black font-bold py-2 px-6 rounded-full hover:bg-gray-100 focus:outline-none focus:shadow-outline-blue active:bg-gray-200 ">
+          <div class="flex items-center">
+            <img src="assets/icons/checkout.svg" style="fill: black;" alt="Add to Cart" class="w-5 h-5 mr-2" />
+            <span class="text-black">Add to Cart</span>
+          </div>
+        </button>
+      </div>
+
+
+    </div>
+    <div class="text-center m-auto mt-4 w-full h-2"></div>
   </div>
-</form>
 </div>
 
-      <div class="text-center m-auto mt-3 w-full col-span-3 pt-1">
-        <button class="text-gray-400 font-bold text-sm focus:outline-none mb-2"
-          (click)="product.showIngredients = !product.showIngredients">
-          Ingredients <span class="inline-block">{{ product.showIngredients ? '▲' : '▼' }}</span>
-        </button>
-        <div *ngIf="product.showIngredients" class="flex flex-wrap gap-2 justify-center">
-          <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800"
-            *ngFor="let ingredient of product.ingredients">{{ ingredient.description }}</div>
-        </div>
-      </div>
 
-      <h2 class="text-center text-white text-2xl font-bold pt-6">{{ product.mealName }}</h2> 
-
-
-      
-      <div class="text-center m-auto mt-4 w-full h-8">
-        <div class="mx-auto h-12 w-auto flex justify-center items-center relative">
-          <button (click)="addToCart()" class="bg-white text-black font-bold py-2 px-6 rounded-full hover:bg-gray-100 focus:outline-none focus:shadow-outline-blue active:bg-gray-200 ">
-              <div class="flex items-center">
-                  <img src="assets/icons/checkout.svg" style="fill: black;" alt="Add to Cart" class="w-5 h-5 mr-2" />
-                  <span class="text-black">Add to Cart</span>
-              </div>
-          </button>
-      </div>
-      
-          
-      </div>
-      <div class="text-center m-auto mt-4 w-full h-2"></div>
-    </div>
-  </div>
-
-
-  <!-- <div class="wrap">
+<!-- <div class="wrap">
     <a href="#" title="" style="position: relative; display: block;">
       <div style="background-image: url({{product.img}});">
         <span>
@@ -71,4 +108,3 @@
       </div>
     </a>
   </div> -->
-  

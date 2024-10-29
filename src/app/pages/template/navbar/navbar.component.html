@@ -72,7 +72,7 @@
           <!-- Rest of your HTML -->
 
           <div
-            class="absolute backdrop-filter backdrop-blur-md bg-opacity-90 right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+            class="absolute backdrop-filter backdrop-blur-md bg-opacity-90 right-0 z-10 mt-2 w-72 origin-top-right rounded-md bg-gray-800 py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"
             [ngClass]="{ block: isCart, hidden: !isCart }">
             <!-- Loop through the itemsList array -->
@@ -83,7 +83,7 @@
               </div>
 
               <div style="cursor: pointer;">
-                <img (click)="cartRemove(item.cartId)" src="../../../../../assets/icons/ic_delete.svg" alt="">
+                <img (click)="cartRemove(item.cartId)" src="assets/icons/ic_delete.svg" alt="">
               </div>
             </div>
 
@@ -94,7 +94,7 @@
                 class="flex justify-center w-full px-3 py-2 text-xs font-medium text-center inline-flex items-center text-blue-700 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 [style.background]="buttonHover ? '#374151' : 'transparent'" (mouseenter)="buttonHover = true"
                 (mouseleave)="buttonHover = false">
-                <img src="../../../../../assets/icons/checkout.svg" alt="Cart Icon" class="w-4 h-4 me-2"
+                <img src="assets/icons/checkout.svg" alt="Cart Icon" class="w-4 h-4 me-2"
                   style="filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(306deg) brightness(100%) contrast(100%)" />
                 Checkout
               </button>

@@ -37,7 +37,11 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     
     this.activeUser=this.storageService.getUser();
-    this.product.personCount =4;
+    if(this.product.productCategory == 'BEVERAGES') {
+      this.product.personCount =1;
+    }else {
+      this.product.personCount =4;
+    }
     this.initialForm();
     
   }
@@ -75,6 +79,34 @@ export class ProductComponent implements OnInit {
       this.product.priceChange = true;
     }
 
+  }
+
+  countUp(product: any) {
+
+    if (!this.product.priceChange) {
+      product.productBasicPrice =product.price;
+      product.perPersonPrice = product.productBasicPrice / this.product.personCount;
+    }
+    if(this.product.personCount <10) {
+      this.product.personCount =this.product.personCount+1;
+  
+      product.price =product.perPersonPrice * this.product.personCount;
+      this.product.priceChange = true;
+    }
+  }
+
+  countDown(product: any) {
+
+    if (!this.product.priceChange) {
+      product.productBasicPrice =product.price;
+      product.perPersonPrice = product.productBasicPrice / this.product.personCount;
+    }
+
+    if(this.product.personCount > 1) {
+      this.product.personCount =this.product.personCount-1;
+      product.price =product.perPersonPrice * this.product.personCount;
+      this.product.priceChange = true;
+    }
   }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
