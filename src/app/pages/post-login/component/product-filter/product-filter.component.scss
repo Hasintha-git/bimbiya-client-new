@@ -9,29 +9,29 @@
     display: flex;
     flex-wrap: wrap;
   }
-  
+
   .card-item {
     flex: 1 0 50%;
   }
 
   .mat-paginator {
-    width: 100%; 
+    width: 100%;
   }
-  
-  
+
+
   .card-list-row {
     width: 100%;
     margin-bottom: 1rem; /* Adjust as needed for the gap between lines */
   }
-  
+
   .card-gap {
-    
+
   }
-  
+
   .pagination-controls {
     margin-top: 16px;
   }
-  
+
   ::ng-deep .mat-paginator {
     background-color: gray !important; /* Set the background color to gray */
     color: white !important; /* Set the text color to white */
@@ -40,7 +40,7 @@
     padding: 0 !important;
     font-size: 11px !important;
   }
-  
+
   .paginator {
     width: 100%;
     height: auto;
@@ -51,7 +51,7 @@
     align-items: center;
     font-size: 11px !important;
   }
-  
+
 
   /* Add this style for mobile view */
 .card-list-container.mobile-view {
@@ -78,7 +78,7 @@
   }
 }
 .svg-icon path {
-  width: 20px; 
-  height: auto; 
+  width: 20px;
+  height: auto;
   fill: white !important; /* Set the color of the SVG elements */
 }
