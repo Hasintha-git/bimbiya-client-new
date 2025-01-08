@@ -84,13 +84,3 @@
   color: #ffffff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
-
-/* Hover animation for the entire banner */
-.img-banner:hover img {
-  transform: scale(1.1); /* Zoom in effect for the image */
-}
-
-.img-banner:hover .btn-order {
-  opacity: 1; /* Fade in button */
-  transform: translate(-50%, 0); /* Slide button into place */
-}
