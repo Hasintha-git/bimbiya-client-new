@@ -4,12 +4,14 @@
   max-width: 100%;
   height: 100vh;
   position: relative;
+  overflow: hidden; /* Prevents content from spilling out */
 }
 
 .swiper-slide-1 img {
   width: 100%;
   height: 100vh;
   object-fit: cover;
+  transition: transform 0.5s ease-in-out; /* Smooth zoom effect on hover */
 }
 
 .img-banner {
@@ -17,6 +19,7 @@
   height: 100vh !important;
   overflow: hidden;
   position: relative;
+  transition: all 0.3s ease; /* Smooth transition for hover */
 }
 
 .img-banner img {
@@ -26,6 +29,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  transition: transform 0.5s ease; /* Image zooms on hover */
 }
 
 /* Desktop Banner - Default visibility */
@@ -56,7 +60,7 @@
 
 /* Button styles */
 .btn-order {
-  background-color: #ffffff; /* Green */
+  background-color: #ffffff;
   border: none;
   color: #000000;
   padding: 5px 15px;
@@ -70,11 +74,23 @@
   transform: translateX(-50%);
   cursor: pointer;
   border-radius: 8px;
-  transition: background-color 0.3s ease;
+  opacity: 0; /* Start hidden */
+  transform: translate(-50%, 30%); /* Start slightly below */
+  transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth fade and slide-in effect */
 }
 
 .btn-order:hover {
   background-color: #333333;
   color: #ffffff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Hover animation for the entire banner */
+.img-banner:hover img {
+  transform: scale(1.1); /* Zoom in effect for the image */
+}
+
+.img-banner:hover .btn-order {
+  opacity: 1; /* Fade in button */
+  transform: translate(-50%, 0); /* Slide button into place */
 }
