@@ -1,6 +1,6 @@
 {
   "name": "bimbiya-client",
-  "version": "1.0.1",
+  "version": "1.0.20",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

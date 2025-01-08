@@ -9,7 +9,7 @@
       width: 50%;
     }
   }
-  
+
   /* Styles for smaller screens (mobile) */
   @media (max-width: 767px) {
     .flex {
@@ -22,12 +22,12 @@
       // margin-bottom: 10px; /* Optional: Add margin between items */
     }
   }
-  
+
   .cart-div .bg-cover {
     background-size: cover;
     background-position: center;
   }
-  
+
 
   .btn {
     background-color: #ffffff; /* Green */
@@ -42,17 +42,33 @@
     font-family: Arial, Helvetica, sans-serif !important;
     // margin: 4px 8px !important;
     position: absolute;
-    bottom: 10%; 
-    right: 17%; 
+    bottom: 10%;
+    right: 17%;
     transform: translateX(-50%);
     cursor: pointer;
     border-radius: 8px;
     transition: background-color 0.5s ease;
   }
-  
+
   .btn:hover {
-    background-color: #ffffff; 
+    background-color: #ffffff;
     color: #000000;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   }
-  
+
+  .cat-image {
+    height: 300px !important;
+    cursor: pointer !important;
+    &:hover {
+      img {
+        transform: scale(1.1); // Slight zoom effect
+        transition: transform 0.3s ease-in-out; // Smooth animation
+      }
+
+      // .overlay {
+      //   opacity: 1; // Fade in overlay
+      //   transform: translateY(0); // Slide overlay in from bottom
+      //   transition: opacity 0.3s ease, transform 0.3s ease; // Smooth overlay effect
+      // }
+    }
+  }
