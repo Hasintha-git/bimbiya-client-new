@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { ScheduleOrderComponent } from '../schedule-order/schedule-order.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, debounceTime, map, share, startWith } from 'rxjs';
 import { CartDetails } from 'src/app/models/cart-details';
 import { AddToCartService } from 'src/app/services/Cart/add-to-cart.service';
 import { CommonResponse } from 'src/app/models/CommonResponse';
@@ -14,7 +14,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  styleUrls: ['./product.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductComponent implements OnInit {
   @Input() product: any;
@@ -24,18 +25,18 @@ export class ProductComponent implements OnInit {
   cartModel= new CartDetails();
   filteredOptions: Observable<string[]>;
   activeUser:any;
-  constructor(   
+  constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
     private cartService: AddToCartService,
-    
+
     public toastService: ToastServiceService,
     private spinner: NgxSpinnerService,
     private storageService: StorageService,
     private router: Router,) { }
 
   ngOnInit(): void {
-    
+
     this.activeUser=this.storageService.getUser();
     if(this.product.productCategory == 'BEVERAGES') {
       this.product.personCount =1;
@@ -43,16 +44,17 @@ export class ProductComponent implements OnInit {
       this.product.personCount =4;
     }
     this.initialForm();
-    
+
   }
 
   initialForm() {
     this.filteredOptions = this.myControl.valueChanges.pipe(
+      debounceTime(300), // Add debounce
       startWith(''),
       map(value => this._filter(value || '')),
     );
   }
-  
+
   peronCountUp(product: any) {
     if (!this.product.priceChange) {
       product.productBasicPrice =product.price;
@@ -60,7 +62,7 @@ export class ProductComponent implements OnInit {
     }
     if(this.product.personCount <50) {
       this.product.personCount =this.product.personCount+2;
-  
+
       product.price =product.perPersonPrice * this.product.personCount;
       this.product.priceChange = true;
     }
@@ -89,7 +91,7 @@ export class ProductComponent implements OnInit {
     }
     if(this.product.personCount <10) {
       this.product.personCount =this.product.personCount+1;
-  
+
       product.price =product.perPersonPrice * this.product.personCount;
       this.product.priceChange = true;
     }
@@ -110,25 +112,25 @@ export class ProductComponent implements OnInit {
   }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-  
+
     return this.options
       .filter(option => option.toString().toLowerCase().includes(filterValue))
       .map(option => option.toString());
   }
-  
+
 
   trackOption(index: number, option: any): any {
     return option; // Replace with a unique identifier for each option if possible
   }
 
   signIn() {
-    
+
     this.router.navigate(['/auth/signin']);
   }
 
   addToCart() {
     this.activeUser=this.storageService.getUser();
-    if(this.activeUser == null) {
+    if (!this.activeUser) {
       return this.signIn();
     }
     this.cartModel.productPrice=this.product.price;
@@ -141,10 +143,10 @@ export class ProductComponent implements OnInit {
     this.cartService.addToCart(this.cartModel).subscribe(
       (response: CommonResponse) => {
         this.toastService.successMessage(response.responseDescription);
-        
+
       },
       error => {
-        
+
           this.toastService.errorMessage(error.error['errorDescription']);
       }
     );

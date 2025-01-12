@@ -15,7 +15,7 @@
             <div style="display: flex;flex-direction: column;">
                 <label style="font-weight: 500;" class="text-white">User Name</label>
                 <mat-form-field class="ultra-max-field" appearance="outline">
-                    <input matInput placeholder="username" formControlName="username"
+                    <input matInput placeholder="Enter User Name Here" formControlName="username"
                         [(ngModel)]="signInModel.username">
                     <button mat-icon-button matSuffix type="button">
                         <mat-icon style="color: #ffffff;">people</mat-icon>
@@ -40,7 +40,7 @@
                 </mat-form-field>
             </div> -->
 
-            
+
             <div style="display: flex; flex-direction: column;">
                 <label style="font-weight: 500;" class="text-white">Password</label>
                 <mat-form-field class="ultra-max-field" appearance="outline" style="border: none; border-radius: 0;">
@@ -54,20 +54,20 @@
                     <mat-error *ngIf="password.hasError('minlength')">Password must be at least 6 characters long</mat-error>
                 </mat-form-field>
             </div>
-            
-            
+
+
         </div>
         <span class="new-line "></span>
         <div class="login-side1-row">
-            <button type="submit" class="btn-login" mat-flat-button>Login with bimbiya</button>
+            <button type="submit" class="btn-login btn-animate" mat-flat-button>Login with bimbiya</button>
         </div>
         <span class="new-line "></span>
         <div class="login-side1-row" style="display: flex;justify-content: center;align-items: center;">
             <!-- <p class="des" (click)="forgetPassword()">Forgot Password ? </p> -->
 
         </div>
-        <div class="login-side1-row" style="display: flex;justify-content: center;align-items: center;">
-            <p class="des" (click)="signUp()"><span class="txt_register">Register</span> </p>
+        <div class="login-side1-row " style="display: flex;justify-content: center;align-items: center;">
+            <button class="des btn-animate" (click)="signUp()"><span class=" txt_register">Register</span> </button>
 
         </div>
 

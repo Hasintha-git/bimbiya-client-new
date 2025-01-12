@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonResponse } from 'src/app/models/CommonResponse';
 import { SimpleBase } from 'src/app/models/SimpleBase';
 import { User } from 'src/app/pages/models/user';
@@ -34,12 +32,11 @@ export class SignUpComponent implements OnInit {
 
   public currentTab: number = 1;
   constructor(private toastr: ToastServiceService,
-    private spinner: NgxSpinnerService,
     private userService: LoginService,
     private formBuilder: FormBuilder,
     public authService: AuthService,
     public route: ActivatedRoute,
-    private routerLink: Router, 
+    private routerLink: Router,
     private nicValidationConfig: NicValidationService,
     public dialog: MatDialog,) { }
 
@@ -62,7 +59,7 @@ export class SignUpComponent implements OnInit {
 
   // Method to handle district change event
   onDistrictChange(event: any) {
-    
+
     this.signUpModel.district = event.value;
 }
 
@@ -130,8 +127,8 @@ export class SignUpComponent implements OnInit {
       address: this.formBuilder.control('', [Validators.required]),
       city: this.formBuilder.control('', [Validators.required]),
       district: this.formBuilder.control('', [Validators.required]),
-    })    
-    
+    })
+
     this.form4 = this.formBuilder.group({
       confirmPassword: this.formBuilder.control('', [Validators.required]),
       password: this.formBuilder.control('', [Validators.required])
@@ -139,7 +136,7 @@ export class SignUpComponent implements OnInit {
 
     this.otpForm = this.formBuilder.group({
       otpReq: this.formBuilder.control('', [Validators.required]),
-    })  
+    })
   }
 
   nicValidator(): ValidatorFn {
@@ -163,31 +160,31 @@ export class SignUpComponent implements OnInit {
     };
   }
   onSubmit() {
-    
+
     this.signUpModel.status ="active";
     this.signUpModel.userRole = 'client';
       this.userService.add(this.signUpModel).subscribe(
         (response: CommonResponse) => {
-          
+
           this.otpSend = response.responseDescription;
           this.step = 5;
         },
         error => {
-          
+
             this.toastr.errorMessage(error.error['errorDescription']);
         }
       );
   }
 
   otpConfirm() {
-    
+
       this.userService.otpConfirm(this.otp, this.signUpModel.username).subscribe(
         (response: CommonResponse) => {
-          
+
           this.signIn();
         },
         error => {
-          
+
             this.toastr.errorMessage(error.error['errorDescription']);
         }
       );

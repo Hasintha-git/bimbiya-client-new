@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { SimpleBase } from 'src/app/models/SimpleBase';
 import { ProductService } from 'src/app/services/product/product.service';
 import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
-import { merge, tap } from 'rxjs';
+import { debounceTime, finalize, merge, tap } from 'rxjs';
 import { Commondatasource } from 'src/app/pages/datasource/Commondatasource';
 import { CommonFunctionService } from 'src/app/services/common-functions/common-function.service';
 import { DataTable } from 'src/app/pages/models/data-table';
@@ -119,12 +119,15 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
     }
   }
   prepareReferenceData(): void {
+    console.log("init");
     this.productService.getSearchData(true).subscribe(
       (response: any) => {
+        console.log("init 2");
         this.statusList = response.statusList;
         this.portionList = response.portionList;
         this.ingredientsList = response.ingredientsList;
         this.productCatList = response.productCatList;
+        console.log("finished")
       },
       error => {
         this.toast.errorMessage(error.error['message']);
@@ -179,9 +182,14 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   }
 
   getList() {
+    this.spinner.show(); // Show spinner to indicate loading
     let searchParamMap = this.commonFunctionService.getDataTableParam(this.paginator);
     searchParamMap = this.getSearchString(searchParamMap, this.searchModel);
-    this.productService.getList(searchParamMap).subscribe(
+
+    this.productService.getList(searchParamMap).pipe(
+      debounceTime(300), // Debounce to reduce rapid API calls
+      finalize(() => this.spinner.hide()) // Hide spinner after API response
+    ).subscribe(
       (data: DataTable<Product>) => {
         this.productList = data.records;
         this.dataSource.datalist = this.productList;
@@ -193,6 +201,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
       }
     );
   }
+
 
   getSearchString(searchParamMap: Map<string, any>, searchModel: Product): Map<string, string> {
     const controls = this.productFilter.controls;

@@ -28,10 +28,10 @@
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             <a routerLink="/delivery/home" routerLinkActive="activated-route"
-              class="text-white rounded-md px-3 py-2 text-sm font-medium custom-letter-spacing" aria-current="page">Home</a>
+              class="animate-btn text-white rounded-md px-3 py-2 text-sm font-medium custom-letter-spacing" aria-current="page">Home</a>
 
             <a routerLink="/delivery/product" routerLinkActive="activated-route"
-              class="text-white rounded-md px-3 py-2 text-sm font-medium custom-letter-spacing">Product</a>
+              class="animate-btn text-white rounded-md px-3 py-2 text-sm font-medium custom-letter-spacing">Product</a>
           </div>
         </div>
       </div>
@@ -42,13 +42,13 @@
                 <span class="sr-only">Search</span>
                 <img src="../assets/icons/search.svg" alt="Cart" class="h-6 w-6" style="filter: grayscale(1) brightness(0) invert(1)">
               </button>
-              
+
         </div>
       </div> -->
         <div class="relative ml-3">
           <div>
             <button id="cartBtn" (click)="toggleCartMenu()" type="button"
-              class="relative bg-gray-800 rounded-full p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+              class="animate-btn relative bg-gray-800 rounded-full p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
               <span class="sr-only">Cart</span>
               <img src="../assets/icons/cart.svg" alt="Cart" class="h-6 w-6"
                 style="filter: grayscale(1) brightness(0) invert(1)">
@@ -61,7 +61,7 @@
         <div class="relative ml-3">
           <div>
             <button id="profileBtn" (click)="toggleProfileMenu()" type="button"
-              class="relative bg-gray-800 rounded-full p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+              class="animate-btn relative bg-gray-800 rounded-full p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
               <span class="sr-only">Profile</span>
               <img src="../assets/icons/profile.svg" alt="Cart" class="h-7 w-7"
                 style="filter: grayscale(1) brightness(0) invert(1)">
@@ -104,7 +104,7 @@
   class="absolute backdrop-filter backdrop-blur-md bg-opacity-90 right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
   role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"
   [ngClass]="{ block: isProfile, hidden: !isProfile }">
-           
+
             <button *ngIf="!isUserLogged" (click)="accountCreate()" [style.background]="buttonHover ? '#374151' : 'transparent'"
               (mouseenter)="buttonHover = true" (mouseleave)="buttonHover = false"
               class="flex justify-center w-full px-3 py-2 text-xs font-medium text-center inline-flex items-center text-blue-700 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

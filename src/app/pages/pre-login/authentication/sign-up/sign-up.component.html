@@ -1,8 +1,8 @@
 <!-- <h1 class="text-lg font-bold text-white leading-tight text-center mt-12 mb-5 " style="position: relative; z-index: 9999;">Join with bimbiya</h1> -->
-      
+
 
 <div class="p-5 container signup-side1-div" >
-  
+
     <!-- start step indicators -->
     <!-- <div class="form-header flex gap-3 mb-4 text-xs text-center">
         <span class="stepIndicator flex-1 pb-8 relative">Account Setup</span>
@@ -80,7 +80,7 @@
             <mat-form-field class="ultra-max-field" appearance="outline">
                 <input matInput placeholder="Enter your mail address" [maxlength]="32" formControlName="email" required
                     [(ngModel)]="signUpModel.email">
-    
+
                 <mat-error *ngIf="email.hasError('required')">Email cannot be empty
                 </mat-error>
             </mat-form-field>
@@ -90,7 +90,7 @@
             <mat-form-field class="ultra-max-field" appearance="outline">
                 <input matInput placeholder="Enter your mobile no" [maxlength]="10" formControlName="mobile" required
                     [(ngModel)]="signUpModel.mobileNo">
-    
+
                 <mat-error *ngIf="mobile.hasError('required')">Mobile Number cannot be empty
                 </mat-error>
             </mat-form-field>
@@ -115,7 +115,7 @@
             </div>
             <mat-error *ngIf="distr.hasError('required')">District cannot be empty</mat-error>
           </div>
-          
+
           <br>
 
 
@@ -187,7 +187,7 @@
 
     <p class="text-md text-white leading-tight text-center"  *ngIf="step == 5" >{{otpSend}}</p>
 
-    
+
     <div style="display: flex;flex-direction: column;">
         <label style="font-weight: 500;" class="text-white">OTP</label>
         <mat-form-field class="ultra-max-field" appearance="outline">
@@ -202,16 +202,16 @@
 </div>
     <!-- start previous / next buttons -->
     <div class="form-footer flex gap-3">
-        
-        <button type="button" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center btn-back text-md"  *ngIf="step != 5" (click)="backPrev()"      >Back</button>
-        <button type="button" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center btn-next text-md"  style="height: 38px;background-color: #29323d;" *ngIf="step != 4 && step != 5" (click)="nextPrev(1)">Next</button>
-        <button type="submit" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center btn-submit text-md" style="height: 38px;" *ngIf="step == 4 "   (click)="submitData()">Submit</button>
-        <button type="button" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center text-white bg-indigo-600 hover:bg-indigo-700 text-md" style="height: 38px;" *ngIf="step == 5"   (click)="otpConfirm()">Confirm OTP</button>
+
+        <button type="button" id="nextBtn" class="btn-animate flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center btn-back text-md"  *ngIf="step != 5" (click)="backPrev()"      >Back</button>
+        <button type="button" id="nextBtn" class="btn-animate flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center btn-next text-md"  style="height: 38px;background-color: #29323d;" *ngIf="step != 4 && step != 5" (click)="nextPrev(1)">Next</button>
+        <button type="submit" id="nextBtn" class="btn-animate flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center btn-submit text-md" style="height: 38px;" *ngIf="step == 4 "   (click)="submitData()">Submit</button>
+        <button type="button" id="nextBtn" class="btn-animate flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center text-white bg-indigo-600 hover:bg-indigo-700 text-md" style="height: 38px;" *ngIf="step == 5"   (click)="otpConfirm()">Confirm OTP</button>
     </div>
     <br>
     <br>
     <div class="login-side1-row" style="display: flex;justify-content: center;align-items: center;">
-        <button type="button" id="nextBtn" class="txt_register flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center text-md"  (click)="signIn()">Login</button>
+        <button type="button" id="nextBtn" class="btn-animate txt_register flex-1 border border-transparent focus:outline-none p-1 rounded-md text-center text-md"  (click)="signIn()">Login</button>
     </div>
 
 </div>

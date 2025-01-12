@@ -7,7 +7,7 @@ header {
     background-color: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  
+
     nav {
       max-width: 1200px;
       margin: 0 auto;
@@ -15,20 +15,20 @@ header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-  
+
       .flex {
         flex: 1;
       }
-  
+
       .flex > a {
         margin-right: 1.5rem;
       }
-  
+
       .justify-center {
         display: flex;
         justify-content: center;
       }
-  
+
       button {
         border: none;
         background: none;
@@ -56,4 +56,10 @@ header {
 
 .custom-letter-spacing {
   letter-spacing: 0.1em !important;
+}
+
+
+.animate-btn :hover {
+  transform: scale(1.1); // Slight zoom effect
+  transition: transform 0.4s ease-in-out; // Smooth animation
 }

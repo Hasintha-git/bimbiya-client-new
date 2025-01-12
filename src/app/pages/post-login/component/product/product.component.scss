@@ -174,4 +174,17 @@
 
   .add-to-cart-button:hover {
     background-color: #2980b9;
+    transform: scale(1.1); // Slight zoom effect
+    transition: transform 0.3s ease-in-out; // Smooth animation
+  }
+
+  .add-to-cart-btn:hover {
+    transform: scale(1.1); // Slight zoom effect
+    transition: transform 0.4s ease-in-out; // Smooth animation
+  }
+
+  .ing-animate-btn :hover {
+    transform: scale(1.1); // Slight zoom effect
+    transition: transform 0.4s ease-in-out; // Smooth animation
+    color: white !important;
   }

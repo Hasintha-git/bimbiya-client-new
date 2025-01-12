@@ -23,12 +23,10 @@ import {
   REFRESH_TOKEN_EXPIRED,
   SESSION_TIME_OUT_ERROR_CODE,
   SESSION_TIME_OUT_ERROR_DES,
-  TOKEN_EXPIRED_ERROR_CODE,
   UNAUTHORIZED_ERROR_CODE,
   UNAUTHORIZED_ERROR_DES
 } from '../../utility/constants/message-var-list';
 import { ToastServiceService } from '../toast/toast-service.service';
-import { MatCardLgImage } from '@angular/material/card';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +35,7 @@ export class Interceptor implements HttpInterceptor {
   private activeRequests = 0;
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
 
   constructor(
     private storageService: StorageService,
@@ -47,8 +46,17 @@ export class Interceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    this.addRequest();
-    this.showSpinner();
+
+    // Check if the request should bypass the spinner
+  const bypassSpinner = request.url.includes('/trending-list');
+
+    if (!bypassSpinner) {
+      this.addRequest();
+      this.showSpinner();
+    }
+
+    // this.addRequest();
+    // this.showSpinner();
     const authToken = this.storageService.getSession();
 
     if (authToken) {
@@ -62,7 +70,10 @@ export class Interceptor implements HttpInterceptor {
         }
       }),
       finalize(() => {
-        this.hideSpinner();
+        // if (!bypassSpinner) {
+          this.removeRequest();
+          this.hideSpinner();
+        // }
       })
     )
       .pipe(
@@ -92,8 +103,10 @@ export class Interceptor implements HttpInterceptor {
         return throwError(() => error);
       }),
       finalize(() => {
-        this.removeRequest();
-        this.hideSpinner();
+        // if (!bypassSpinner) {
+          this.removeRequest();
+          this.hideSpinner();
+        // }
       })
     );
   }

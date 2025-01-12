@@ -148,6 +148,7 @@
         width: 100% !important;
         height: auto !important;
         padding: 20px !important;
+        box-shadow:none;
     }
     .login-side2 {
         display: none !important;
@@ -156,4 +157,9 @@
 
 ::ng-deep input.mat-input-element {
     color: #ffffff;
+  }
+
+  .btn-animate:hover {
+    transform: scale(1.1); // Slight zoom effect
+    transition: transform 0.4s ease-in-out; // Smooth animation
   }
