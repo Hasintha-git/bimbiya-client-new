@@ -43,7 +43,7 @@
 
             </ul>
 
-            <div class="border-t border-gray-200 px-4 py-6">
+            <div class="border-t border-gray-200 px-4 py-6" *ngIf="productCategory == 'BITE'">
               <h3 class="-mx-2 -my-3 flow-root">
                 <!-- Expand/collapse section button -->
                 <button type="button" class="flex w-full items-center justify-between text-white hover:text-blue"
@@ -57,7 +57,7 @@
                   <div class="flex items-center" *ngFor="let portion of portionList">
                     <input id="filter-category-{{portion.code}}" name="category[]" [value]="portion.code"
                       (change)="onPortionChange(portion.code)" type="checkbox"
-                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 " style="cursor: pointer;" />
                     <label for="filter-category-{{portion.code}}"
                       class="ml-3 text-sm text-white">{{portion.description}}</label>
                   </div>
@@ -66,7 +66,7 @@
                 </div>
               </div>
             </div>
-            <div class="border-t border-gray-200 px-4 py-6">
+            <div class="border-t border-gray-200 px-4 py-6" *ngIf="productCategory == 'BITE'">
               <h3 class="-mx-2 -my-3 flow-root">
                 <!-- Expand/collapse section button -->
                 <button type="button" class="flex w-full items-center justify-between text-white hover:text-blue"
@@ -79,7 +79,7 @@
                 <div class="space-y-6">
                   <div class="flex items-center" *ngFor="let ing of ingredientsList">
                     <input id="filter-category-{{ing.id}}" name="category[]" [value]="ing.id"
-                      (change)="onIngredientChange(ing.id)" type="checkbox"
+                      (change)="onIngredientChange(ing.id)" type="checkbox"  style="cursor: pointer;"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
                     <label for="filter-category-{{ing.id}}" class="ml-3 text-sm text-white">{{ing.description}}</label>
                   </div>
@@ -175,7 +175,7 @@
               </div>
             </div>
 
-            <div class="border-b border-gray-200 py-6">
+            <div class="border-b border-gray-200 py-6" *ngIf="productCategory == 'BITE'">
               <h3 class="-my-3 flow-root">
                 <!-- Expand/collapse section button -->
                 <button type="button"
@@ -189,7 +189,7 @@
                 <div class="space-y-4">
                   <div class="flex items-center" *ngFor="let por of portionList">
                     <input id="filter-category-{{por.code}}" name="category[]" [value]="por.code"
-                      (change)="onPortionChange(por.code)" type="checkbox"
+                      (change)="onPortionChange(por.code)" type="checkbox" style="cursor: pointer;"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
                     <label for="filter-category-{{por.code}}"
                       class="ml-3 text-sm text-white">{{por.description}}</label>
@@ -198,7 +198,7 @@
                 </div>
               </div>
             </div>
-            <div class="border-b border-gray-200 py-6">
+            <div class="border-b border-gray-200 py-6" *ngIf="productCategory == 'BITE'">
               <h3 class="-my-3 flow-root">
                 <!-- Expand/collapse section button -->
                 <button type="button"
@@ -212,7 +212,7 @@
                 <div class="space-y-4">
                   <div class="flex items-center" *ngFor="let ing of ingredientsList">
                     <input id="filter-category-{{ing.id}}" name="category[]" [value]="ing.id"
-                      (change)="onIngredientChange(ing.id)" type="checkbox"
+                      (change)="onIngredientChange(ing.id)" type="checkbox" style="cursor: pointer;"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
                     <label for="filter-category-{{ing.id}}" class="ml-3 text-sm text-white">{{ing.description}}</label>
                   </div>
@@ -240,7 +240,7 @@
 
             <div class="paginator">
               <mat-paginator [length]="products.length" [pageSize]="itemsPerPage" [pageIndex]="currentPage - 1"
-                [pageSizeOptions]="[2, 4, 6, 8]" (page)="currentPage = $event.pageIndex + 1"></mat-paginator>
+                [pageSizeOptions]="[2, 4, 6, 8]" (page)="currentPage = $event.pageIndex + 1"  (page)="onPageChange()"></mat-paginator>
             </div>
           </div>
         </div>

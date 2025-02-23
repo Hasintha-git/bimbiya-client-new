@@ -36,7 +36,7 @@ public foodData: Product[];
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
-        },  
+        },
         breakpoints: {
           1100: {
             slidesPerView: 3,
@@ -74,18 +74,18 @@ public foodData: Product[];
     private spinner: NgxSpinnerService,) { }
 
   ngOnInit(): void {
-    
+
     this.getList();
   }
 
-  
+
   getList() {
     this.productService.getTrendingList()
       .subscribe((data: DataTable<Product>) => {
         this.foodData = data.records;
       },
         error => {
-          
+
           this.toast.errorMessage(error.error['errorDescription']);
         }
       );

@@ -1,0 +1,19 @@
+.trending-title {
+  text-align: center; // Center align the text
+  color: white;
+  font-size: 24px;
+  padding-bottom: 10px;
+  opacity: 0;
+  animation: slideIn 1s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px); // Start from the left
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

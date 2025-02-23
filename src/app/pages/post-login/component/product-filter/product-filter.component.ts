@@ -48,6 +48,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   totalItems: number;
 
   productCategory: string;
+  productCategoryChange: boolean = false;
   products = [];
   isBite = false;
   isBeverages = false;
@@ -77,6 +78,9 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
     this.initialDataLoader();
   }
 
+  onPageChange() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
   initialValidator() {
     this.productFilter = this.formBuilder.group({
       foods: new FormControl({ value: this.isBite, disabled: this.isBite }),
@@ -101,6 +105,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   }
 
   categoryChange(type: string) {
+    this.productCategoryChange = true;
     this.productCategory = type;
     this.section = type === "BITE" ? "Bite Section" : "Beverages";
     this.isBite = type === "BITE";
@@ -182,13 +187,20 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   }
 
   getList() {
-    this.spinner.show(); // Show spinner to indicate loading
+    this.spinner.show();
+    if (this.productCategoryChange || this.portion.length || this.ingredientList.length) {
+      this.paginator.pageIndex = 0;
+      this.paginator.pageSize = 4;
+    }
     let searchParamMap = this.commonFunctionService.getDataTableParam(this.paginator);
     searchParamMap = this.getSearchString(searchParamMap, this.searchModel);
 
     this.productService.getList(searchParamMap).pipe(
-      debounceTime(300), // Debounce to reduce rapid API calls
-      finalize(() => this.spinner.hide()) // Hide spinner after API response
+      tap(() => console.log('API request started')), // Debugging: Confirm when API request starts
+      finalize(() => {
+        console.log('API request completed'); // Debugging: Confirm when API request finishes
+        this.spinner.hide();
+      }) // Hide spinner after API response or error
     ).subscribe(
       (data: DataTable<Product>) => {
         this.productList = data.records;
@@ -198,25 +210,29 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
       },
       error => {
         this.toast.errorMessage(error.error['errorDescription']);
+        this.spinner.hide(); // Ensure spinner hides even on error
       }
     );
+
   }
 
 
   getSearchString(searchParamMap: Map<string, any>, searchModel: Product): Map<string, string> {
     const controls = this.productFilter.controls;
 
-    if (controls.toPrice.value) {
-      searchParamMap.set("toPrice", controls.toPrice.value);
-    }
-    if (controls.fromPrice.value) {
-      searchParamMap.set("fromPrice", controls.fromPrice.value);
-    }
-    if (this.portion.length) {
-      searchParamMap.set("portion", this.portion.join(','));
-    }
-    if (this.ingredientList.length) {
-      searchParamMap.set("ingredientList", this.ingredientList.join(','));
+    if(this.productCategory == 'BITE') {
+      if (controls.toPrice.value) {
+        searchParamMap.set("toPrice", controls.toPrice.value);
+      }
+      if (controls.fromPrice.value) {
+        searchParamMap.set("fromPrice", controls.fromPrice.value);
+      }
+      if (this.portion.length) {
+        searchParamMap.set("portion", this.portion.join(','));
+      }
+      if (this.ingredientList.length) {
+        searchParamMap.set("ingredientList", this.ingredientList.join(','));
+      }
     }
     searchParamMap.set("productCategory", this.productCategory);
     return searchParamMap;
