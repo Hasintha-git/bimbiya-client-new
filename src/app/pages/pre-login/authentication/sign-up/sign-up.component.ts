@@ -116,7 +116,9 @@ export class SignUpComponent implements OnInit {
       nic: this.formBuilder.control('', [Validators.required, this.nicValidator()]),
     })
     this.form2 = this.formBuilder.group({
-      email: this.formBuilder.control('', [Validators.required]),
+      email: this.formBuilder.control('', [Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+      ]),
       mobile: this.formBuilder.control('', [
         Validators.required,
         Validators.pattern(/^-?([0-9]\d*){10}?$/),
@@ -126,7 +128,7 @@ export class SignUpComponent implements OnInit {
     this.form3 = this.formBuilder.group({
       address: this.formBuilder.control('', [Validators.required]),
       city: this.formBuilder.control('', [Validators.required]),
-      district: this.formBuilder.control('', [Validators.required]),
+      district: this.formBuilder.control('colombo', [Validators.required]),
     })
 
     this.form4 = this.formBuilder.group({
@@ -219,29 +221,27 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-nextPrev(n: number): void {
-  if (this.form1.valid && this.step==1) {
-  this.step += 1;
-  } else {
-    this.mandatoryValidation(this.form1)
-  }
-  if (this.form2.valid && this.step==2) {
-    this.step += 1;
-  } else {
-    this.mandatoryValidation(this.form2)
-  }
-  if (this.form3.valid && this.step==3) {
-    this.step += 1;
-  } else {
-    this.mandatoryValidation(this.form3)
+  nextPrev(n: number): void {
+    console.log("nnnnnnnnnn", n);
+
+    const forms = [this.form1, this.form2, this.form3, this.form4];
+
+    console.log("step", this.step);
+    if (this.step >= 1 && this.step <= 4) {
+      if (forms[this.step - 1].valid) {
+        console.log("step 2", this.step);
+        this.step += 1;
+
+        if (this.step === 5) {
+          this.onSubmit();
+        }
+      } else {
+        console.log("mandatoryValidation", this.step);
+        this.mandatoryValidation(forms[this.step - 1]);
+      }
+    }
   }
 
-  if (this.form4.valid  && this.step==4) {
-    this.onSubmit();
-  } else {
-    this.mandatoryValidation(this.form4)
-  }
-}
 
 get fullName() {
   return this.form1.get('fullName');

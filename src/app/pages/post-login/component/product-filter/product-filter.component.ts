@@ -52,6 +52,8 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   products = [];
   isBite = false;
   isBeverages = false;
+  portionChange = false;
+  ingredientsChange = false;
 
   portion: string[] = [];
   ingredientList: number[] = [];
@@ -124,15 +126,12 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
     }
   }
   prepareReferenceData(): void {
-    console.log("init");
     this.productService.getSearchData(true).subscribe(
       (response: any) => {
-        console.log("init 2");
         this.statusList = response.statusList;
         this.portionList = response.portionList;
         this.ingredientsList = response.ingredientsList;
         this.productCatList = response.productCatList;
-        console.log("finished")
       },
       error => {
         this.toast.errorMessage(error.error['message']);
@@ -168,11 +167,13 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
   }
 
   onPortionChange(portionId: string): void {
+    this.portionChange = true;
     this.toggleSelection(this.portion, portionId);
     this.getList();
   }
 
   onIngredientChange(ingredientId: number): void {
+    this.ingredientsChange = true;
     this.toggleSelection(this.ingredientList, ingredientId);
     this.getList();
   }
@@ -188,7 +189,7 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
 
   getList() {
     this.spinner.show();
-    if (this.productCategoryChange || this.portion.length || this.ingredientList.length) {
+    if (this.productCategoryChange || this.portionChange || this.ingredientsChange) {
       this.paginator.pageIndex = 0;
       this.paginator.pageSize = 4;
     }
@@ -196,9 +197,10 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
     searchParamMap = this.getSearchString(searchParamMap, this.searchModel);
 
     this.productService.getList(searchParamMap).pipe(
-      tap(() => console.log('API request started')), // Debugging: Confirm when API request starts
+      tap(), // Debugging: Confirm when API request starts
       finalize(() => {
-        console.log('API request completed'); // Debugging: Confirm when API request finishes
+        this.portionChange = false;
+        this.ingredientsChange = false;
         this.spinner.hide();
       }) // Hide spinner after API response or error
     ).subscribe(

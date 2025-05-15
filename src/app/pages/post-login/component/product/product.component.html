@@ -26,6 +26,9 @@
         </button>
       </span>
       <div *ngIf="product.showIngredients" class="flex flex-wrap gap-2 justify-center">
+        <span style="color: white; font-size: 10px; padding-left: 5px; padding-right: 5px;">
+          "The following weights of ingredients are for 4-person packages.The weight of each ingredient increases proportionally with the number of people to be served."
+        </span>
         <ng-container *ngFor="let ingredient of product.ingredients; trackBy: trackByIngredient">
           <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">
             {{ ingredient.description }}

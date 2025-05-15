@@ -11,11 +11,11 @@ export class AddToCartService {
 
   requestUrl: string;
 
-  constructor(public httpClient: HttpClient,public commonFunctionService: CommonFunctionService) { 
+  constructor(public httpClient: HttpClient,public commonFunctionService: CommonFunctionService) {
     this.requestUrl = `${getEndpoint()}/cart/v1/client-cart`;
   }
 
-  
+
   removeToCart(id: any): Observable<any> {
     return this.httpClient.delete(this.requestUrl+ `/remove-to-cart/`+ `${id}`, {
       responseType: 'json'
@@ -55,8 +55,7 @@ export class AddToCartService {
       // The response body may contain clues as to what went wrong.
       errorMessage = `${error.error.msg}`;
     }
-    console.error(errorMessage);
     return throwError(errorMessage);
   };
-  
+
 }

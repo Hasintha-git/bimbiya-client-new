@@ -1,10 +1,12 @@
 .trending-title {
   text-align: center; // Center align the text
   color: white;
-  font-size: 24px;
   padding-bottom: 10px;
   opacity: 0;
   animation: slideIn 1s ease-out forwards;
+  font-weight: 700;
+  font-size: 34px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 @keyframes slideIn {

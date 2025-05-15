@@ -16,13 +16,13 @@
         <form [formGroup]="form1">
             <div class="login-side1-row">
                 <img class="login-side2-image" src="assets/images/bimbiya_white.png" alt="">
-                <!-- <span class="new-line "></span> -->
+                <!-- <span class="logo-text">BIMBIYA</span> -->
             </div>
-        <p class="text-md text-white leading-tight text-center mt-8 ">Create your account</p>
+        <p class="text-lg text-white leading-tight text-center mt-8 ">Create your account</p>
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">User Name</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="Enter your username" formControlName="username"
+                <input matInput placeholder="Enter your username" formControlName="username" required
                     [(ngModel)]="signUpModel.username" [maxlength]="10">
                 <mat-error *ngIf="username?.hasError('required')">User name cannot be empty
                 </mat-error>
@@ -31,7 +31,7 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">Full Name</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="Enter your full name" formControlName="fullName"
+                <input matInput placeholder="Enter your full name" formControlName="fullName" required
                     [(ngModel)]="signUpModel.fullName" [maxlength]="32">
 
                 <mat-error *ngIf="fullName?.hasError('required')">Full name cannot be empty
@@ -41,7 +41,7 @@
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">NIC</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                    <input matInput [formControl]="nic" placeholder="Enter your nic" [maxlength]="12" [(ngModel)]="signUpModel.nic" required
+                    <input matInput [formControl]="nic" placeholder="Enter your nic" required [maxlength]="12" [(ngModel)]="signUpModel.nic" required
                     autoComplete='off'
                     (change)="onNicInputChange($event)">
                 <mat-error *ngIf="nic.hasError('required')">NIC cannot be empty</mat-error>
@@ -78,20 +78,24 @@
           <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">Email</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="Enter your mail address" [maxlength]="32" formControlName="email" required
+                <input matInput placeholder="Enter your mail address" required [maxlength]="32" formControlName="email" required
                     [(ngModel)]="signUpModel.email">
 
                 <mat-error *ngIf="email.hasError('required')">Email cannot be empty
+                </mat-error>
+                <mat-error *ngIf="email.hasError('pattern')">Invalid Email
                 </mat-error>
             </mat-form-field>
         </div>
         <div style="display: flex;flex-direction: column;">
             <label style="font-weight: 500;" class="text-white">Mobile Number</label>
             <mat-form-field class="ultra-max-field" appearance="outline">
-                <input matInput placeholder="Enter your mobile no" [maxlength]="10" formControlName="mobile" required
+                <input matInput placeholder="Enter your mobile no" required [maxlength]="10" formControlName="mobile" required
                     [(ngModel)]="signUpModel.mobileNo">
 
                 <mat-error *ngIf="mobile.hasError('required')">Mobile Number cannot be empty
+                </mat-error>
+                <mat-error *ngIf="mobile.hasError('pattern')">Invalid Mobile Number
                 </mat-error>
             </mat-form-field>
         </div>

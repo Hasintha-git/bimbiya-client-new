@@ -12,11 +12,11 @@ export class ProductService {
 
   requestUrl: string;
 
-  constructor(public httpClient: HttpClient,public commonFunctionService: CommonFunctionService) { 
+  constructor(public httpClient: HttpClient,public commonFunctionService: CommonFunctionService) {
     this.requestUrl = `${getEndpoint()}/product/v1`;
   }
 
-  
+
   getSearchData(full: boolean): Observable<any> {
     const params = new HttpParams().set('full', full.toString());
     return this.httpClient.get(this.requestUrl + `/search-reference-data`, {
@@ -63,8 +63,7 @@ export class ProductService {
       // The response body may contain clues as to what went wrong.
       errorMessage = `${error.error.msg}`;
     }
-    console.error(errorMessage);
     return throwError(errorMessage);
   };
-  
+
 }

@@ -46,10 +46,10 @@
             <div class="border-t border-gray-200 px-4 py-6" *ngIf="productCategory == 'BITE'">
               <h3 class="-mx-2 -my-3 flow-root">
                 <!-- Expand/collapse section button -->
-                <button type="button" class="flex w-full items-center justify-between text-white hover:text-blue"
+                <p type="button" class="flex w-full items-center justify-between text-white hover:text-blue"
                   aria-controls="filter-section-mobile-0" aria-expanded="false">
                   <span class="font-medium text-white">Portions</span>
-                </button>
+                </p>
               </h3>
               <!-- Filter section, show/hide based on section state. -->
               <div class="pt-6" id="filter-section-mobile-0">
@@ -58,7 +58,7 @@
                     <input id="filter-category-{{portion.code}}" name="category[]" [value]="portion.code"
                       (change)="onPortionChange(portion.code)" type="checkbox"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 " style="cursor: pointer;" />
-                    <label for="filter-category-{{portion.code}}"
+                    <label for="filter-category-{{portion.code}}" style="cursor: pointer;" (change)="onPortionChange(portion.code)"
                       class="ml-3 text-sm text-white">{{portion.description}}</label>
                   </div>
 
@@ -69,10 +69,10 @@
             <div class="border-t border-gray-200 px-4 py-6" *ngIf="productCategory == 'BITE'">
               <h3 class="-mx-2 -my-3 flow-root">
                 <!-- Expand/collapse section button -->
-                <button type="button" class="flex w-full items-center justify-between text-white hover:text-blue"
+                <p type="button" class="flex w-full items-center justify-between text-white hover:text-blue"
                   aria-controls="filter-section-mobile-1" aria-expanded="false">
                   <span class="font-medium text-white">Ingredients</span>
-                </button>
+                </p>
               </h3>
               <!-- Filter section, show/hide based on section state. -->
               <div class="pt-6" id="filter-section-mobile-1">
@@ -81,7 +81,7 @@
                     <input id="filter-category-{{ing.id}}" name="category[]" [value]="ing.id"
                       (change)="onIngredientChange(ing.id)" type="checkbox"  style="cursor: pointer;"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
-                    <label for="filter-category-{{ing.id}}" class="ml-3 text-sm text-white">{{ing.description}}</label>
+                    <label for="filter-category-{{ing.id}}" style="cursor: pointer;" (change)="onIngredientChange(ing.id)" class="ml-3 text-sm text-white">{{ing.description}}</label>
                   </div>
                 </div>
               </div>
@@ -178,11 +178,11 @@
             <div class="border-b border-gray-200 py-6" *ngIf="productCategory == 'BITE'">
               <h3 class="-my-3 flow-root">
                 <!-- Expand/collapse section button -->
-                <button type="button"
+                <p type="button"
                   class="flex w-full items-center justify-between text-sm text-white hover:text-blue"
                   aria-controls="filter-section-1" aria-expanded="false">
                   <span class="font-medium text-white">Portion</span>
-                </button>
+                </p>
               </h3>
               <!-- Filter section, show/hide based on section state. -->
               <div class="pt-6" id="filter-section-1" [ngClass]="{ block: isPortion, hidden: !isPortion }">
@@ -191,7 +191,7 @@
                     <input id="filter-category-{{por.code}}" name="category[]" [value]="por.code"
                       (change)="onPortionChange(por.code)" type="checkbox" style="cursor: pointer;"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
-                    <label for="filter-category-{{por.code}}"
+                    <label for="filter-category-{{por.code}}" style="cursor: pointer;" (change)="onPortionChange(por.code)"
                       class="ml-3 text-sm text-white">{{por.description}}</label>
                   </div>
 
@@ -201,11 +201,11 @@
             <div class="border-b border-gray-200 py-6" *ngIf="productCategory == 'BITE'">
               <h3 class="-my-3 flow-root">
                 <!-- Expand/collapse section button -->
-                <button type="button"
+                <p type="button"
                   class="flex w-full items-center justify-between text-sm text-white hover:text-blue"
                   aria-controls="filter-section-2" aria-expanded="false">
                   <span class="font-medium text-white">Ingredients</span>
-                </button>
+                </p>
               </h3>
               <!-- Filter section, show/hide based on section state. -->
               <div class="pt-6" id="filter-section-2" [ngClass]="{ block: isIngredient, hidden: !isIngredient }">
@@ -214,7 +214,7 @@
                     <input id="filter-category-{{ing.id}}" name="category[]" [value]="ing.id"
                       (change)="onIngredientChange(ing.id)" type="checkbox" style="cursor: pointer;"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
-                    <label for="filter-category-{{ing.id}}" class="ml-3 text-sm text-white">{{ing.description}}</label>
+                    <label for="filter-category-{{ing.id}}" style="cursor: pointer;" (change)="onIngredientChange(ing.id)" class="ml-3 text-sm text-white">{{ing.description}}</label>
                   </div>
                 </div>
               </div>

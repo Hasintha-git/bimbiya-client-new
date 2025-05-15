@@ -66,10 +66,16 @@
 
   @media screen and (max-width: 768px) {
 
+    ::ng-deep .signup-side1-div {
+      box-shadow: none !important;
+    }
+    .login-side2-image {
+      display: none !important;
+    }
     .login-side1-row {
         display: inline-block;
         z-index: 9999 !important;
-        width: 95% !important;
+        width: 100% !important;
         max-width: 100%;
         display: flex;
         justify-content: center;
@@ -77,6 +83,7 @@
         flex-direction: column;
 
     }
+
 }
 
 .btn-back {
@@ -112,7 +119,7 @@
 }
 
 .signup-side1-div {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px ;
     border-radius: 20px !important;
     background-color: #1F2937 !important;
 }
@@ -142,4 +149,10 @@
 .btn-animate:hover {
   transform: scale(1.1); // Slight zoom effect
   transition: transform 0.4s ease-in-out; // Smooth animation
+}
+
+.logo-text {
+  font-size: 16px !important;
+  font-weight: bold !important;
+  color: white !important;
 }

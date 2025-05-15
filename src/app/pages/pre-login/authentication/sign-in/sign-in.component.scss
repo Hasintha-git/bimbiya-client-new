@@ -138,21 +138,25 @@
 // }
 
 @media screen and (max-width: 768px) {
+    .login-side2-image {
+      display: none !important;
+    }
     .login-side1 {
         width: 100% !important;
         height: auto !important;
         padding: 20px !important;
         overflow: hidden;
     }
-    .login-side1-div {
+    ::ng-deep .login-side1-div {
         width: 100% !important;
         height: auto !important;
         padding: 20px !important;
-        box-shadow:none;
+        box-shadow: none !important;
     }
     .login-side2 {
         display: none !important;
     }
+
 }
 
 ::ng-deep input.mat-input-element {

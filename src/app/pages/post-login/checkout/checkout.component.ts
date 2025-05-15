@@ -119,9 +119,7 @@ export class CheckoutComponent implements OnInit {
       this.selectedTimeDesc = this.timeSlot[nearestSlotIndex].description;
       this.timeSlotControl.setValue(this.timeSlot[nearestSlotIndex].code);
     } else {
-      console.error(
-        'No matching time slot found for the current time + 5 hours'
-      );
+      this.toastService.errorMessage('No matching time slot found for the current time + 5 hours');
     }
     this.slotListCreateForDisable();
   }
