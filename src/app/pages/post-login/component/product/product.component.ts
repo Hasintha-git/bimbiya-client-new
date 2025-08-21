@@ -57,28 +57,45 @@ export class ProductComponent implements OnInit {
 
   peronCountUp(product: any) {
     if (!this.product.priceChange) {
-      product.productBasicPrice =product.price;
-      product.perPersonPrice = product.productBasicPrice / this.product.personCount;
-    }
-    if(this.product.personCount <50) {
-      this.product.personCount =this.product.personCount+2;
+        product.productBasicPrice =product.price;
+        product.perPersonPrice = product.productBasicPrice / this.product.personCount;
+      }
+    if (product.productCategory == 'BITE') {
+      
+      if(this.product.personCount <50) {
+        this.product.personCount =this.product.personCount+2;
 
-      product.price =product.perPersonPrice * this.product.personCount;
-      this.product.priceChange = true;
+        product.price =product.perPersonPrice * this.product.personCount;
+        this.product.priceChange = true;
+      }
+    } else {
+        this.product.personCount =this.product.personCount+1;
+
+        product.price =product.perPersonPrice * this.product.personCount;
+        this.product.priceChange = true;
     }
   }
 
   peronCountDown(product: any) {
+      if (!this.product.priceChange) {
+        product.productBasicPrice =product.price;
+        product.perPersonPrice = product.productBasicPrice / this.product.personCount;
+      }
+      
+    if (product.productCategory == 'BITE') {
 
-    if (!this.product.priceChange) {
-      product.productBasicPrice =product.price;
-      product.perPersonPrice = product.productBasicPrice / this.product.personCount;
-    }
 
-    if(this.product.personCount > 4) {
-      this.product.personCount =this.product.personCount-2;
-      product.price =product.perPersonPrice * this.product.personCount;
-      this.product.priceChange = true;
+      if(this.product.personCount > 4) {
+        this.product.personCount =this.product.personCount-2;
+        product.price =product.perPersonPrice * this.product.personCount;
+        this.product.priceChange = true;
+      }
+    } else {
+      if(this.product.personCount > 1) {
+          this.product.personCount =this.product.personCount-1;
+          product.price =product.perPersonPrice * this.product.personCount;
+          this.product.priceChange = true;
+      }
     }
 
   }

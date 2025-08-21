@@ -158,9 +158,12 @@
     <div style="display: flex;flex-direction: column;">
         <label style="font-weight: 500;" class="text-white">Password</label>
         <mat-form-field class="ultra-max-field" appearance="outline">
-            <input matInput placeholder="Enter your password" formControlName="password" [minlength]="6" [maxlength]="12"
-                [(ngModel)]="signUpModel.password">
-
+            <input matInput placeholder="Enter you r password" formControlName="password"  [type]="hide ? 'password' : 'text'" [minlength]="6" [maxlength]="12"
+                [(ngModel)]="signUpModel.password" style="border: none; box-shadow: none;">
+   <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"
+                        type="button" style="background-color: transparent; border: none;">
+                        <mat-icon style="color: #ffffff;">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
             <mat-error *ngIf="password.hasError('required')">password cannot be empty
             </mat-error>
         </mat-form-field>
@@ -168,8 +171,12 @@
     <div style="display: flex;flex-direction: column;">
         <label style="font-weight: 500;" class="text-white">Confirm Password</label>
         <mat-form-field class="ultra-max-field" appearance="outline">
-            <input matInput placeholder="Re-enter your password" formControlName="confirmPassword" [minlength]="6" [maxlength]="12"
-                [(ngModel)]="signUpModel.confirmPassword">
+            <input matInput placeholder="Re-enter your password" formControlName="confirmPassword"  [type]="hideConfirm ? 'password' : 'text'" [minlength]="6" [maxlength]="12"
+                [(ngModel)]="signUpModel.confirmPassword" style="border: none; box-shadow: none;">
+                   <button mat-icon-button matSuffix (click)="hideConfirm = !hideConfirm" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"
+                        type="button" style="background-color: transparent; border: none;">
+                        <mat-icon style="color: #ffffff;">{{ hideConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
             <mat-error *ngIf="confirmPassword.hasError('required')">Confirm Password cannot be empty
             </mat-error>
             <mat-error *ngIf="confirmPassword.hasError('NoPassswordMatch')">Password

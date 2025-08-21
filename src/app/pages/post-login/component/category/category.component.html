@@ -1,10 +1,16 @@
 <div class="flex">
-  <div class="w-1/2 cart-div p-4" >
-    <div class="relative rounded-lg overflow-hidden cat-image" (click)="routeToProduct('BITE')" >
-      <img class="w-full h-full object-cover" src="assets/images/BITE.png" alt="Image 1">
+  <div class="w-1/2 cart-div p-4">
+    <div class="relative rounded-lg overflow-hidden cat-image" (click)="routeToProduct('BITE')">
+      <img class="w-full h-full object-cover" src="assets/images/BITE.jpg" alt="Image 1">
       <div class="overlay">
-        <button (click)="routeToProduct('BITE')" class="btn">
+        <!-- <button (click)="routeToProduct('BITE')" class="btn">
           Shop Now
+        </button> -->
+
+        <button type="button" (click)="routeToProduct('BITE')"
+          class="btn focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          BITE SECTION
+          <img src="assets/icons/right-arrow.png" alt="Arrow Icon" class="arrow-icon  ms-3">
         </button>
       </div>
 
@@ -12,11 +18,15 @@
   </div>
 
   <div class="w-1/2 cart-div p-4">
-    <div class="relative rounded-lg overflow-hidden cat-image" (click)="routeToProduct('BEVERAGES')" >
-      <img class="w-full h-full object-cover" src="assets/images/BEVERAGER.png" alt="Image 2">
+    <div class="relative rounded-lg overflow-hidden cat-image" (click)="routeToProduct('BEVERAGES')">
+      <img class="w-full h-full object-cover" src="assets/images/BEVERAGER.jpg" alt="Image 2">
       <div class="overlay">
-        <button (click)="routeToProduct('BEVERAGES')" class="btn">Shop Now
+        <button type="button" (click)="routeToProduct('BEVERAGES')"
+          class="btn focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5  py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          BEVERAGES
+          <img src="assets/icons/right-arrow.png" alt="Arrow Icon" class="arrow-icon  ms-3">
         </button>
+        <!-- </div> -->
       </div>
     </div>
   </div>

@@ -29,6 +29,8 @@ export class SignUpComponent implements OnInit {
   step:number =1;
   otp:number;
   otpSend:string;
+   hide = true;
+    hideConfirm = true;
 
   public currentTab: number = 1;
   constructor(private toastr: ToastServiceService,
