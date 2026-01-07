@@ -5,7 +5,7 @@
     // position: absolute;
     z-index: 9999;
     width: 100%;
-    height: 50px !important; /* 100px height */
+    height: 36px !important; /* 100px height */
     background-color: #000000; /* warm color for food site */
     display: flex;
     align-items: center;
@@ -17,9 +17,10 @@
 
 .header-text {
     color: #fff; /* white text */
-    font-size: 1.2rem;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 400;
     margin: 0;
+    font-family: sf-pro-text, sans-serif;
 }
 
 /* Mobile responsive adjustments */
