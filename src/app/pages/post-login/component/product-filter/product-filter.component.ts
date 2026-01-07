@@ -3,13 +3,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { SimpleBase } from 'src/app/models/SimpleBase';
 import { ProductService } from 'src/app/services/product/product.service';
 import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
-import { debounceTime, finalize, merge, tap } from 'rxjs';
-import { Commondatasource } from 'src/app/pages/datasource/Commondatasource';
+import { finalize, tap } from 'rxjs';
 import { CommonFunctionService } from 'src/app/services/common-functions/common-function.service';
 import { DataTable } from 'src/app/pages/models/data-table';
 import { Product } from 'src/app/models/product';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
@@ -18,262 +17,143 @@ import { StorageService } from 'src/app/services/storage/storage.service';
   styleUrls: ['./product-filter.component.scss']
 })
 export class ProductFilterComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  productFilter: FormGroup;
-  statusList: SimpleBase[];
-  portionList: SimpleBase[];
-  ingredientsList: SimpleBase[];
-  productCatList: SimpleBase[];
-  dataSource: Commondatasource;
-  productList: Product[];
-  searchModel: Product;
-  section: string = "Bimbiya Product";
-
-  isSort = false;
-  isCategory = true;
-  isPortion = true;
-  isIngredient = true;
+  // Data
+  portionList: SimpleBase[] = [];
+  ingredientsList: SimpleBase[] = [];
+  productList: Product[] = [];
+  
+  // State
+  productFilter!: FormGroup;
+  section: string = "Products";
   isClosed = false;
-  isMobileView = false;
-
-  minValue = 0;
-  maxValue = 10000;
-  stepValue = 10;
-  selectedMinValue = 100;
-  selectedMaxValue = 1000;
-
-  currentPage = 1;
-  itemsPerPage = 4; // Adjust as needed
-  totalItems: number;
-
-  productCategory: string;
-  productCategoryChange: boolean = false;
-  products = [];
-  isBite = false;
-  isBeverages = false;
-  portionChange = false;
-  ingredientsChange = false;
-
-  portion: string[] = [];
-  ingredientList: number[] = [];
+  productCategory: string = 'BITE';
+  selectedPortions: string[] = [];
+  selectedIngredients: number[] = [];
 
   constructor(
     private productService: ProductService,
     private toast: ToastServiceService,
     private commonFunctionService: CommonFunctionService,
     private spinner: NgxSpinnerService,
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private storage: StorageService
   ) {}
 
   ngOnInit(): void {
-    this.searchModel = new Product();
     this.productCategory = this.storage.getCategory() || "BITE";
     this.section = this.productCategory === "BITE" ? "Bite Section" : "Beverages";
-    this.isBite = this.productCategory === "BITE";
-    this.isBeverages = this.productCategory !== "BITE";
-
-    this.initialValidator();
-    this.paginator.pageSize = this.itemsPerPage;
-    this.prepareReferenceData();
-    this.initialDataLoader();
-  }
-
-  onPageChange() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-  initialValidator() {
-    this.productFilter = this.formBuilder.group({
-      foods: new FormControl({ value: this.isBite, disabled: this.isBite }),
-      beverages: new FormControl({ value: this.isBeverages, disabled: this.isBeverages }),
-      status: new FormControl(''),
-      toPrice: new FormControl(''),
-      fromPrice: new FormControl(''),
-      portion: new FormControl(''),
-      ingredient: new FormControl(''),
+    
+    this.productFilter = this.fb.group({
+      toPrice: [''],
+      fromPrice: ['']
     });
 
-    this.setControlState('foods', this.isBite);
-    this.setControlState('beverages', this.isBeverages);
-  }
-
-  @HostListener('document:click', ['$event'])
-  handleDocumentClick(event: MouseEvent) {
-    const cart1 = document.getElementById('mobile-view');
-    if (!cart1 || !cart1.contains(event.target as Node)) {
-      this.isClosed = false;
-    }
-  }
-
-  categoryChange(type: string) {
-    this.productCategoryChange = true;
-    this.productCategory = type;
-    this.section = type === "BITE" ? "Bite Section" : "Beverages";
-    this.isBite = type === "BITE";
-    this.isBeverages = type !== "BITE";
-    this.setControlState('foods', this.isBite);
-    this.setControlState('beverages', this.isBeverages);
+    this.prepareReferenceData();
     this.getList();
-  }
-
-  private setControlState(controlName: string, isDisabled: boolean) {
-    const control = this.productFilter.get(controlName);
-    if (isDisabled) {
-      control?.disable();
-    } else {
-      control?.enable();
-    }
-  }
-  prepareReferenceData(): void {
-    this.productService.getSearchData(true).subscribe(
-      (response: any) => {
-        this.statusList = response.statusList;
-        this.portionList = response.portionList;
-        this.ingredientsList = response.ingredientsList;
-        this.productCatList = response.productCatList;
-      },
-      error => {
-        this.toast.errorMessage(error.error['message']);
-      }
-    );
-  }
-
-  initialDataLoader(): void {
-    this.initialDataTable();
-    this.dataSource = new Commondatasource();
-    this.dataSource.counter$.pipe(
-      tap((count) => {
-        this.paginator.length = count;
-      })
-    ).subscribe();
-    this.getList();
-  }
-
-  initialDataTable() {
-    this.paginator.pageIndex = 0;
-    this.paginator.pageSize = this.itemsPerPage;
   }
 
   ngAfterViewInit() {
-    this.dataSource.counter$.pipe(
-      tap((count) => {
-        this.paginator.length = count;
+    this.paginator.page.pipe(
+      tap(() => {
+        this.scrollToTop();
+        this.getList();
       })
     ).subscribe();
-    merge(this.paginator.page).pipe(
-      tap(() => this.getList())
-    ).subscribe();
   }
 
-  onPortionChange(portionId: string): void {
-    this.portionChange = true;
-    this.toggleSelection(this.portion, portionId);
-    this.getList();
-  }
-
-  onIngredientChange(ingredientId: number): void {
-    this.ingredientsChange = true;
-    this.toggleSelection(this.ingredientList, ingredientId);
-    this.getList();
-  }
-
-  toggleSelection<T>(list: T[], item: T): void {
-    const index = list.indexOf(item);
-    if (index !== -1) {
-      list.splice(index, 1);
-    } else {
-      list.push(item);
+  // CORE LOGIC
+  private applyFilters() {
+    this.paginator.pageIndex = 0;
+    // Auto-close menu if on mobile device
+    if (window.innerWidth < 1024) {
+      this.isClosed = false;
     }
+    this.getList();
   }
 
   getList() {
     this.spinner.show();
-    if (this.productCategoryChange || this.portionChange || this.ingredientsChange) {
-      this.paginator.pageIndex = 0;
-      this.paginator.pageSize = 4;
-    }
-    let searchParamMap = this.commonFunctionService.getDataTableParam(this.paginator);
-    searchParamMap = this.getSearchString(searchParamMap, this.searchModel);
+    let params = this.commonFunctionService.getDataTableParam(this.paginator);
+    
+    params.set("productCategory", this.productCategory);
+    if (this.selectedPortions.length) params.set("portion", this.selectedPortions.join(','));
+    if (this.selectedIngredients.length) params.set("ingredientList", this.selectedIngredients.join(','));
+    
+    const { toPrice, fromPrice } = this.productFilter.value;
+    if (toPrice) params.set("toPrice", toPrice);
+    if (fromPrice) params.set("fromPrice", fromPrice);
 
-    this.productService.getList(searchParamMap).pipe(
-      tap(), // Debugging: Confirm when API request starts
+    this.productService.getList(params).pipe(
       finalize(() => {
-        this.portionChange = false;
-        this.ingredientsChange = false;
         this.spinner.hide();
-      }) // Hide spinner after API response or error
-    ).subscribe(
-      (data: DataTable<Product>) => {
+        this.scrollToTop();
+      })
+    ).subscribe({
+      next: (data: DataTable<Product>) => {
         this.productList = data.records;
-        this.dataSource.datalist = this.productList;
-        this.dataSource.usersSubject.next(this.productList);
-        this.dataSource.countSubject.next(data.totalRecords);
+        this.paginator.length = data.totalRecords;
       },
-      error => {
-        this.toast.errorMessage(error.error['errorDescription']);
-        this.spinner.hide(); // Ensure spinner hides even on error
-      }
-    );
-
+      error: (err) => this.toast.errorMessage("Error loading products")
+    });
   }
 
+  resetFilters() {
+    this.selectedPortions = [];
+    this.selectedIngredients = [];
+    this.productFilter.reset();
+    this.productCategory = 'BITE'; 
+    this.isClosed = false;
+    
+    // Visually uncheck all boxes
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach((cb: any) => cb.checked = false);
 
-  getSearchString(searchParamMap: Map<string, any>, searchModel: Product): Map<string, string> {
-    const controls = this.productFilter.controls;
+    this.applyFilters();
+  }
 
-    if(this.productCategory == 'BITE') {
-      if (controls.toPrice.value) {
-        searchParamMap.set("toPrice", controls.toPrice.value);
-      }
-      if (controls.fromPrice.value) {
-        searchParamMap.set("fromPrice", controls.fromPrice.value);
-      }
-      if (this.portion.length) {
-        searchParamMap.set("portion", this.portion.join(','));
-      }
-      if (this.ingredientList.length) {
-        searchParamMap.set("ingredientList", this.ingredientList.join(','));
-      }
+  // HANDLERS
+  categoryChange(type: string) {
+    if (this.productCategory === type) return;
+    this.productCategory = type;
+    this.section = type === "BITE" ? "Bite Section" : "Beverages";
+    this.selectedPortions = [];
+    this.selectedIngredients = [];
+    this.applyFilters();
+  }
+
+  onPortionChange(code: string) {
+    const idx = this.selectedPortions.indexOf(code);
+    idx > -1 ? this.selectedPortions.splice(idx, 1) : this.selectedPortions.push(code);
+    this.applyFilters();
+  }
+
+  onIngredientChange(id: number) {
+    const idx = this.selectedIngredients.indexOf(id);
+    idx > -1 ? this.selectedIngredients.splice(idx, 1) : this.selectedIngredients.push(id);
+    this.applyFilters();
+  }
+
+  private scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  prepareReferenceData() {
+    this.productService.getSearchData(true).subscribe(res => {
+      this.portionList = res.portionList;
+      this.ingredientsList = res.ingredientsList;
+    });
+  }
+
+  toggleMobileMenu() { this.isClosed = !this.isClosed; }
+
+  @HostListener('document:click', ['$event'])
+  onOutsideClick(event: MouseEvent) {
+    const btn = document.getElementById('mobile-view');
+    const sidebar = document.getElementById('mobile-sidebar');
+    if (this.isClosed && btn && !btn.contains(event.target as Node) && sidebar && !sidebar.contains(event.target as Node)) {
+      this.isClosed = false;
     }
-    searchParamMap.set("productCategory", this.productCategory);
-    return searchParamMap;
-  }
-
-  toggleSortMenu() {
-    this.isSort = !this.isSort;
-  }
-
-  toggleCategoryMenu() {
-    this.isCategory = !this.isCategory;
-  }
-
-  togglePortionMenu() {
-    this.isPortion = !this.isPortion;
-  }
-
-  toggleIngredientMenu() {
-    this.isIngredient = !this.isIngredient;
-  }
-
-  onRangeChange() {
-    // Handle the range change logic here
-  }
-
-  toggleCloseMenu() {
-    this.isClosed = !this.isClosed;
-  }
-
-  get foods() {
-    return this.productFilter.get('foods');
-  }
-  get beverages() {
-    return this.productFilter.get('beverages');
-  }
-  get portionForm() {
-    return this.productFilter.get('portion');
-  }
-  get ingredientForm() {
-    return this.productFilter.get('ingredient');
   }
 }
