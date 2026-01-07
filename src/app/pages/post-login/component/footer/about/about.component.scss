@@ -1,0 +1,96 @@
+/* ==========================
+   About BIMBIYA Styles
+========================== */
+
+/* General container */
+.about-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    // background-color: #fafafa;
+}
+
+/* Header */
+.about-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.about-header h1 {
+    font-size: 2.8em;
+    color: #d84315; /* warm food vibe */
+    margin-bottom: 10px;
+}
+
+.about-header .subtitle {
+    font-size: 1.2em;
+    color: #555;
+}
+
+/* Sections */
+.about-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.about-section h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: #bf360c;
+}
+
+.about-section p {
+    margin-bottom: 15px;
+}
+
+/* Highlight section */
+.about-section.highlight {
+    border-left: 5px solid #ff7043;
+    background-color: #fff3e0;
+    padding-left: 25px;
+}
+
+/* Lists */
+.cater-list,
+.values-list {
+    list-style-type: disc;
+    padding-left: 25px;
+}
+
+.cater-list li,
+.values-list li {
+    margin-bottom: 10px;
+}
+
+/* Values bold text */
+.values-list li strong {
+    color: #bf360c;
+}
+
+/* Mission text */
+.mission-text {
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #d84315;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .about-container {
+        padding: 30px 15px;
+    }
+
+    .about-header h1 {
+        font-size: 2.2em;
+    }
+
+    .about-section h2 {
+        font-size: 1.5em;
+    }
+}

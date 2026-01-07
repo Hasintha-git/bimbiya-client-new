@@ -10,6 +10,7 @@ import { TermConditionComponent } from './component/footer/term-condition/term-c
 import { ContactUsComponent } from './component/footer/contact-us/contact-us.component';
 import { FaqComponent } from './component/footer/faq/faq.component';
 import { AuthGuard } from 'src/app/utility/authguard/auth.guard';
+import { AboutComponent } from './component/footer/about/about.component';
 
 const routes: Routes = [
   {path:'',component:PostLoginComponent, children:[
@@ -27,8 +28,8 @@ const routes: Routes = [
     {path:'term-and-condition',component:TermConditionComponent},
     {path:'faq',component:FaqComponent},
     {path:'contact-us',component:ContactUsComponent},
-    
-  {path: '**', redirectTo: 'delivery'}
+    {path:'about',component:AboutComponent},
+    {path: '**', redirectTo: 'delivery'}
   ]},
   // {
   //   path: 'place-order',

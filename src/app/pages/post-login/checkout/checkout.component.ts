@@ -236,6 +236,7 @@ export class CheckoutComponent implements OnInit {
 
   placeOrder() {
     if (this.userAdd.valid) {
+      this.spinner.show();
       this.orderReq.userId = this.cardList.userId;
       this.orderReq.product = this.cardList.cartList;
       this.orderReq.total = this.cardList.total;
@@ -248,12 +249,15 @@ export class CheckoutComponent implements OnInit {
             'Order placed, we will contact soon'
           );
           this.home();
+          this.spinner.hide();
         },
         (error) => {
+          this.spinner.hide();
           this.toastService.errorMessage(error.error['errorDescription']);
         }
       );
     } else {
+      this.spinner.hide();
       this.mandatoryValidation(this.userAdd);
     }
   }

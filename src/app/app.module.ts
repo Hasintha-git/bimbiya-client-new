@@ -19,6 +19,7 @@ import { Interceptor } from './services/intercept/intercept.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NavbarComponent } from './pages/template/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
+import { HeadlineComponent } from './pages/template/headline/headline.component';
 const INTERCEPTORS = [{
   provide: HTTP_INTERCEPTORS,
   useClass: Interceptor,
@@ -33,6 +34,7 @@ const INTERCEPTORS = [{
     AppComponent,
     PostLoginComponent,
     NavbarComponent,
+    HeadlineComponent,
   ],
   imports: [
     BrowserModule,

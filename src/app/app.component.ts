@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 @Component({
@@ -7,6 +7,7 @@ import { initFlowbite } from 'flowbite';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent  implements OnInit  {
+  headlineVisible: boolean = true; 
  
   constructor(private router: Router) {}
 
@@ -20,5 +21,10 @@ export class AppComponent  implements OnInit  {
     });
   }
 
+    @HostListener('window:scroll', [])
+  onWindowScroll() {
+    // hide headline if scrollTop > 0
+    this.headlineVisible = window.pageYOffset === 0;
+  }
   
 }

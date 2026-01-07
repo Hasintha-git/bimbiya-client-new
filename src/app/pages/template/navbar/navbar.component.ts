@@ -28,6 +28,8 @@ export class NavbarComponent implements OnInit {
   itemsList: any[] = [];
   isUserLogged:boolean=false;
 
+  cartCount: number = 0;
+
   constructor(private router: Router,
     public dialog: MatDialog,
     private spinner: NgxSpinnerService,
@@ -77,7 +79,7 @@ export class NavbarComponent implements OnInit {
       this.addToCartService.findCartList(this.cartDetails).subscribe(
         (response: CommonResponse) => {
           this.cartDetailsList = response.records;
-          
+          this.cartCount= this.cartDetailsList.length;
         },
         error => {
           

@@ -30,7 +30,7 @@ import { FaqComponent } from './component/footer/faq/faq.component';
 import { ContactUsComponent } from './component/footer/contact-us/contact-us.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-
+import { AboutComponent } from './component/footer/about/about.component';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -51,7 +51,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     ReturnPolicyComponent,
     FaqComponent,
     ContactUsComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    AboutComponent
   ],
   imports: [
     CommonModule,

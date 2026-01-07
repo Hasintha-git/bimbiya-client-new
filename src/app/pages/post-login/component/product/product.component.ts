@@ -157,13 +157,16 @@ export class ProductComponent implements OnInit {
     this.cartModel.status="active";
     this.cartModel.qty=1;
 
+    this.spinner.show();
+
     this.cartService.addToCart(this.cartModel).subscribe(
       (response: CommonResponse) => {
+        this.spinner.hide();
         this.toastService.successMessage(response.responseDescription);
 
       },
       error => {
-
+this.spinner.hide();
           this.toastService.errorMessage(error.error['errorDescription']);
       }
     );
