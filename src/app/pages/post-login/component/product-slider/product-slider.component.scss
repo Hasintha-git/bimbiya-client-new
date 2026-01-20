@@ -1,54 +1,15 @@
-/* Add your own styles as needed */
-.product-card {
-  border: 1px solid #ccc;
-  padding: 20px;
-  text-align: center;
-}
 
-.swiper-container {
-  overflow: hidden;
+.trending-swiper {
+  width: 100%;
+  padding: 20px 0 60px 0;
+  overflow: hidden; /* This hides the cloned slides outside the view */
   position: relative;
-  background-color: transparent;
-  padding-bottom: 30px !important;
 }
 
 .swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  background: transparent !important;
-}
-
-.i::before {
-  content: "";
-  position: absolute;
-  width: 0px;
-  height: 0px;
-  opacity: 20%;
-  background: white;
-  /*   background: #3B82F6; */
-  /* Centering */
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  margin: auto;
-}
-
-.i:hover:before {
-  animation: anim-in 0.7s forwards ease-out;
-}
-
-@keyframes anim-in {
-  100% {
-    opacity: 0%;
-    border-radius: 0;
-    width: 600px;
-    height: 600px;
-  }
-  0% {
-    width: 0px;
-    height: 0px;
-    border-radius: 100%;
-    opacity: 20%;
-  }
+  height: auto;
+  display: flex;
+  justify-content: center;
+  /* Smooth transition for the opacity so it doesn't blink during loop */
+  transition: opacity 0.3s;
 }

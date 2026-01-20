@@ -1,17 +1,27 @@
 .trending-title {
-  text-align: center; // Center align the text
+  text-align: center;
   color: white;
-  padding-bottom: 10px;
-  opacity: 0;
-  animation: slideIn 1s ease-out forwards;
+  // padding-bottom: 0px;
   font-weight: 700;
   font-size: 34px;
   font-family: Arial, Helvetica, sans-serif;
+  
+  /* Initial State: Hidden and moved up */
+  opacity: 0;
+  transform: translateY(-50px);
+  transition: all 1s ease-out; // Use transition for smoother re-entry
 }
 
+/* Triggered State */
+.trending-title.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+// Keep the keyframes just in case, but transition is more reliable for re-navigation
 @keyframes slideIn {
   from {
-    transform: translateY(-50px); // Start from the left
+    transform: translateY(-50px);
     opacity: 0;
   }
   to {

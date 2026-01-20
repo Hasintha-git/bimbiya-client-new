@@ -1,93 +1,130 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { DataTable } from 'src/app/pages/models/data-table';
-import { CommonFunctionService } from 'src/app/services/common-functions/common-function.service';
 import { ProductService } from 'src/app/services/product/product.service';
 import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
-import Swiper from 'swiper';
+// ... other imports
+
+// This is the correct, exported path for Swiper 9 bundle
+// @ts-ignore
+import Swiper from 'swiper/bundle';
 
 @Component({
   selector: 'app-product-slider',
   templateUrl: './product-slider.component.html',
   styleUrls: ['./product-slider.component.scss']
 })
-export class ProductSliderComponent implements OnInit ,AfterViewInit {
-  @ViewChild('swiperContainer') swiperContainer!: ElementRef;
-  @ViewChild('scrollViewport') scrollViewport!: ElementRef;
-  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+export class ProductSliderComponent implements OnInit {
+  public foodData: Product[] = [];
+  private mySwiper: any;
 
-// Inside your component class
-showText: boolean = false;
-
-public foodData: Product[];
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      const swiper = new Swiper('.swiper-container', {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        loop: true,
-        autoplay: {
-          delay: 3000,
-          disableOnInteraction: false,
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-        breakpoints: {
-          1100: {
-            slidesPerView: 3,
-            spaceBetween: 20, // Adjust as needed
-          },
-          768: {
-            slidesPerView: 2,
-            spaceBetween: 10, // Adjust as needed
-          },
-          100: {
-            slidesPerView: 1,
-            spaceBetween: 0, // Adjust as needed
-          },
-        },
-      });
-
-      document.querySelectorAll('.swiper-button-next').forEach(button => {
-        button.addEventListener('click', () => swiper.slideNext());
-      });
-
-      document.querySelectorAll('.swiper-button-prev').forEach(button => {
-        button.addEventListener('click', () => swiper.slidePrev());
-      });
-
-      // Hide the last slide
-      const swiperWrapper = this.swiperContainer.nativeElement.querySelector('.swiper-wrapper');
-      const swiperSlides = swiperWrapper.querySelectorAll('.swiper-slide');
-      const lastSlide = swiperSlides[swiperSlides.length - 1];
-      lastSlide.style.display = 'none';
-    }, 0);
-  }
   constructor(
     private productService: ProductService,
-    public toast: ToastServiceService,
-    private spinner: NgxSpinnerService,) { }
+    public toast: ToastServiceService
+  ) { }
 
   ngOnInit(): void {
-
     this.getList();
   }
 
-
   getList() {
-    this.productService.getTrendingList()
-      .subscribe((data: DataTable<Product>) => {
+    this.productService.getTrendingList().subscribe({
+      next: (data: DataTable<Product>) => {
         this.foodData = data.records;
+        // Small delay to let Angular render the DOM
+        setTimeout(() => {
+          this.initSwiper();
+        }, 400);
       },
-        error => {
-
-          this.toast.errorMessage(error.error['errorDescription']);
-        }
-      );
+      error: (error) => {
+        this.toast.errorMessage(error.error['errorDescription']);
+      }
+    });
   }
+
+  initSwiper() {
+  if (this.mySwiper) {
+    this.mySwiper.destroy(true, true);
+  }
+
+  this.mySwiper = new Swiper('.trending-swiper', {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    loop: false, // Must be FALSE for reverse/forward logic to work
+    speed: 1000, 
+    autoplay: {
+      delay: 1500,
+      disableOnInteraction: false,
+      stopOnLastSlide: false, // We will handle the reverse manually
+    },
+    breakpoints: {
+      1100: { slidesPerView: 3 },
+      768: { slidesPerView: 2 },
+      100: { slidesPerView: 1 }
+    }
+  });
+
+  // THE REVERSE LOGIC
+  let direction = 'forward';
+
+  this.mySwiper.on('reachEnd', () => {
+    direction = 'backward';
+    // Small delay before it starts going back
+    setTimeout(() => {
+      this.mySwiper.autoplay.stop();
+      this.reverseMove();
+    }, 1500);
+  });
+
+  this.mySwiper.on('reachBeginning', () => {
+    direction = 'forward';
+    // Start standard autoplay again
+    this.mySwiper.autoplay.start();
+  });
+}
+private isPaused = false;
+private reverseInterval: any; // Store the interval here to clear it
+
+stopAutoplay() {
+  this.isPaused = true;
+  if (this.mySwiper) {
+    this.mySwiper.autoplay.stop();
+  }
+  // Immediately kill the backward movement loop
+  if (this.reverseInterval) {
+    clearInterval(this.reverseInterval);
+  }
+}
+
+resumeAutoplay() {
+  this.isPaused = false;
+  
+  // Decide whether to resume forward or backward
+  if (this.mySwiper) {
+    if (this.mySwiper.isEnd || this.mySwiper.activeIndex > 0 && !this.mySwiper.isBeginning) {
+       // If we were in the middle of going back, restart reverse
+       this.reverseMove();
+    } else {
+       this.mySwiper.autoplay.start();
+    }
+  }
+}
+
+private reverseMove() {
+  // Clear any existing interval first to prevent "speeding up"
+  if (this.reverseInterval) clearInterval(this.reverseInterval);
+
+  this.reverseInterval = setInterval(() => {
+    // If the user hovered, do nothing
+    if (this.isPaused) return;
+
+    if (this.mySwiper.isBeginning) {
+      clearInterval(this.reverseInterval);
+      if (!this.isPaused) this.mySwiper.autoplay.start();
+      return;
+    }
+    
+    this.mySwiper.slidePrev(1000);
+  }, 2500);
+}
 }

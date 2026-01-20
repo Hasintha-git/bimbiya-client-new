@@ -1,8 +1,9 @@
-<div class="swiper-container">
+<div class="swiper trending-swiper" 
+     (mouseenter)="stopAutoplay()" 
+     (mouseleave)="resumeAutoplay()">
   <div class="swiper-wrapper">
     <div class="swiper-slide" *ngFor="let product of foodData">
-      <!-- Food eCommerce Card -->
-      <div>
+      <div class="transform transition duration-300 hover:-translate-y-1">
         <app-product [product]="product"></app-product>
       </div>
     </div>

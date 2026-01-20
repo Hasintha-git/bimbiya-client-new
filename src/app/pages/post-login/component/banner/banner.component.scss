@@ -1,135 +1,39 @@
-/* General styles for the swiper container */
-.swiper-container-1 {
-  width: 100%;
-  max-width: 100%;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
-  /* Prevents content from spilling out */
-}
 
-.swiper-slide-1 img {
+.info-swiper-container {
   width: 100%;
-  height: 100vh;
-  object-fit: cover;
-  transition: transform 0.5s ease-in-out;
-  /* Smooth zoom effect on hover */
-}
-
-.img-banner {
-  width: 100%;
-  height: auto !important;
   overflow: hidden;
   position: relative;
+  
+  /* Ensure the wrapper takes full height on mobile */
+  .swiper-wrapper {
+    display: flex;
+  }
+}
+
+.swiper-slide {
+  height: auto;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  /* spacing between images */
+  align-items: center;
 }
 
-.img-banner img:first-child {
-  height: auto;
-  width: 100%;
-  object-fit: cover;
-  // border-radius: 1rem;
-}
+/* DESKTOP VIEW */
+@media (min-width: 768px) {
+  .info-swiper-container {
+    overflow: visible; /* Allow shadow or hover effects to show */
+    
+    .swiper-wrapper {
+      /* Force the grid to replace the sliding row */
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 20px;
+      transform: none !important; /* This stops Swiper from moving it */
+      width: 100% !important;
+    }
 
-.img-banner img:last-child {
-  height: auto;
-  width: 100%;
-  object-fit: cover;
-  // border-radius: 1rem;
-  // border-bottom-left-radius: 1rem;
-}
-
-.white-area {
-  border-top-left-radius: 0.75rem;
-  border-top-right-radius: 0.75rem;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.icon-animate {
-  width: 60px !important;
-  height: 60px !important;
-  object-fit: contain;
-  // transition: transform 0.4s ease, filter 0.4s ease;
-}
-
-// .icon-animate:hover {
-//   transform: scale(1.15) rotate(3deg);
-//   filter: brightness(1.1);
-// }
-
-/* Desktop Banner - Default visibility */
-.desktop-banner {
-  display: block;
-}
-
-/* Mobile Banner - Hidden by default */
-.mobile-banner {
-  display: none;
-}
-
-/* Media query for mobile devices */
-@media only screen and (max-width: 767px) {
-  .img-banner {
-    height: auto !important;
-    /* keep full height for both images */
+    .swiper-slide {
+      width: 100% !important;
+      margin: 0 !important;
+    }
   }
-
-  /* Hide Desktop Banner and Show Mobile Banner */
-  .desktop-banner {
-    display: none;
-  }
-
-  .mobile-banner {
-    display: block;
-  }
-}
-
-/* Button styles */
-.btn-order {
-  background-color: #ffffff;
-  border: none;
-  color: #000000;
-  padding: 5px 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  position: absolute;
-  bottom: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  cursor: pointer;
-  border-radius: 8px;
-  opacity: 0;
-  /* Start hidden */
-  transform: translate(-50%, 30%);
-  /* Start slightly below */
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  /* Smooth fade and slide-in effect */
-}
-
-.btn-order:hover {
-  background-color: #333333;
-  color: #ffffff;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-
-/* Optional: add these if you want smoother 3D depth and icon animation */
-.icon-animate {
-  transition: transform 0.4s ease;
-}
-// .icon-animate:hover {
-//   transform: scale(1.1) rotate(3deg);
-// }
-/* Hide scrollbar (optional for mobile aesthetic) */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;  /* IE & Edge */
-  scrollbar-width: none;     /* Firefox */
 }

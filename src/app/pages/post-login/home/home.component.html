@@ -5,7 +5,9 @@
   <br>
   <app-sub-banner></app-sub-banner>
   <br>
-  <p class="trending-title">Trending Product</p>
+<p #trendingTitle class="trending-title" [class.visible]="isTitleVisible">
+    Trending Product
+  </p>
   <br>
   <app-product-slider></app-product-slider>
 

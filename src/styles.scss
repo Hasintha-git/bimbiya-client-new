@@ -2,6 +2,7 @@
 html, body { height: auto;background-color: #1F2937 !important; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import 'assets/scss/variables';
+@import 'swiper/css/bundle';
 @import 'assets/scss/common'; 
 
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
