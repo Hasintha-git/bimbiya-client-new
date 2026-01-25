@@ -1,169 +1,149 @@
-
-//login form side css >>>>>>>>>>>>
 .login-side1 {
-    width: auto;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 30px;
-    overflow: hidden;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: transparent; // Assuming background is handled by parent
 
-    .login-side1-div {
-        width: 400px;
-        height: 480px;
-        border-radius: 20px;
-        background-color: #1F2937;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        z-index: 9999;
-    }
-
-    .login-side1-row {
-           display: inline-block;
-           width: 100%;
-           max-width: 100%;
-           display: flex;
-           justify-content: center;
-           align-items: center;
-           flex-direction: column;
-
-           .login-side1-row-logo {
-             width: 120px;
-           }
-
-        .welcome {
-            font-family: "Poppins", sans-serif;
-            font-size: 18px;
-            font-weight: bold;
-            color: #ffffff;
-        }
-
-        .welcome_des {
-            color: #1565C0;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .des {
-            color: gray;
-            font-size: 16px;
-            & :hover {
-                cursor: pointer;
-            }
-            .txt_register {
-                color: #ffffff;
-
-                & :hover {
-                    cursor: pointer;
-                    color: #210366 !important;
-                }
-            }
-        }
-
-        .input-field {
-            outline: 1px solid red;
-        }
-
-        .btn-login {
-            width: 150px;
-            height: auto;
-            border-radius: 20px;
-            background-color: #1F2937;
-            box-shadow: rgba(78, 78, 78, 0.35) 0px 5px 15px;
-            color: white;
-            border: 1px solid white;
-            &:hover {
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            }
-        }
-    }
-
-    .social-column {
-        width: 100%;
-        max-width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: row;
-    }
-
-    .ultra-max-field {
-        width: 350px;
-
-    }
-
-    .login-side1-row-forget {
-        display: inline-block;
-        width: 350px;
-        max-width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        // background-color: rebeccapurple;
-        padding-right: 25px;
-        flex-direction: row;
-
-        .txt_forget {
-            color: #0096FE;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-        }
-    }
-
-    .new-line {
-        padding-bottom: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-direction: row;
-    }
-}
-.login-side2-image {
-    width: 70px !important;
+  .login-side1-div {
+    width: 100%;
+    min-width: 450px;
     height: auto;
-    padding: 10px;
-}
-
-// >>>>> Mobile responsive
-
-// @media screen and (max-width: 1000px) {
-//     .login-side1 {
-//         width: 50% !important;
-//     }
-
-//     .login-side2 {
-//         width: 50% !important;
-//     }
-// }
-
-@media screen and (max-width: 768px) {
-    .login-side2-image {
-      display: none !important;
-    }
-    .login-side1 {
-        width: 100% !important;
-        height: auto !important;
-        padding: 20px !important;
-        overflow: hidden;
-    }
-    ::ng-deep .login-side1-div {
-        width: 100% !important;
-        height: auto !important;
-        padding: 20px !important;
-        box-shadow: none !important;
-    }
-    .login-side2 {
-        display: none !important;
-    }
-
-}
-
-::ng-deep input.mat-input-element {
-    color: #ffffff;
+    padding: 30px 10px;
+    border-radius: 20px;
+    background-color: #1f2937;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 10px 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .btn-animate:hover {
-    transform: scale(1.1); // Slight zoom effect
-    transition: transform 0.4s ease-in-out; // Smooth animation
+  .login-side1-row {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+
+    .welcome {
+      font-family: "Poppins", sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #ffffff;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    /* Wrapper to align label and input */
+    .field-wrapper {
+      width: 100%;
+      max-width: 340px;
+      display: flex;
+      flex-direction: column;
+    }
   }
+
+  .ultra-max-field {
+    width: 100%;
+    
+    /* Targeting Material Input colors */
+    ::ng-deep {
+      .mat-form-field-wrapper {
+        padding-bottom: 0;
+      }
+      .mat-form-field-outline {
+        color: rgba(255, 255, 255, 0.2);
+      }
+      .mat-form-field-outline-thick {
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .mat-focused .mat-form-field-outline-thick {
+        color: #60a5fa !important;
+      }
+      input.mat-input-element {
+        color: #ffffff;
+      }
+      .mat-form-field-suffix {
+        top: 0.25em;
+      }
+    }
+  }
+
+  .btn-login {
+    width: 100%;
+    max-width: 250px;
+    height: 48px;
+    border-radius: 25px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+
+    &:hover:not(:disabled) {
+      background-color: white;
+      color: #1f2937;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .register-container {
+    margin-top: 10px;
+    
+    .no-account-text {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+
+      .register-link {
+        color: #60a5fa;
+        font-weight: 600;
+        cursor: pointer;
+        margin-left: 5px;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #ffffff;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+.login-side2-image {
+  width: 80px;
+  height: auto;
+}
+
+/* Validation Error Styling */
+::ng-deep mat-error {
+  font-size: 11px !important;
+  margin-top: -5px;
+}
+
+/* Mobile Adjustments */
+@media screen and (max-width: 480px) {
+  .login-side1 {
+    padding: 15px;
+    
+    .login-side1-div {
+      box-shadow: none;
+      background-color: #1f2937;
+      padding: 20px 5px;
+    }
+
+    .field-wrapper {
+        max-width: 90%;
+    }
+  }
+}

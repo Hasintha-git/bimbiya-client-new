@@ -25,8 +25,17 @@ export class StorageService {
     sessionStorage.setItem('user', user);
   }
 
+
   getUser(): string {
     return sessionStorage.getItem('user');
+  }
+
+  setFullName(user: any): void {
+    sessionStorage.setItem('fullName', user);
+  }
+
+  getFullName(): string {
+    return sessionStorage.getItem('fullName');
   }
 
   setCategory(type: string): void {

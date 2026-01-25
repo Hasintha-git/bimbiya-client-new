@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -15,7 +15,7 @@ import { ToastServiceService } from 'src/app/services/toast/toast-service.servic
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit,AfterViewInit {
 
   isMobileMenuOpen = false;
   isProfile = false;
@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
   activeUser: string;
   itemsList: any[] = [];
   isUserLogged:boolean=false;
-
+  activeFullName: string;
   cartCount: number = 0;
 
   constructor(private router: Router,
@@ -40,12 +40,19 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.activeUser = this.storageService.getUser();
+    this.activeFullName = this.storageService.getFullName();
     if(this.activeUser != null) {
       this.isUserLogged = true;
       this.cartDataGet();
     }
   }
 
+    ngAfterViewInit(): void {
+        if(this.activeUser != null) {
+      this.isUserLogged = true;
+      this.cartDataGet();
+    }
+  }
   @HostListener('document:click', ['$event'])
   handleDocumentClick(event: MouseEvent) {
     const cart = document.getElementById('cartBtn');

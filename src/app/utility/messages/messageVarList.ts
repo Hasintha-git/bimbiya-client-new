@@ -14,7 +14,7 @@ export const INTERNAL_SERVER_ERROR_CODE = 500;
 export const NOT_FOUND_ERROR_CODE = 404;
 export const UNAUTH_ERROR_CODE = 401;
 export const UNABLE_TO_SERVE_REQUEST_DES = 'Your account has been locked. Please contact the site administrator'
-export const USERNAME_WRONG = 'Username not found'
+export const MOBILENO_WRONG = 'Mobile no not found'
 export const PASSWORD_WRONG = 'Pasword invalid'
 export const WARNING_MESSAGE_NO_MODIFICATION = 'No change(s) detected.';
 

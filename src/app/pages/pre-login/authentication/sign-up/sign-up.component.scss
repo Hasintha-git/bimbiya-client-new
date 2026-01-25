@@ -1,158 +1,116 @@
-.container {
-    position: relative;
-    z-index: 9999 !important;
-    background-color: #1F2937;
+$nav-h: 70px;
+
+.main-viewport {
+  width: 100%;
+  height: calc(100vh - #{$nav-h});
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+//   background-color: #0f172a; 
+  overflow: hidden;
 }
 
-.login-side1-row {
-    display: inline-block;
-    z-index: 9999 !important;
-    width: 100%;
-    max-width: 100%;
+.signup-card {
+  width: 100%;
+  max-width: 580px; // Slightly wider for better full-width field look
+  background: #1f2937;
+  border-radius: 20px;
+  display: grid;
+  grid-template-rows: auto 1fr auto; 
+  max-height: 100%;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.card-header {
+  padding: 24px 32px 10px;
+  text-align: center;
+
+  .logo-box {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-
-    .login-side1-row-logo {
-      width: 120px;
+    margin-bottom: 12px;
+    img {
+      width: 40px; // Centered and small as requested
+      height: auto;
     }
-
- .welcome {
-     font-family: "Poppins", sans-serif;
-     font-size: 18px;
-     font-weight: bold;
-     color: white;
- }
-
- .welcome_des {
-     color: #1565C0;
-     font-size: 14px;
-     font-weight: 500;
- }
- .txt_register {
-    width: 100% !important;
-    height: 37px;
-     color: #ffffff;
-
-     & :hover {
-        color: #333333;
-         cursor: pointer;
-     }
- }
- .des {
-     color: gray;
-     font-size: 16px;
-     & :hover {
-         cursor: pointer;
-     }
-
- }
-
- .input-field {
-     outline: 1px solid red;
- }
-
- .btn-login {
-     width: 100px;
-     height: auto;
-   background-color: white;
-   color:#333;
- }
-}
-::ng-deep input.mat-input-element {
-    color: #ffffff;
   }
 
-  @media screen and (max-width: 768px) {
-
-    ::ng-deep .signup-side1-div {
-      box-shadow: none !important;
-    }
-    .login-side2-image {
-      display: none !important;
-    }
-    .login-side1-row {
-        display: inline-block;
-        z-index: 9999 !important;
-        width: 100% !important;
-        max-width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-
-    }
-
+  h1 { color: white; font-size: 22px; margin: 0; font-weight: 700; }
+  p { color: #94a3b8; font-size: 13px; margin: 4px 0 0; }
 }
 
-.btn-back {
-    width: 150px;
-    height: auto;
-    background-color: #1F2937;
-    box-shadow: rgba(78, 78, 78, 0.35) 0px 5px 15px;
-    color: white !important;
-    &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    }
-}
-.btn-next {
-    width: 150px;
-    height: auto;
-    background-color: #1F2937;
-    box-shadow: rgba(78, 78, 78, 0.35) 0px 5px 15px;
-    color: #FFBE2E !important;
-    &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    }
+.card-body {
+  padding: 10px 32px;
+  overflow-y: auto;
+  
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
 }
 
-.btn-submit {
+.field-row {
+  margin-bottom: 6px;
+  
+  &.full-width {
+    width: 100%; // Ensures FullName and Email take full card width
+  }
+
+  label {
+    display: block;
+    color: #e2e8f0;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  mat-form-field {
     width: 100%;
-    height: auto;
-    background-color: #1F2937;
-    box-shadow: rgba(78, 78, 78, 0.35) 0px 5px 15px;
-    color: white !important;
-    &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    }
+  }
 }
 
-.signup-side1-div {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px ;
-    border-radius: 20px !important;
-    background-color: #1F2937 !important;
+.password-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr; // Split in half
+  gap: 16px; // Space between password and confirm
+  width: 100%;
 }
 
-.login-side2-image {
-    width: 60px !important;
-    height: auto;
-    padding: 10px;
-}
-.login-side1-row {
-    display: inline-block;
-    width: 100%;
-    max-width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-.new-line {
-    padding-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row;
+.btn-register {
+  width: 100%;
+  height: 50px !important;
+  background: white !important;
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  margin: 15px 0;
 }
 
-.btn-animate:hover {
-  transform: scale(1.1); // Slight zoom effect
-  transition: transform 0.4s ease-in-out; // Smooth animation
+.card-footer {
+  padding: 18px 32px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  span {
+    color: #60a5fa;
+    font-weight: 600;
+    cursor: pointer;
+    &:hover { color: white; text-decoration: underline; }
+  }
 }
 
-.logo-text {
-  font-size: 16px !important;
-  font-weight: bold !important;
-  color: white !important;
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline { color: rgba(255,255,255,0.1); }
+  .mat-input-element { color: white !important; font-size: 14px; }
+  .mat-form-field-wrapper { padding-bottom: 10px !important; }
+}
+
+@media (max-width: 500px) {
+  .signup-card { border-radius: 0; height: 100%; width: 100%; }
+  .password-split { grid-template-columns: 1fr; gap: 0; } // Stack passwords on mobile
+}
+
+.error-text {
+    color: red;
 }

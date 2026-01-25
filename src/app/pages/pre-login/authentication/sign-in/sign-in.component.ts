@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { NgxSpinnerService } from "ngx-spinner";
-import { CODE_REQUEST_INVALID_USERSESSION, CODE_REQUEST_TIMEOUT, CODE_REQUEST_UNAUTHORIZED, GATEWAY_TIMEOUT_ERROR_CODE, GLOBAL_SUCCESS_MESSAGE_PASSWORD_CHANGE, INTERNAL_SERVER_ERROR_CODE, NOT_FOUND_ERROR_CODE, PASSWORD_WRONG, UNABLE_TO_SERVE_REQUEST_DES, UNAUTH_ERROR_CODE, USERNAME_WRONG } from 'src/app/utility/messages/messageVarList';
+import { CODE_REQUEST_INVALID_USERSESSION, CODE_REQUEST_TIMEOUT, CODE_REQUEST_UNAUTHORIZED, GATEWAY_TIMEOUT_ERROR_CODE, GLOBAL_SUCCESS_MESSAGE_PASSWORD_CHANGE, INTERNAL_SERVER_ERROR_CODE, NOT_FOUND_ERROR_CODE, PASSWORD_WRONG, UNABLE_TO_SERVE_REQUEST_DES, UNAUTH_ERROR_CODE, MOBILENO_WRONG } from 'src/app/utility/messages/messageVarList';
 import { HttpResponse } from '@angular/common/http';
 import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
 import { LoginService } from 'src/app/services/login/login.service';
@@ -51,12 +51,21 @@ export class SignInComponent implements OnInit {
     this._snackBar.open(message, action);
   }
 
-  initialValidator() {
-    this.userForm = this.formBuilder.group({
-      username: this.formBuilder.control('', [Validators.required]),
-      password: this.formBuilder.control('', [Validators.required, Validators.minLength(6)])
-    });
-  }
+initialValidator() {
+  this.userForm = this.formBuilder.group({
+    // Pattern: Starts with 0, followed by 9 digits
+    mobileNo: this.formBuilder.control('', [
+      Validators.required, 
+      Validators.pattern(/^0\d{9}$/),
+      Validators.minLength(10),
+      Validators.maxLength(10)
+    ]),
+    password: this.formBuilder.control('', [
+      Validators.required, 
+      Validators.minLength(6)
+    ])
+  });
+}
   setBrowserData() {
     this.browserData = new BrowserData();
     this.browserData.browserJavaEnabled = window.navigator.javaEnabled();
@@ -70,26 +79,29 @@ export class SignInComponent implements OnInit {
   }
 
 
+// Inside onSubmit()
 onSubmit() {    
   this.errorMessage = null;
-    if (this.userForm.valid) {
-      
-      this.loginService.login(this.signInModel).subscribe(
-        (response) => {
-          this.handleSuccess(response);
-        },
-        (error: { error: { message: string } }) => {
-          // Directly set the error message received from the server
-          this.errorMessage = error.error.message || 'An unknown error occurred';
-          
-          // Display the error message using Toastr
-          this.toastr.errorMessage(this.errorMessage);
-        }
-      );
-    } else {
-      this.mandatoryValidation(this.userForm)
-    }
+  if (this.userForm.valid) {
+    this.spinner.show(); // Show spinner when starting
+    
+    // Use form values directly instead of signInModel
+    const loginData = this.userForm.value; 
+
+    this.loginService.login(loginData).subscribe(
+      (response) => {
+        this.handleSuccess(response);
+      },
+      (error) => {
+        this.spinner.hide();
+        this.errorMessage = error.error?.message || 'Invalid Mobile No or Password';
+        this.toastr.errorMessage(this.errorMessage);
+      }
+    );
+  } else {
+    this.mandatoryValidation(this.userForm);
   }
+}
 
   private handleSuccess(response: HttpResponse<any>): void {
     //token set for session
@@ -97,7 +109,8 @@ onSubmit() {
     this.sessionStorage.setRefreshToken(response.headers.get('refresh_token'));
 
     //user details set for session
-    this.sessionStorage.setUser(response.body['user'].username);
+    this.sessionStorage.setUser(response.body['user'].mobileNo);
+    this.sessionStorage.setFullName(response.body['user'].fullName);
     
     this.spinner.hide();
     this.authService.logIn();
@@ -170,8 +183,16 @@ onSubmit() {
     dialogRef.afterClosed().subscribe(result => {
     });
   }
-  get username() {
-    return this.userForm.get('username');
+
+  onlyNumbers(event: any) {
+  const pattern = /[0-9]/;
+  const inputChar = String.fromCharCode(event.charCode);
+  if (!pattern.test(inputChar)) {
+    event.preventDefault();
+  }
+}
+  get mobileNo() {
+    return this.userForm.get('mobileNo');
   }
 
   get password() {
