@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/pages/models/user';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { LoginService } from 'src/app/services/login/login.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
 import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
 
 @Component({
@@ -21,7 +23,9 @@ export class SignUpComponent implements OnInit {
     private fb: FormBuilder,
     private userService: LoginService,
     private toastr: ToastServiceService,
-    private router: Router
+    private router: Router,
+    private storageService: StorageService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -44,31 +48,42 @@ export class SignUpComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.signUpForm.valid) {
-      this.isLoading = true;
-      const val = this.signUpForm.value;
-      
-      this.signUpModel.fullName = val.fullName;
-      this.signUpModel.email = val.email;
-      this.signUpModel.mobileNo = val.mobile;
-      this.signUpModel.password = val.password;
-      this.signUpModel.status = 'active';
-      this.signUpModel.userRole = 'client';
+  if (this.signUpForm.valid) {
+    this.isLoading = true;
 
-      this.userService.add(this.signUpModel).subscribe({
-        next: () => {
-          this.toastr.successMessage("Registration successful!");
-          this.router.navigate(['/auth/signin']);
-        },
-        error: (err) => {
-          this.isLoading = false;
-          this.toastr.errorMessage(err.error?.errorDescription || "Registration failed");
-        }
-      });
-    } else {
-      this.signUpForm.markAllAsTouched();
-    }
+    const val = this.signUpForm.value;
+
+    this.signUpModel.fullName = val.fullName;
+    this.signUpModel.email = val.email;
+    this.signUpModel.mobileNo = val.mobile;
+    this.signUpModel.password = val.password;
+    this.signUpModel.status = 'active';
+    this.signUpModel.userRole = 'client';
+
+    this.userService.add(this.signUpModel).subscribe({
+      next: (response) => {
+        // ✅ SAME AS LOGIN SUCCESS
+        this.storageService.setSession(response.headers.get('token'));
+        this.storageService.setRefreshToken(response.headers.get('refresh_token'));
+
+        this.storageService.setUser(response.body.user.mobileNo);
+        this.storageService.setFullName(response.body.user.fullName);
+
+        this.toastr.successMessage('Registration successful!');
+        this.authService.logIn(); // redirect to dashboard
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.toastr.errorMessage(
+          err.error?.errorDescription || 'Registration failed'
+        );
+      }
+    });
+  } else {
+    this.signUpForm.markAllAsTouched();
   }
+}
+
 
   signIn() { this.router.navigate(['/auth/signin']); }
   get f() { return this.signUpForm.controls; }

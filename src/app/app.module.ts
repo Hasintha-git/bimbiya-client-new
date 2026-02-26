@@ -20,6 +20,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NavbarComponent } from './pages/template/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { HeadlineComponent } from './pages/template/headline/headline.component';
+import { ProfileSidebarComponent } from './pages/template/profile-sidebar/profile-sidebar.component';
 const INTERCEPTORS = [{
   provide: HTTP_INTERCEPTORS,
   useClass: Interceptor,
@@ -35,6 +36,7 @@ const INTERCEPTORS = [{
     PostLoginComponent,
     NavbarComponent,
     HeadlineComponent,
+    ProfileSidebarComponent,
   ],
   imports: [
     BrowserModule,

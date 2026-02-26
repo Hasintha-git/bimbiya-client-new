@@ -14,7 +14,8 @@
                            maxlength="10"
                            placeholder="e.g. 0771234567" 
                            formControlName="mobileNo"
-                           (keypress)="onlyNumbers($event)">
+                           (keypress)="onlyNumbers($event)"
+                           style="border: none; box-shadow: none;">
                     <mat-icon matSuffix style="color: #ffffff; opacity: 0.7;">phone</mat-icon>
                 </mat-form-field>
                 <div class="error-container">
@@ -31,7 +32,7 @@
                     <input matInput 
                            placeholder="Enter your password" 
                            formControlName="password" 
-                           [type]="hide ? 'password' : 'text'">
+                           [type]="hide ? 'password' : 'text'" style="border: none; box-shadow: none;">
                     <button mat-icon-button matSuffix (click)="hide = !hide" type="button" tabindex="-1">
                         <mat-icon style="color: #ffffff;opacity: 0.7;">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
                     </button>

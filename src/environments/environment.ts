@@ -6,7 +6,7 @@ import { EnvironmentField } from "./environment.field";
 
 export const environment:EnvironmentField = {
   production: false,
-  host: 'bimbiya.com',
+  host: 'localhost:8080',
   secure: false,
   envName: 'localhost'
 };

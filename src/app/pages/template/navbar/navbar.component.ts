@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -7,6 +7,7 @@ import { CartDetails } from 'src/app/models/cart-details';
 import { ForgetPasswordComponent } from 'src/app/pages/pre-login/authentication/forget-password/forget-password.component';
 import { UserProfileComponent } from 'src/app/pages/pre-login/user-profile/user-profile.component';
 import { AddToCartService } from 'src/app/services/Cart/add-to-cart.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
 
@@ -15,7 +16,7 @@ import { ToastServiceService } from 'src/app/services/toast/toast-service.servic
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit,AfterViewInit {
+export class NavbarComponent implements OnInit {
 
   isMobileMenuOpen = false;
   isProfile = false;
@@ -26,7 +27,7 @@ export class NavbarComponent implements OnInit,AfterViewInit {
   public cartDetailsList: CartDetails[];
   activeUser: string;
   itemsList: any[] = [];
-  isUserLogged:boolean=false;
+  isUserLogged: boolean = false;
   activeFullName: string;
   cartCount: number = 0;
 
@@ -35,24 +36,28 @@ export class NavbarComponent implements OnInit,AfterViewInit {
     private spinner: NgxSpinnerService,
     private addToCartService: AddToCartService,
     private toastService: ToastServiceService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.activeUser = this.storageService.getUser();
-    this.activeFullName = this.storageService.getFullName();
-    if(this.activeUser != null) {
-      this.isUserLogged = true;
-      this.cartDataGet();
-    }
+    this.authService.isLoggedIn$().subscribe(isLogged => {
+      this.isUserLogged = isLogged;
+
+      if (isLogged) {
+        this.activeUser = this.storageService.getUser();
+        this.activeFullName = this.storageService.getFullName();
+        this.cartDataGet();
+      } else {
+        this.cartCount = 0;
+      }
+    });
+
+    this.addToCartService.cartCount$.subscribe(count => {
+      this.cartCount = count;
+    });
   }
 
-    ngAfterViewInit(): void {
-        if(this.activeUser != null) {
-      this.isUserLogged = true;
-      this.cartDataGet();
-    }
-  }
   @HostListener('document:click', ['$event'])
   handleDocumentClick(event: MouseEvent) {
     const cart = document.getElementById('cartBtn');
@@ -79,17 +84,19 @@ export class NavbarComponent implements OnInit,AfterViewInit {
 
   cartDataGet() {
     this.activeUser = this.storageService.getUser();
-    if(this.activeUser) {
+    if (this.activeUser) {
       this.cartDetails.userName = this.activeUser;
-    
+
       this.cartDetails.checkout = false;
       this.addToCartService.findCartList(this.cartDetails).subscribe(
         (response: CommonResponse) => {
           this.cartDetailsList = response.records;
-          this.cartCount= this.cartDetailsList.length;
+          this.cartCount = this.cartDetailsList.length;
+
+          this.addToCartService.setCartCount(this.cartCount);
         },
         error => {
-          
+
         }
       );
     } else {
@@ -127,19 +134,19 @@ export class NavbarComponent implements OnInit,AfterViewInit {
   }
 
   cartRemove(id: any) {
-    
     this.addToCartService.removeToCart(id).subscribe(
       (response: CommonResponse) => {
         this.toastService.successMessage(response.responseDescription);
-        this.cartDataGet();
-        
+
+        this.cartDataGet(); // refresh list
+        this.addToCartService.decreaseCartCount(); // 🔥 instant update
       },
       error => {
-        
         this.toastService.errorMessage(error.error['errorDescription']);
       }
     );
   }
+
 
   logoutUser() {
     this.router.navigate(['/auth/signin']);

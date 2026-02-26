@@ -21,9 +21,19 @@ export class LoginService {
     return this.httpClient.post(this.requestUrl+'/authenticate', object, {    headers: headers,observe: 'response'});
   }
 
-  add(object: any): Observable<any> {
-    return this.httpClient.post(this.requestUrl+'/register', object, { responseType: 'json' });
-  }
+add(object: any): Observable<any> {
+  return this.httpClient.post(
+    `${this.requestUrl}/register`,
+    object,
+    {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: false
+    }
+  );
+}
+
 
   otpConfirm(otp: number, username: any): Observable<any> {
     return this.httpClient.post(this.requestUrl+ `/otp-confirm/`+ `${otp}`+`/${username}`, {
