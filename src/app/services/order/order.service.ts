@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import {Observable,throwError} from 'rxjs';
+import {catchError, Observable,throwError} from 'rxjs';
 import { getEndpoint } from 'src/app/utility/constants/end-point';
 import { CommonFunctionService } from '../common-functions/common-function.service';
 
@@ -27,6 +27,37 @@ export class OrderService {
       responseType: 'json',
       params: params
     });
+  }
+
+
+    getUserOrderDetails(mobileNo: string): Observable<any> {
+    const params = new HttpParams().set('mobileNo', mobileNo);
+    return this.httpClient.get(`${getEndpoint()}/order/v1`+ `/order-details/mobile-no`, {
+      responseType: 'json',
+      params: params
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getOrderByMobileNo(mobileNo: string): Observable<any> {
+    const params = new HttpParams().set('mobileNo', mobileNo);
+    return this.httpClient.get(`${getEndpoint()}/order/v1`+ `/admin-order/find-id`, {
+      responseType: 'json',
+      params: params
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getOrderById(orderId: number): Observable<any> {
+    const params = new HttpParams().set('orderId', orderId.toString());
+    return this.httpClient.get(`${getEndpoint()}/order/v1`+ `/order-details`, {
+      responseType: 'json',
+      params: params
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: HttpErrorResponse) {

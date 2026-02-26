@@ -1,1 +1,100 @@
-<p>profile-sidebar works!</p>
+<!-- Profile Sidebar Overlay -->
+<div class="profile-sidebar-overlay" 
+     [class.active]="isSidebarOpen" 
+     (click)="closeSidebar()">
+</div>
+
+<!-- Profile Sidebar -->
+<aside class="profile-sidebar" [class.active]="isSidebarOpen">
+  <!-- Header Section -->
+  <div class="sidebar-header">
+    <button class="close-btn" (click)="closeSidebar()" aria-label="Close sidebar">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+    
+    <div class="profile-info">
+      <div class="avatar-wrapper">
+        <div class="avatar">
+          {{ getInitial() }}
+        </div>
+        <div class="status-indicator"></div>
+      </div>
+      
+      <div class="user-details">
+        <h2 class="user-name">Hi, {{ activeFullName }}</h2>
+        <p class="user-subtitle">View account information</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu Items -->
+  <nav class="sidebar-menu">
+    <!-- Order Tracking -->
+    <a class="menu-item" (click)="navigateToOrderTracking()">
+      <div class="menu-item-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 11l3 3L22 4"/>
+          <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+        </svg>
+      </div>
+      <div class="menu-item-content">
+        <span class="menu-item-title">Orders</span>
+        <span class="menu-item-description">Track your deliveries</span>
+      </div>
+      <div class="menu-item-badge" *ngIf="activeOrderCount > 0">
+        {{ activeOrderCount }}
+      </div>
+      <svg class="menu-item-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </a>
+
+    <!-- Account Settings -->
+    <a class="menu-item" (click)="navigateToAccountSettings()">
+      <div class="menu-item-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 1v6m0 6v6M3.93 3.93l4.24 4.24m5.66 5.66l4.24 4.24M1 12h6m6 0h6M3.93 20.07l4.24-4.24m5.66-5.66l4.24-4.24"/>
+        </svg>
+      </div>
+      <div class="menu-item-content">
+        <span class="menu-item-title">Account Settings</span>
+        <span class="menu-item-description">Manage your profile</span>
+      </div>
+      <svg class="menu-item-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </a>
+  </nav>
+
+  <!-- Tagline -->
+  <div class="sidebar-tagline">
+    <!-- <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="9" cy="21" r="1"/>
+      <circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+    </svg> -->
+    <p>Fresh bites delivered fast from your favorite online restaurants.</p>
+    <p class="tagline-thanks">Thank you for choosing us!</p>
+  </div>
+  <br>
+
+  <!-- Logout Button -->
+  <div class="sidebar-footer">
+    <button class="logout-btn" (click)="logout()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      Logout
+    </button>
+  </div>
+
+  <!-- App Version -->
+  <div class="app-version">
+    <p>2026 Powered by Wizlab</p>
+  </div>
+</aside>

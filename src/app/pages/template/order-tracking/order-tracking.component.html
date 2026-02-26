@@ -1,0 +1,239 @@
+<div class="order-tracking-container">
+  <!-- Header -->
+  <div class="tracking-header">
+    <button class="back-btn" (click)="goBack()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </button>
+    <h1>Order Tracking</h1>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading order details...</p>
+  </div>
+
+  <!-- Order Details -->
+  <div *ngIf="!isLoading && orderDetails" class="tracking-content">
+    
+    <!-- Order Summary Card -->
+    <div class="order-summary-card">
+      <div class="summary-header">
+        <div>
+          <h2>Order #{{ orderDetails.orderId }}</h2>
+          <p class="order-date">Placed on {{ formatDate(orderDetails.orderDate) }}</p>
+        </div>
+        <span class="status-badge" [ngClass]="getStatusClass(orderDetails.status)">
+          {{ getStatusLabel(orderDetails.status) }}
+        </span>
+      </div>
+
+      <div class="summary-amount">
+        <span>Total Amount</span>
+        <h3>Rs. {{ formatAmount(orderDetails.totalAmount) }}</h3>
+      </div>
+    </div>
+
+    <!-- Tracking Timeline -->
+    <div class="tracking-timeline-card">
+      <h3 class="timeline-title">Order Status</h3>
+      
+      <div class="timeline">
+        <!-- Pending -->
+        <div class="timeline-item" [class.active]="isStatusActive('pending')" [class.completed]="isStatusCompleted('pending')">
+          <div class="timeline-marker">
+            <div class="marker-circle">
+              <svg *ngIf="isStatusCompleted('pending')" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span *ngIf="!isStatusCompleted('pending')">1</span>
+            </div>
+            <div class="marker-line" *ngIf="!isLastStatus('pending')"></div>
+          </div>
+          <div class="timeline-content">
+            <h4>Order Placed</h4>
+            <p>Your order has been received</p>
+            <span class="timeline-time" *ngIf="orderDetails.createdTime">
+              {{ formatDateTime(orderDetails.createdTime) }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Processing -->
+        <div class="timeline-item" [class.active]="isStatusActive('processing')" [class.completed]="isStatusCompleted('processing')">
+          <div class="timeline-marker">
+            <div class="marker-circle">
+              <svg *ngIf="isStatusCompleted('processing')" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span *ngIf="!isStatusCompleted('processing')">2</span>
+            </div>
+            <div class="marker-line" *ngIf="!isLastStatus('processing')"></div>
+          </div>
+          <div class="timeline-content">
+            <h4>Processing</h4>
+            <p>Bimbiya team is preparing your order</p>
+            <span class="timeline-time" *ngIf="orderDetails.status === 'processing' && orderDetails.lastUpdatedTime">
+              {{ formatDateTime(orderDetails.lastUpdatedTime) }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Shipped -->
+        <div class="timeline-item" [class.active]="isStatusActive('shipped')" [class.completed]="isStatusCompleted('shipped')">
+          <div class="timeline-marker">
+            <div class="marker-circle">
+              <svg *ngIf="isStatusCompleted('shipped')" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span *ngIf="!isStatusCompleted('shipped')">3</span>
+            </div>
+            <div class="marker-line" *ngIf="!isLastStatus('shipped')"></div>
+          </div>
+          <div class="timeline-content">
+            <h4>Out for Delivery</h4>
+            <p>Your order is on the way</p>
+            <span class="timeline-time" *ngIf="orderDetails.status === 'shipped' && orderDetails.lastUpdatedTime">
+              {{ formatDateTime(orderDetails.lastUpdatedTime) }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Completed -->
+        <div class="timeline-item" [class.active]="isStatusActive('completed')" [class.completed]="isStatusCompleted('completed')">
+          <div class="timeline-marker">
+            <div class="marker-circle">
+              <svg *ngIf="isStatusCompleted('completed')" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span *ngIf="!isStatusCompleted('completed')">4</span>
+            </div>
+          </div>
+          <div class="timeline-content">
+            <h4>Delivered</h4>
+            <p>Order has been delivered successfully</p>
+            <span class="timeline-time" *ngIf="orderDetails.status === 'completed' && orderDetails.lastUpdatedTime">
+              {{ formatDateTime(orderDetails.lastUpdatedTime) }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Canceled (if applicable) -->
+        <div *ngIf="orderDetails.status === 'canceled'" class="timeline-item canceled active">
+          <div class="timeline-marker">
+            <div class="marker-circle">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </div>
+          </div>
+          <div class="timeline-content">
+            <h4>Order Canceled</h4>
+            <p>This order has been canceled</p>
+            <span class="timeline-time" *ngIf="orderDetails.lastUpdatedTime">
+              {{ formatDateTime(orderDetails.lastUpdatedTime) }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delivery Information -->
+    <div class="info-card" *ngIf="orderDetails.status !== 'canceled'">
+      <div class="info-header">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        </svg>
+        <h3>Delivery Address</h3>
+      </div>
+      <div class="info-content">
+        <p class="address-line" *ngIf="orderDetails.address">{{ orderDetails.address }}</p>
+        <p class="address-line" *ngIf="orderDetails.city">{{ orderDetails.city }}</p>
+        <p class="contact-line" *ngIf="orderDetails.mobileNo">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+            <line x1="12" y1="18" x2="12.01" y2="18"/>
+          </svg>
+          {{ orderDetails.mobileNo }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Order Items -->
+<div class="order-items-card" *ngIf="orderDetails.orderDetails && orderDetails.orderDetails.length > 0">
+  <h3>Order Items</h3>
+  <div class="items-list">
+    <div class="item-row" *ngFor="let item of orderDetails.orderDetails">
+      <div class="item-info">
+        <!-- <img [src]="item.imageUrl || 'assets/placeholder.png'" [alt]="item.productName" class="item-image"> -->
+        <div class="item-details">
+          <h4>{{ item.productName }}</h4>
+          <p>Person Count: {{ item.personCount }}</p>
+        </div>
+      </div>
+      <div class="item-price">
+        <span>Rs. {{ formatAmount(item.unitPrice) }}</span>
+      </div>
+    </div>
+    
+    <!-- Delivery Fee Row -->
+    <div class="item-row delivery-row">
+      <div class="item-info">
+        <div class="item-details">
+          <h4>Delivery Fee</h4>
+        </div>
+      </div>
+      <div class="item-price">
+        <span>Rs. {{ formatAmount(699) }}</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="items-total">
+    <span>Total:</span>
+    <strong>Rs. {{ formatAmount(orderDetails.totalAmount) }}</strong>
+  </div>
+</div>
+
+    <!-- Action Buttons -->
+    <!-- <div class="action-buttons" *ngIf="orderDetails.status === 'pending'">
+      <button class="btn-cancel" (click)="cancelOrder()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+        Cancel Order
+      </button>
+    </div> -->
+
+    <!-- Help Section -->
+    <div class="help-card">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      <div>
+        <h4>Need Help?</h4>
+        <p>Contact our support team for any questions about your order</p>
+        <a href="tel:+94123456789" class="help-link">Call Support</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!isLoading && !orderDetails" class="error-state">
+    <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    <h3>Order Not Found</h3>
+    <p>We couldn't find the order you're looking for</p>
+    <button class="btn-primary" (click)="goBack()">Go Back</button>
+  </div>
+</div>

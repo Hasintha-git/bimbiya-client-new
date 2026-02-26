@@ -11,6 +11,9 @@ import { ContactUsComponent } from './component/footer/contact-us/contact-us.com
 import { FaqComponent } from './component/footer/faq/faq.component';
 import { AuthGuard } from 'src/app/utility/authguard/auth.guard';
 import { AboutComponent } from './component/footer/about/about.component';
+import { AccountSettingsComponent } from '../template/account-settings/account-settings.component';
+import { ActiveOrdersComponent } from '../template/active-orders/active-orders.component';
+import { OrderTrackingComponent } from '../template/order-tracking/order-tracking.component';
 
 const routes: Routes = [
   {path:'',component:PostLoginComponent, children:[
@@ -29,7 +32,19 @@ const routes: Routes = [
     {path:'faq',component:FaqComponent},
     {path:'contact-us',component:ContactUsComponent},
     {path:'about',component:AboutComponent},
-    {path: '**', redirectTo: 'delivery'}
+    {path: '**', redirectTo: 'delivery'},
+      { 
+  path: 'account-settings', 
+  component: AccountSettingsComponent 
+},
+{
+  path: 'order-tracking',
+  component: ActiveOrdersComponent
+},
+{
+  path: 'order-details/:id',
+  component: OrderTrackingComponent
+}
   ]},
   // {
   //   path: 'place-order',

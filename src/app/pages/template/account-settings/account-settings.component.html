@@ -1,0 +1,228 @@
+<div class="account-settings-container">
+  <!-- Header -->
+  <div class="settings-header">
+    <button class="back-btn" (click)="goBack()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </button>
+    <h1>Account Settings</h1>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading your profile...</p>
+  </div>
+
+  <!-- Profile Form -->
+  <div *ngIf="!isLoading" class="settings-content">
+    
+    <!-- Profile Avatar Section -->
+    <div class="profile-avatar-section">
+      <div class="avatar-large">
+        {{ getInitial() }}
+      </div>
+      <div class="avatar-info">
+        <h2>{{ userProfile.fullName || 'User' }}</h2>
+        <p>Member since {{ getMemberSince() }}</p>
+      </div>
+    </div>
+
+    <!-- Edit Form -->
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+      
+      <!-- Full Name -->
+      <div class="form-group">
+        <label for="fullName" class="form-label">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Full Name
+        </label>
+        <input 
+          type="text" 
+          id="fullName"
+          formControlName="fullName"
+          class="form-input"
+          [class.input-disabled]="!isEditing"
+          [readonly]="!isEditing"
+          placeholder="Enter your full name">
+        <div class="error-message" *ngIf="profileForm.get('fullName')?.invalid && profileForm.get('fullName')?.touched">
+          <span *ngIf="profileForm.get('fullName')?.errors?.['required']">Full name is required</span>
+          <span *ngIf="profileForm.get('fullName')?.errors?.['minlength']">Name must be at least 3 characters</span>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email" class="form-label">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          Email Address
+        </label>
+        <input 
+          type="email" 
+          id="email"
+          formControlName="email"
+          class="form-input"
+          [class.input-disabled]="!isEditing"
+          [readonly]="!isEditing"
+          placeholder="your.email@example.com">
+        <div class="error-message" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+          <span *ngIf="profileForm.get('email')?.errors?.['required']">Email is required</span>
+          <span *ngIf="profileForm.get('email')?.errors?.['email']">Invalid email format</span>
+        </div>
+      </div>
+
+      <!-- Mobile Number -->
+      <div class="form-group">
+        <label for="mobileNo" class="form-label">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+            <line x1="12" y1="18" x2="12.01" y2="18"/>
+          </svg>
+          Mobile Number
+        </label>
+        <input 
+          type="tel" 
+          id="mobileNo"
+          formControlName="mobileNo"
+          class="form-input"
+          [class.input-disabled]="!isEditing"
+          [readonly]="!isEditing"
+          placeholder="0771234567">
+        <div class="error-message" *ngIf="profileForm.get('mobileNo')?.invalid && profileForm.get('mobileNo')?.touched">
+          <span *ngIf="profileForm.get('mobileNo')?.errors?.['required']">Mobile number is required</span>
+          <span *ngIf="profileForm.get('mobileNo')?.errors?.['pattern']">Invalid mobile number format</span>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="form-group">
+        <label for="address" class="form-label">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          Address
+        </label>
+        <textarea 
+          id="address"
+          formControlName="address"
+          class="form-textarea"
+          [class.input-disabled]="!isEditing"
+          [readonly]="!isEditing"
+          rows="3"
+          placeholder="Enter your street address"></textarea>
+        <div class="error-message" *ngIf="profileForm.get('address')?.invalid && profileForm.get('address')?.touched">
+          <span *ngIf="profileForm.get('address')?.errors?.['required']">Address is required</span>
+        </div>
+      </div>
+
+      <!-- City -->
+      <div class="form-group">
+        <label for="city" class="form-label">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          City
+        </label>
+        <input 
+          type="text" 
+          id="city"
+          formControlName="city"
+          class="form-input"
+          [class.input-disabled]="!isEditing"
+          [readonly]="!isEditing"
+          placeholder="Enter your city">
+        <div class="error-message" *ngIf="profileForm.get('city')?.invalid && profileForm.get('city')?.touched">
+          <span *ngIf="profileForm.get('city')?.errors?.['required']">City is required</span>
+        </div>
+      </div>
+
+      <!-- District -->
+      <div class="form-group">
+        <label for="district" class="form-label">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+            <polyline points="2 17 12 22 22 17"/>
+            <polyline points="2 12 12 17 22 12"/>
+          </svg>
+          District
+        </label>
+        <select 
+          id="district"
+          formControlName="district"
+          class="form-select"
+          [class.input-disabled]="!isEditing"
+          [disabled]="!isEditing">
+          <option value="" disabled>Select your district</option>
+          <option value="kaluthara">Kalutara</option>
+          <option value="colombo">Colombo</option>
+          <option value="gampaha">Gampaha</option>
+        </select>
+        <div class="error-message" *ngIf="profileForm.get('district')?.invalid && profileForm.get('district')?.touched">
+          <span *ngIf="profileForm.get('district')?.errors?.['required']">District is required</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="form-actions">
+        <button 
+          type="button" 
+          *ngIf="!isEditing"
+          class="btn btn-edit"
+          (click)="enableEditing()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          Edit Profile
+        </button>
+
+        <div *ngIf="isEditing" class="editing-actions">
+          <button 
+            type="button" 
+            class="btn btn-cancel"
+            (click)="cancelEditing()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            Cancel
+          </button>
+          
+          <button 
+            type="submit" 
+            class="btn btn-save"
+            [disabled]="profileForm.invalid || isSaving">
+            <svg *ngIf="!isSaving" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <div *ngIf="isSaving" class="btn-spinner"></div>
+            {{ isSaving ? 'Saving...' : 'Save Changes' }}
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Additional Info Card -->
+    <div class="info-card">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="16" x2="12" y2="12"/>
+        <line x1="12" y1="8" x2="12.01" y2="8"/>
+      </svg>
+      <div>
+        <h3>Keep your information up to date</h3>
+        <p>We use this information to deliver your orders and keep you updated about your account.</p>
+      </div>
+    </div>
+
+  </div>
+</div>

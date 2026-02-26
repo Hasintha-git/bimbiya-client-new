@@ -21,6 +21,9 @@ import { NavbarComponent } from './pages/template/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { HeadlineComponent } from './pages/template/headline/headline.component';
 import { ProfileSidebarComponent } from './pages/template/profile-sidebar/profile-sidebar.component';
+import { AccountSettingsComponent } from './pages/template/account-settings/account-settings.component';
+import { ActiveOrdersComponent } from './pages/template/active-orders/active-orders.component';
+import { OrderTrackingComponent } from './pages/template/order-tracking/order-tracking.component';
 const INTERCEPTORS = [{
   provide: HTTP_INTERCEPTORS,
   useClass: Interceptor,
@@ -37,6 +40,9 @@ const INTERCEPTORS = [{
     NavbarComponent,
     HeadlineComponent,
     ProfileSidebarComponent,
+    AccountSettingsComponent,
+    ActiveOrdersComponent,
+    OrderTrackingComponent,
   ],
   imports: [
     BrowserModule,

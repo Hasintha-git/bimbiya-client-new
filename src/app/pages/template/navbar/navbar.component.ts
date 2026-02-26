@@ -19,7 +19,7 @@ import { ToastServiceService } from 'src/app/services/toast/toast-service.servic
 export class NavbarComponent implements OnInit {
 
   isMobileMenuOpen = false;
-  isProfile = false;
+  isProfileSidebarOpen = false;  // Changed from isProfile to isProfileSidebarOpen
   isCart = false;
   buttonHover: boolean;
 
@@ -31,7 +31,8 @@ export class NavbarComponent implements OnInit {
   activeFullName: string;
   cartCount: number = 0;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     public dialog: MatDialog,
     private spinner: NgxSpinnerService,
     private addToCartService: AddToCartService,
@@ -56,6 +57,13 @@ export class NavbarComponent implements OnInit {
     this.addToCartService.cartCount$.subscribe(count => {
       this.cartCount = count;
     });
+
+        const state = history.state;
+    if (state?.openSidebar) {
+      setTimeout(() => {
+        this.isProfileSidebarOpen = true;
+      }, 100); // Small delay to ensure DOM is ready
+    }
   }
 
   @HostListener('document:click', ['$event'])
@@ -70,9 +78,8 @@ export class NavbarComponent implements OnInit {
     const profile = document.getElementById('profileBtn');
     if (profile && profile.contains(event.target as Node)) {
       return;
-    } else {
-      this.isProfile = false;
     }
+    // Note: Don't close sidebar on outside click - let overlay handle it
 
     const mobile = document.getElementById('mobileMenu');
     if (mobile && mobile.contains(event.target as Node)) {
@@ -86,17 +93,16 @@ export class NavbarComponent implements OnInit {
     this.activeUser = this.storageService.getUser();
     if (this.activeUser) {
       this.cartDetails.userName = this.activeUser;
-
       this.cartDetails.checkout = false;
+      
       this.addToCartService.findCartList(this.cartDetails).subscribe(
         (response: CommonResponse) => {
           this.cartDetailsList = response.records;
           this.cartCount = this.cartDetailsList.length;
-
           this.addToCartService.setCartCount(this.cartCount);
         },
         error => {
-
+          // Handle error
         }
       );
     } else {
@@ -109,27 +115,41 @@ export class NavbarComponent implements OnInit {
   }
 
   forgetPassword() {
-    this.isProfile = false;
-    const dialogRef = this.dialog.open(ForgetPasswordComponent, { data: 12, width: '500px', height: '300px' });
+    this.isProfileSidebarOpen = false;
+    const dialogRef = this.dialog.open(ForgetPasswordComponent, { 
+      data: 12, 
+      width: '500px', 
+      height: '300px' 
+    });
 
     dialogRef.afterClosed().subscribe(result => {
+      // Handle dialog close
     });
   }
-
-
 
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
-  toggleProfileMenu() {
-    this.isProfile = !this.isProfile;
+  toggleProfileSidebar() {
+    // Check if user is logged in
+    if (!this.isUserLogged) {
+      // Redirect to login/signup if not logged in
+      this.router.navigate(['/auth/signup']);
+      return;
+    }
+    
+    this.isProfileSidebarOpen = !this.isProfileSidebarOpen;
     this.isCart = false;
+  }
+
+  onProfileSidebarClosed() {
+    this.isProfileSidebarOpen = false;
   }
 
   toggleCartMenu() {
     this.isCart = !this.isCart;
-    this.isProfile = false;
+    this.isProfileSidebarOpen = false;
     this.cartDataGet();
   }
 
@@ -137,16 +157,14 @@ export class NavbarComponent implements OnInit {
     this.addToCartService.removeToCart(id).subscribe(
       (response: CommonResponse) => {
         this.toastService.successMessage(response.responseDescription);
-
         this.cartDataGet(); // refresh list
-        this.addToCartService.decreaseCartCount(); // 🔥 instant update
+        this.addToCartService.decreaseCartCount(); // instant update
       },
       error => {
         this.toastService.errorMessage(error.error['errorDescription']);
       }
     );
   }
-
 
   logoutUser() {
     this.router.navigate(['/auth/signin']);
@@ -165,9 +183,11 @@ export class NavbarComponent implements OnInit {
     this.isUserLogged = false;
     this.home();
   }
+
   foods() {
     this.router.navigate(['/delivery/product']);
   }
+
   checkout() {
     this.router.navigate(['/delivery/place-order']);
   }

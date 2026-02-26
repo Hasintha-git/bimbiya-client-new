@@ -42,15 +42,8 @@
         </div>
       </div>
       <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-        <!-- <div class="relative ml-3">
-            <div>
-              <button type="button" class="relative bg-gray-800 rounded-full p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                <span class="sr-only">Search</span>
-                <img src="../assets/icons/search.svg" alt="Cart" class="h-6 w-6" style="filter: grayscale(1) brightness(0) invert(1)">
-              </button>
-
-        </div>
-      </div> -->
+        
+        <!-- Cart Button -->
         <div class="relative ml-3">
           <div>
             <button id="cartBtn" (click)="toggleCartMenu()" type="button"
@@ -60,29 +53,26 @@
                 style="filter: grayscale(1) brightness(0) invert(1)">
             </button>
 
-                <span
-      class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full" style="background-color: #ffc001;"
-    >
-      {{ cartCount }}
-    </span>
-
+            <span
+              class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full" 
+              style="background-color: #ffc001;">
+              {{ cartCount }}
+            </span>
           </div>
         </div>
 
         <!-- Cart dropdown -->
         <div class="relative ml-3">
           <div>
-            <button id="profileBtn" (click)="toggleProfileMenu()" type="button"
+            <button id="profileBtn" (click)="toggleProfileSidebar()" type="button"
               class="animate-btn relative bg-gray-800 rounded-full p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
               <span class="sr-only">Profile</span>
-              <img src="../assets/icons/profile.svg" alt="Cart" class="h-7 w-7"
+              <img src="../assets/icons/profile.svg" alt="Profile" class="h-7 w-7"
                 style="filter: grayscale(1) brightness(0) invert(1)">
             </button>
           </div>
 
-
-          <!-- Rest of your HTML -->
-
+          <!-- Cart Items Dropdown -->
           <div
             class="absolute backdrop-filter backdrop-blur-md bg-opacity-90 right-0 z-10 mt-2 w-72 origin-top-right rounded-md bg-gray-800 py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"
@@ -99,75 +89,26 @@
               </div>
             </div>
 
-
-            <!-- Checkout button with styled SVG -->
-<div class="w-full flex justify-center">
-  <button
-    type="button"
-    (click)="checkout()"
-    style="color: #FFFFFF;"
-    class="flex justify-center w-full px-4 py-2 text-sm font-medium text-center inline-flex items-center text-blue-700 rounded-lg transition-all duration-200 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-    [style.background]="buttonHover ? '#374151' : 'transparent'"
-    (mouseenter)="buttonHover = true"
-    (mouseleave)="buttonHover = false">
-    
-    <img
-      src="assets/icons/checkout.svg"
-      alt="Cart Icon"
-      class="w-5 h-5 me-2"
-      style="filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(306deg) brightness(100%) contrast(100%);" />
-      
-    Checkout
-  </button>
-</div>
-
-          </div>
-<div
-  class="absolute backdrop-filter backdrop-blur-md bg-opacity-90 right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-  role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"
-  [ngClass]="{ block: isProfile, hidden: !isProfile }">
-
-  <div class="px-4 py-2 text-sm  text-gray-200 border-b border-gray-700 text-center">
-    Hello, <span class="text-blue-400">{{ activeFullName }}</span>
-  </div>
-
-    <div class="px-4 py-2 text-xs text-gray-400 text-center border-b border-gray-700">
-    Fresh bite delivered fast from your favorite online restaurants. <br>
-    <br>
-    Thank you choosing us!
-  </div>
-
-
-           <!-- 👤 Register button -->
-<button
-  *ngIf="!isUserLogged"
-  (click)="accountCreate()"
-  [style.background]="buttonHover ? '#374151' : 'transparent'"
-  (mouseenter)="buttonHover = true"
-  (mouseleave)="buttonHover = false"
-  class="flex justify-center w-full px-4 py-2 text-sm font-medium text-center inline-flex items-center text-blue-700 rounded-lg transition-all duration-200 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-  role="menuitem"
-  tabindex="-1"
-  id="user-menu-item-1"
-  style="color: #FFFFFF; cursor: pointer;">
-  Register / Login
-</button>
-
-<!-- 🚪 Logout button -->
-<button
-  *ngIf="isUserLogged"
-  (click)="logout()"
-  [style.background]="buttonHover ? '#374151' : 'transparent'"
-  (mouseenter)="buttonHover = true"
-  (mouseleave)="buttonHover = false"
-  class="flex justify-center w-full px-4 py-2 text-sm font-medium text-center inline-flex items-center text-blue-700 rounded-lg transition-all duration-200 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-  role="menuitem"
-  tabindex="-1"
-  id="user-menu-item-2"
-  style="color: #FFFFFF; cursor: pointer;">
-  Logout
-</button>
-
+            <!-- Checkout button -->
+            <div class="w-full flex justify-center">
+              <button
+                type="button"
+                (click)="checkout()"
+                style="color: #FFFFFF;"
+                class="flex justify-center w-full px-4 py-2 text-sm font-medium text-center inline-flex items-center text-blue-700 rounded-lg transition-all duration-200 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                [style.background]="buttonHover ? '#374151' : 'transparent'"
+                (mouseenter)="buttonHover = true"
+                (mouseleave)="buttonHover = false">
+                
+                <img
+                  src="assets/icons/checkout.svg"
+                  alt="Cart Icon"
+                  class="w-5 h-5 me-2"
+                  style="filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(306deg) brightness(100%) contrast(100%);" />
+                  
+                Checkout
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -177,7 +118,6 @@
   <!-- Mobile menu, show/hide based on menu state. -->
   <div class="sm:hidden" id="mobile-menu" [ngClass]="{ 'block': isMobileMenuOpen, 'hidden': !isMobileMenuOpen }">
     <div class="space-y-1 px-2 pb-3 pt-2">
-      <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
       <a routerLink="/delivery/home" routerLinkActive="activated-route"
         class="text-white rounded-md px-3 py-2 text-sm font-medium custom-letter-spacing" aria-current="page">Home</a>
       <a routerLink="/delivery/product" routerLinkActive="activated-route"
@@ -186,7 +126,12 @@
         class="text-white rounded-md px-3 py-2 text-sm font-medium custom-letter-spacing">About</a>
       <a routerLink="/delivery/contact-us" routerLinkActive="activated-route"
         class="text-white rounded-md px-3 py-2 text-sm font-medium custom-letter-spacing">Contact</a>
-
     </div>
   </div>
 </nav>
+
+<!-- Profile Sidebar Component -->
+<app-profile-sidebar 
+  [isSidebarOpen]="isProfileSidebarOpen"
+  (sidebarClosed)="onProfileSidebarClosed()">
+</app-profile-sidebar>

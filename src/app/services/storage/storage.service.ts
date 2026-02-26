@@ -53,6 +53,17 @@ export class StorageService {
     return sessionStorage.getItem('pwd');
   }
 
+  setItem(key: string, value: any): void {
+    sessionStorage.setItem(key, value);
+  }
+
+  getItem(key: string): string {
+    return sessionStorage.getItem(key);
+  }
+
+  removeItem(key: string) {
+    sessionStorage.removeItem(key);
+  }
 
   getRefreshToken():string {
     try {

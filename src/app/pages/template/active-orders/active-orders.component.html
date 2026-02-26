@@ -1,0 +1,159 @@
+<div class="active-orders-container">
+  <!-- Header -->
+  <div class="orders-header">
+    <button class="back-btn" (click)="goBack()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </button>
+    <h1>My Orders</h1>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading your orders...</p>
+  </div>
+
+  <!-- Order Status Filter Tabs -->
+  <div *ngIf="!isLoading" class="filter-tabs">
+    <button 
+      class="filter-tab" 
+      [class.active]="activeFilter === 'all'"
+      (click)="filterOrders('all')">
+      All Orders
+      <span class="count">{{ allOrders.length }}</span>
+    </button>
+    <button 
+      class="filter-tab" 
+      [class.active]="activeFilter === 'pending'"
+      (click)="filterOrders('pending')">
+      Pending
+      <span class="count">{{ getStatusCount('pending') }}</span>
+    </button>
+    <button 
+      class="filter-tab" 
+      [class.active]="activeFilter === 'processing'"
+      (click)="filterOrders('processing')">
+      Processing
+      <span class="count">{{ getStatusCount('processing') }}</span>
+    </button>
+    <button 
+      class="filter-tab" 
+      [class.active]="activeFilter === 'shipped'"
+      (click)="filterOrders('shipped')">
+      Shipped
+      <span class="count">{{ getStatusCount('shipped') }}</span>
+    </button>
+    <button 
+      class="filter-tab" 
+      [class.active]="activeFilter === 'completed'"
+      (click)="filterOrders('completed')">
+      Completed
+      <span class="count">{{ getStatusCount('completed') }}</span>
+    </button>
+    <button 
+      class="filter-tab" 
+      [class.active]="activeFilter === 'canceled'"
+      (click)="filterOrders('canceled')">
+      Canceled
+      <span class="count">{{ getStatusCount('canceled') }}</span>
+    </button>
+  </div>
+
+  <!-- Orders List -->
+  <div *ngIf="!isLoading" class="orders-content">
+    
+    <!-- Empty State -->
+    <div *ngIf="filteredOrders.length === 0" class="empty-state">
+      <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <h3>No orders found</h3>
+      <p>{{ getEmptyStateMessage() }}</p>
+      <button class="btn-primary" (click)="navigateToHome()">
+        Start Shopping
+      </button>
+    </div>
+
+    <!-- Orders Grid -->
+    <div *ngIf="filteredOrders.length > 0" class="orders-grid">
+      <div 
+        *ngFor="let order of filteredOrders" 
+        class="order-card"
+        [class.pending]="order.status === 'pending'"
+        [class.canceled]="order.status === 'canceled'"
+        (click)="viewOrderDetails(order.orderId)">
+        
+        <!-- Order Header -->
+        <div class="order-header">
+          <div class="order-info">
+            <h3>Order #{{ order.orderId }}</h3>
+            <p class="order-date">{{ formatDate(order.orderDate) }}</p>
+          </div>
+          <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+            {{ getStatusLabel(order.status) }}
+          </span>
+        </div>
+
+        <!-- Order Details -->
+        <div class="order-details">
+          <div class="detail-row">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="3" width="15" height="13"/>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/>
+              <circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+            <span>Total Amount</span>
+          </div>
+          <p class="amount">Rs. {{ formatAmount(order.totalAmount) }}</p>
+        </div>
+
+        <div class="order-details">
+          <div class="detail-row">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span>Order Date</span>
+          </div>
+          <p class="date-time">{{ formatDateTime(order.orderDate) }}</p>
+        </div>
+
+        <!-- Order Footer -->
+        <div class="order-footer">
+          <button class="btn-outline-small" (click)="viewOrderDetails(order.orderId); $event.stopPropagation()">
+            View Details
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+          
+          <!-- <button 
+            *ngIf="order.status === 'pending'" 
+            class="btn-cancel-small"
+            (click)="cancelOrder(order.orderId); $event.stopPropagation()">
+            Cancel Order
+          </button> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Card -->
+    <div *ngIf="filteredOrders.length > 0" class="summary-card">
+      <h3>Order Summary</h3>
+      <div class="summary-row">
+        <span>Total Orders:</span>
+        <strong>{{ filteredOrders.length }}</strong>
+      </div>
+      <div class="summary-row">
+        <span>Total Amount:</span>
+        <strong class="amount-highlight">Rs. {{ calculateTotalAmount() }}</strong>
+      </div>
+    </div>
+
+  </div>
+</div>
