@@ -19,6 +19,7 @@ export class SignUpComponent implements OnInit {
   hideConfirm = true;
   isLoading = false;
 
+  
   constructor(
     private fb: FormBuilder,
     private userService: LoginService,

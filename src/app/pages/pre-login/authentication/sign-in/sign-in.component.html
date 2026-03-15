@@ -1,62 +1,86 @@
-<form class="login-side1" (ngSubmit)="onSubmit()" [formGroup]="userForm">
-    <div class="login-side1-div">
-        <div class="login-side1-row py-6">
-            <img class="login-side2-image" src="assets/images/bimbiya_white.png" alt="Logo">
-            <h2 class="welcome mt-4">Log in to your account</h2>
-        </div>
+<div class="signin-wrap">
+  <div class="signin-card">
 
-        <div class="login-side1-row px-4">
-            <div class="field-wrapper">
-                <label class="text-white text-sm mb-1">Mobile No</label>
-                <mat-form-field class="ultra-max-field" appearance="outline">
-                    <input matInput 
-                           type="text"
-                           maxlength="10"
-                           placeholder="e.g. 0771234567" 
-                           formControlName="mobileNo"
-                           (keypress)="onlyNumbers($event)"
-                           style="border: none; box-shadow: none;">
-                    <mat-icon matSuffix style="color: #ffffff; opacity: 0.7;">phone</mat-icon>
-                </mat-form-field>
-                <div class="error-container">
-                    <small class="text-red-500" *ngIf="mobileNo?.touched && mobileNo?.hasError('required')">Required</small>
-                    <small class="text-red-500" *ngIf="mobileNo?.touched && mobileNo?.hasError('pattern')">Format: 07XXXXXXXX</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="login-side1-row px-4 mt-2">
-            <div class="field-wrapper">
-                <label class="text-white text-sm mb-1">Password</label>
-                <mat-form-field class="ultra-max-field" appearance="outline">
-                    <input matInput 
-                           placeholder="Enter your password" 
-                           formControlName="password" 
-                           [type]="hide ? 'password' : 'text'" style="border: none; box-shadow: none;">
-                    <button mat-icon-button matSuffix (click)="hide = !hide" type="button" tabindex="-1">
-                        <mat-icon style="color: #ffffff;opacity: 0.7;">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-                    </button>
-                </mat-form-field>
-                <div class="error-container">
-                    <small class="text-red-500" *ngIf="password?.touched && password?.hasError('required')">Password required</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="login-side1-row mt-6">
-            <button type="submit" 
-                    [disabled]="!userForm.valid"
-                    class="btn-login btn-animate" 
-                    mat-flat-button>
-                Login with Bimbiya
-            </button>
-        </div>
-
-        <div class="login-side1-row register-container pb-6">
-            <p class="no-account-text">
-                Don't have an account? 
-                <span class="register-link" (click)="signUp()">Create Account</span>
-            </p>
-        </div>
+    <!-- Header -->
+    <div class="sc-header">
+      <div class="sc-avatar">
+        <mat-icon>person</mat-icon>
+      </div>
+      <h2 class="sc-title">Welcome back</h2>
+      <p class="sc-subtitle">Sign in to your Bimbiya account</p>
     </div>
-</form>
+
+    <!-- Form -->
+    <form class="sc-body" (ngSubmit)="onSubmit()" [formGroup]="userForm">
+
+      <!-- Mobile field -->
+      <div class="sc-field-group">
+        <label class="sc-label">Mobile No</label>
+        <div class="sc-input-wrap" [class.sc-input-error]="mobileNo?.touched && mobileNo?.invalid"
+                                   [class.sc-input-focused]="mobileNoFocused">
+          <input class="sc-input"
+                 type="text"
+                 maxlength="10"
+                 placeholder="0771234567"
+                 formControlName="mobileNo"
+                 (keypress)="onlyNumbers($event)"
+                 (focus)="mobileNoFocused=true"
+                 (blur)="mobileNoFocused=false">
+          <mat-icon class="sc-input-icon">phone</mat-icon>
+        </div>
+        <div class="sc-errors">
+          <small *ngIf="mobileNo?.touched && mobileNo?.hasError('required')">Mobile number is required</small>
+          <small *ngIf="mobileNo?.touched && mobileNo?.hasError('pattern')">Format must be 07XXXXXXXX</small>
+        </div>
+      </div>
+
+      <!-- Password field -->
+      <div class="sc-field-group">
+        <div class="sc-label-row">
+          <label class="sc-label">Password</label>
+          <span class="sc-forgot" (click)="forgetPassword()">Forgot password?</span>
+        </div>
+        <div class="sc-input-wrap" [class.sc-input-error]="password?.touched && password?.invalid"
+                                   [class.sc-input-focused]="passwordFocused">
+          <input class="sc-input"
+                 [type]="hide ? 'password' : 'text'"
+                 placeholder="Enter your password"
+                 formControlName="password"
+                 (focus)="passwordFocused=true"
+                 (blur)="passwordFocused=false">
+          <button type="button" class="sc-eye-btn" (click)="hide = !hide" tabindex="-1">
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </div>
+        <div class="sc-errors">
+          <small *ngIf="password?.touched && password?.hasError('required')">Password is required</small>
+          <small *ngIf="password?.touched && password?.hasError('minlength')">Minimum 6 characters</small>
+        </div>
+      </div>
+
+      <!-- API Error banner -->
+      <div class="sc-error-banner" *ngIf="errorMessage">
+        <mat-icon style="font-size:15px;width:15px;height:15px;">error_outline</mat-icon>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Submit -->
+      <button type="submit"
+              class="sc-btn-login"
+              [disabled]="!userForm.valid">
+        <mat-icon style="font-size:17px;width:17px;height:17px;">login</mat-icon>
+        Login with Bimbiya
+      </button>
+
+    </form>
+
+    <!-- Footer -->
+    <div class="sc-footer">
+      <p class="sc-register-text">
+        Don't have an account?
+        <span class="sc-register-link" (click)="signUp()">Create Account</span>
+      </p>
+    </div>
+
+  </div>
+</div>

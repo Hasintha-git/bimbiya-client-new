@@ -240,3 +240,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   z-index: 10000000 !important;
 }
 
+/* ══════════════════════════════════════════════════
+   ADD THESE TO YOUR GLOBAL styles.scss
+   (NOT the component scss — Angular can't pierce
+    the mat-dialog overlay from component scope)
+   ══════════════════════════════════════════════════ */
+
+/* Blurred dark backdrop */
+.cdk-overlay-backdrop.ingredients-backdrop {
+  background: rgba(8, 6, 18, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Strip Material's default container so glass shows through */
+.ingredients-dialog-panel .mat-dialog-container {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 20px !important;
+  overflow: visible !important;
+}

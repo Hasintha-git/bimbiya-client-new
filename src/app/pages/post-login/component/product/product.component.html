@@ -1,56 +1,67 @@
-<div class="w-130 mt-24 m-auto lg:mt-16 max-w-sm max-w-md card-resize">
-  <img [src]="product.img"  loading="lazy"  alt="Food Image" class="rounded-t-2xl shadow-2xl w-full object-cover cat-image" style="max-height: 200px;" />
-  <div class="bg-gray-800 backdrop-filter backdrop-blur-md bg-opacity-40 shadow-2xl rounded-b-3xl">
+<div class="product-glass-card card-resize">
 
-    <h2 class="text-center text-white text-3xl font-bold pt-6">LKR {{ product.price }}.00</h2>
+  <!-- Image with overlay badges -->
+  <div class="pgc-image-wrap">
+    <img [src]="product.img" loading="lazy" alt="Food Image" class="pgc-image" />
+    <div class="pgc-image-overlay"></div>
 
-    <div class="text-center mt-3 mx-auto max-w-xs">
-      <form class="max-w-xs mx-auto">
-        <label for="counter-input" class="block mb-1 text-sm font-medium text-gray-900 text-white">Person Count:</label>
-        <div class="text-center mt-3 mx-auto max-w-xs">
-          <button type="button" id="decrement-button" (click)="peronCountDown(product)" class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-5 w-5 hover:ring-gray-100 dark:hover:ring-gray-700 hover:ring-2 hover:outline-none">
-            <img src="assets/icons/minus.svg" alt="Decrease Count" class="w-2.5 h-2.5">
-          </button>
-          <input type="text" id="counter-input" [formControl]="myControl" disabled="true" class="flex-shrink-0 text-gray-900 text-white border-0 bg-transparent text-sm font-normal focus:outline-none focus:ring-0 max-w-[2.5rem] text-center" [(ngModel)]="product.personCount" required>
-          <button type="button" id="increment-button" (click)="peronCountUp(product)" class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-5 w-5 hover:ring-gray-100 dark:hover:ring-gray-700 hover:ring-2 hover:outline-none">
-            <img src="assets/icons/plus.svg" alt="Increase Count" class="w-2.5 h-2.5">
-          </button>
-        </div>
-      </form>
+    <!-- Top badges -->
+    <div class="pgc-badge-category">{{ product.productCategory }}</div>
+    <div class="pgc-badge-portion" *ngIf="product.portionDescription">{{ product.portionDescription }}</div>
+
+    <!-- Meal name anchored to bottom of image -->
+    <div class="pgc-meal-name-wrap">
+      <h2 class="pgc-meal-name">{{ product.mealName }}</h2>
     </div>
-
-    <div class="text-center m-auto mt-3 w-full col-span-3 pt-1" *ngIf="product.productCategory != 'BEVERAGES'">
-      <span class="ing-animate-btn">
-        <button class="text-gray-400  text-sm focus:outline-none mb-2" (click)="product.showIngredients = !product.showIngredients">
-          Ingredients <span class="inline-block">{{ product.showIngredients ? '▲' : '▼' }}</span>
-        </button>
-      </span>
-      <div *ngIf="product.showIngredients" class="flex flex-wrap gap-2 justify-center">
-        <span style="color: white; font-size: 10px; padding-left: 5px; padding-right: 5px;">
-          "The following weights of ingredients are for 4-person packages.The weight of each ingredient increases proportionally with the number of people to be served."
-        </span>
-        <ng-container *ngFor="let ingredient of product.ingredients; trackBy: trackByIngredient">
-          <div class="bg-gray-200 rounded-full py-1 px-3 text-sm text-gray-800">
-            {{ ingredient.description }}
-          </div>
-        </ng-container>
-      </div>
-
-    </div>
-
-    <h2 class="text-center text-white text-2xl font-bold pt-6">{{ product.mealName }}</h2>
-
-    <div class="text-center m-auto mt-4 w-full h-8">
-      <div class="mx-auto h-12 w-auto flex justify-center items-center relative">
-        <button (click)="addToCart()" class="add-to-cart-btn bg-white text-black font-bold py-2 px-6 rounded-full hover:bg-gray-100 focus:outline-none focus:shadow-outline-blue active:bg-gray-200">
-          <div class="flex items-center">
-            <img src="assets/icons/checkout.svg" alt="Add to Cart" class="w-5 h-5 mr-2">
-            <span class="text-black">Add to Cart</span>
-          </div>
-        </button>
-      </div>
-    </div>
-
-    <div class="text-center m-auto mt-4 w-full h-2"></div>
   </div>
+
+  <!-- Separator -->
+  <div class="pgc-sep"></div>
+
+  <!-- Body -->
+  <div class="pgc-body">
+
+    <!-- Price -->
+    <div class="pgc-price-row">
+      <span class="pgc-price">LKR {{ product.price | number }}</span>
+      <span class="pgc-price-suffix">.00</span>
+    </div>
+
+    <!-- Person count -->
+    <div class="pgc-count-section">
+      <p class="pgc-count-label">Person Count</p>
+      <div class="pgc-count-row">
+        <button type="button" class="pgc-count-btn" (click)="peronCountDown(product)">
+          <img src="assets/icons/minus.svg" alt="Decrease" class="pgc-btn-icon">
+        </button>
+        <div class="pgc-count-display">{{ product.personCount }}</div>
+        <button type="button" class="pgc-count-btn" (click)="peronCountUp(product)">
+          <img src="assets/icons/plus.svg" alt="Increase" class="pgc-btn-icon">
+        </button>
+      </div>
+    </div>
+
+    <!-- Ingredients trigger -->
+    <div class="pgc-ing-row" *ngIf="product.productCategory != 'BEVERAGES'">
+      <button type="button" class="pgc-ing-btn" (click)="openIngredientsDialog()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 8v4m0 4h.01"/>
+        </svg>
+        Ingredients
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Footer separator -->
+  <div class="pgc-footer-sep"></div>
+
+  <!-- Add to Cart -->
+  <div class="pgc-footer">
+    <button type="button" class="pgc-cart-btn" (click)="addToCart()">
+      <img src="assets/icons/checkout.svg" alt="Cart" class="pgc-cart-icon">
+      Add to Cart
+    </button>
+  </div>
+
 </div>

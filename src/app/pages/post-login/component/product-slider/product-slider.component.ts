@@ -30,7 +30,7 @@ export class ProductSliderComponent implements OnInit {
   getList() {
     this.productService.getTrendingList().subscribe({
       next: (data: DataTable<Product>) => {
-        this.foodData = data.records;
+       this.foodData = [...(data.records ?? [])];
         // Small delay to let Angular render the DOM
         setTimeout(() => {
           this.initSwiper();

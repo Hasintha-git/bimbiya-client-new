@@ -1,0 +1,84 @@
+<div class="ingredients-dialog-wrapper">
+
+  <!-- Header -->
+  <div class="dialog-header">
+    <div class="dialog-header-image" [style.backgroundImage]="'url(' + data.product.img + ')'">
+      <div class="dialog-header-overlay"></div>
+      <div class="dialog-header-content">
+        <h2 class="dialog-meal-name">{{ data.product.mealName }}</h2>
+        <div class="dialog-badges">
+          <span class="badge-category">{{ data.product.productCategory }}</span>
+          <span class="badge-portion">{{ data.product.portionDescription }}</span>
+        </div>
+      </div>
+    </div>
+    <button class="dialog-close-btn" (click)="close()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Body -->
+  <div class="dialog-body">
+
+    <!-- Price & Info Row -->
+    <div class="info-row">
+      <div class="info-card">
+        <span class="info-label">Price</span>
+        <span class="info-value price-value">LKR {{ data.product.price }}.00</span>
+      </div>
+      <div class="info-card">
+        <span class="info-label">Portion</span>
+        <span class="info-value">{{ data.product.portion | titlecase }}</span>
+      </div>
+      <!-- <div class="info-card">
+        <span class="info-label">Status</span>
+        <span class="info-value status-active">{{ data.product.statusDescription }}</span>
+      </div> -->
+    </div>
+
+    <!-- Description -->
+    <div class="section" *ngIf="data.product.description">
+      <h3 class="section-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z"/>
+        </svg>
+        About
+      </h3>
+      <p class="description-text">{{ data.product.description }}</p>
+    </div>
+
+    <!-- Ingredients -->
+    <div class="section" *ngIf="data.product.ingredients?.length">
+      <h3 class="section-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        Ingredients
+      </h3>
+
+      <p class="ingredients-note">
+        Weights shown are for a 4-person package and scale proportionally with serving size.
+      </p>
+
+      <div class="ingredients-grid">
+        <div
+          class="ingredient-chip"
+          *ngFor="let ingredient of data.product.ingredients; trackBy: trackByIngredient; let i = index"
+          [style.animationDelay]="(i * 60) + 'ms'"
+        >
+          <span class="ingredient-dot"></span>
+          {{ ingredient.description }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="dialog-footer">
+    <button class="btn-close-footer" (click)="close()">Close</button>
+  </div>
+
+</div>

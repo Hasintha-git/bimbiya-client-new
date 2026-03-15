@@ -1,8 +1,9 @@
+/* ── Replace your existing swiper styles ── */
 
 .trending-swiper {
   width: 100%;
-  padding: 20px 0 60px 0;
-  overflow: hidden; /* This hides the cloned slides outside the view */
+  padding: 16px 12px 20px 12px;  /* was 20px 0 60px 0 — 60px bottom was the culprit */
+  overflow: hidden;
   position: relative;
 }
 
@@ -10,6 +11,6 @@
   height: auto;
   display: flex;
   justify-content: center;
-  /* Smooth transition for the opacity so it doesn't blink during loop */
+  align-items: flex-start;        /* prevents stretching unequal height cards */
   transition: opacity 0.3s;
 }

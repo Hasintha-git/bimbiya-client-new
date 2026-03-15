@@ -31,6 +31,8 @@ import { ContactUsComponent } from './component/footer/contact-us/contact-us.com
 import { CheckoutComponent } from './checkout/checkout.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { AboutComponent } from './component/footer/about/about.component';
+import { IngredientsDialogComponent } from './component/product/ingredients-dialog/ingredients-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -52,7 +54,8 @@ import { AboutComponent } from './component/footer/about/about.component';
     FaqComponent,
     ContactUsComponent,
     CheckoutComponent,
-    AboutComponent
+    AboutComponent,
+    IngredientsDialogComponent
   ],
   imports: [
     CommonModule,
@@ -67,7 +70,8 @@ import { AboutComponent } from './component/footer/about/about.component';
     MatOptionModule,
     MatSelectModule,
     MatAutocompleteModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatDialogModule
   ]
 })
 export class PostLoginModule { }

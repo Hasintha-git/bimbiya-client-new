@@ -19,12 +19,13 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit {
-  hide = true;
   signInModel = new User();
   userForm: FormGroup;
   public browserData: BrowserData;
 
-  
+  hide = true;
+  mobileNoFocused = false; 
+  passwordFocused  = false;
   // Error Messages
   public errorMessage: string;
   public warningMessage: string;
