@@ -1,14 +1,18 @@
-<app-headline 
-  [ngClass]="{'hide-headline': !headlineVisible}">
-</app-headline>
+<div class="top-bar-wrapper" [class.hide-headline]="!headlineVisible">
+  <app-headline></app-headline>
+</div>
 
 <app-navbar></app-navbar>
-<div style="height: 50px;width: 100%;" class="bg-gray-800"></div>
-<router-outlet ></router-outlet>
-<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
-  <div class="custom-spinner-template">
-    <img src="assets/images/bimbiya.png" alt="Loading..." style="width: 40px; height: 40px;">
-    <p style="color: white">Loading...</p>
-  </div>
-</ngx-spinner> -->
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)"  color = "#fff" type = "ball-scale-multiple" [fullScreen] = "true"></ngx-spinner>
+
+<!-- Spacer pushes content below fixed navbar. 
+     64px = navbar height, 36px = headline height -->
+<div class="content-spacer" [class.headline-visible]="headlineVisible"></div>
+
+<router-outlet></router-outlet>
+
+<ngx-spinner 
+  bdColor="rgba(0,0,0,0.8)" 
+  color="#fff" 
+  type="ball-scale-multiple" 
+  [fullScreen]="true">
+</ngx-spinner>

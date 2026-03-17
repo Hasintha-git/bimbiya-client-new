@@ -1,11 +1,27 @@
-<div class="swiper trending-swiper" 
-     (mouseenter)="stopAutoplay()" 
-     (mouseleave)="resumeAutoplay()">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide" *ngFor="let product of foodData">
-      <div class="transform transition duration-300 hover:-translate-y-1">
-        <app-product [product]="product"></app-product>
+<!-- Wrapper needed so Swiper doesn't steal the host element -->
+<div class="slider-outer">
+
+  <div class="swiper trending-swiper"
+       (mouseenter)="stopAutoplay()"
+       (mouseleave)="resumeAutoplay()">
+
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"
+           *ngFor="let product of foodData; trackBy: trackByProduct">
+        <div class="slide-inner">
+          <app-product [product]="product"></app-product>
+        </div>
       </div>
     </div>
+
+    <!-- Optional nav dots -->
+    <div class="swiper-pagination"></div>
+
   </div>
+
+  <!-- Empty state -->
+  <div class="slider-empty" *ngIf="foodData.length === 0">
+    <p>Loading products…</p>
+  </div>
+
 </div>

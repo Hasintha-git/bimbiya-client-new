@@ -1,31 +1,50 @@
-
-  
- .custom-spinner-template {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-  
-    img {
-      width: 100px;
-      height: 100px;
-    //   margin-bottom: 40px;
-    }
-  }
-  
-app-headline {
-  transition: transform 0.3s ease, opacity 0.3s ease, height 0.3s ease, margin 0.3s ease;
-  display: block;
-  overflow: hidden; /* prevent content showing during height collapse */
-  height: 36px; /* original height */
+// Headline wrapper — animates height smoothly
+.top-bar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1001; // above navbar
+  height: 36px;
+  overflow: hidden;
+  transition: height 0.35s ease, opacity 0.35s ease;
+  opacity: 1;
+  will-change: height, opacity;
 }
 
-.hide-headline {
-  transform: translateY(-100%);
-  opacity: 0;
+.top-bar-wrapper.hide-headline {
   height: 0;
-  margin: 0;
-  padding: 0;
+  opacity: 0;
+}
+
+// Push navbar down by headline height when visible
+app-navbar {
+  position: fixed !important;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: top 0.35s ease;
+  top: 36px; // default: headline visible
+}
+
+app-navbar nav {
+  position: fixed !important;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: top 0.35s ease;
+}
+// When headline hidden, navbar slides to top
+.hide-headline ~ app-navbar {
+  top: 0 !important;
+}
+
+// Spacer = navbar height only (headline is fixed, doesn't affect flow)
+.content-spacer {
+  height: 64px; // navbar height
+  transition: height 0.35s ease;
+}
+
+.content-spacer.headline-visible {
+  height: 100px; // navbar (64px) + headline (36px)
 }

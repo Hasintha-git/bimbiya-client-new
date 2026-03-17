@@ -1,399 +1,385 @@
-import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { CommonResponse } from 'src/app/models/CommonResponse';
-import { SimpleBase } from 'src/app/models/SimpleBase';
-import { Cart } from 'src/app/models/cart';
-import { CartDetails } from 'src/app/models/cart-details';
-import { Order } from 'src/app/models/order';
+import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
 import { AddToCartService } from 'src/app/services/Cart/add-to-cart.service';
 import { OrderService } from 'src/app/services/order/order.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
-import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { Time } from '@angular/common';
+import { IngredientsDialogComponent } from '../component/product/ingredients-dialog/ingredients-dialog.component';
+
+export interface CartItem {
+  cartId:      number;
+  qty:         number;
+  personCount: number;
+  product: {
+    packageId:          number;
+    mealName:           string;
+    price:              number;
+    img:                string;
+    productCategory:    string;
+    ingredients:        any[];
+    portionDescription: string;
+  };
+}
+
+export interface TimeSlot {
+  label:    string;
+  sub:      string;      // e.g. "8 – 11 am"
+  icon:     string;      // emoji
+  value:    string;      // HH:mm
+  disabled: boolean;
+}
+
+export interface QuickDay {
+  date:       string;   // yyyy-MM-dd
+  dow:        string;   // Mon, Tue…
+  dd:         number;
+  mon:        string;   // Jan, Feb…
+  isToday:    boolean;
+  isTomorrow: boolean;
+}
 
 @Component({
-  selector: 'app-checkout',
+  selector:    'app-checkout',
   templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.scss'],
+  styleUrls:   ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit {
-  cartDetails = new CartDetails();
-  userAdd: FormGroup;
-  public cardList: Cart;
-  public cartDataList: CartDetails[];
-  public statusList: SimpleBase[];
-  public timeSlot: SimpleBase[];
-  hours: number[] = [];
-  minutes: number[] = [];
-  ampm: string[] = ['AM', 'PM'];
-  minSelectableHour: number;
-  selectedHour: number;
-  selectedMinute: number;
-  selectedAmPm: string;
-  defaultDelivery = 5;
-  selectedTime: string;
-  selectedTimeDesc: string;
-  isCartAvailable: boolean = false;
-  orderReq = new Order();
-  activeUser: string;
-  // Initialize an array to store time slots
-  timeSlots = [];
 
-  isDropdownOpen: boolean = false;
-  timeSlotControl: FormControl = new FormControl();
+  // ── Cart ──────────────────────────────────────────
+  cartItems:  CartItem[] = [];
+  activeUser: string     = '';
+  userId:     number     = 0;
+
+  // ── Pricing ───────────────────────────────────────
+  subTotal:      number = 0;
+  deliveryPrice: number = 0;
+  orderTotal:    number = 0;
+
+  // ── Delivery details ──────────────────────────────
+  userFullName:    string = '';
+  userMobile:      string = '';
+  deliveryAddress: string = '';
+  deliveryCity:    string = '';
+  specialNote:     string = '';
+customTimeValue   = '';
+customTimeDisplay = '';
+
+
+  focusAddress     = false;
+  focusCity        = false;
+  focusMobile      = false;
+  focusNote        = false;
+  detailsSubmitted = false;
+
+  // ── Delivery schedule ─────────────────────────────
+  selectedDay:  QuickDay | null = null;
+  deliveryTime: string          = '';   // HH:mm
+  selectedSlot: string          = '';   // active chip value
+  deliverySubmitted = false;
+
+  schedulePreviewLabel = '';
+  quickDays: QuickDay[] = [];
+
+  timeSlots: TimeSlot[] = [
+    { label: 'Morning', sub: '8 – 11 am',  icon: '☀️',  value: '08:00', disabled: false },
+    { label: 'Noon',    sub: '11am – 2pm', icon: '🌤️', value: '11:00', disabled: false },
+    { label: 'Evening', sub: '4 – 7 pm',   icon: '🌇',  value: '16:00', disabled: false },
+    { label: 'Night',   sub: '7 – 9 pm',   icon: '🌙',  value: '19:00', disabled: false },
+  ];
+
+  private readonly MONTHS = ['Jan','Feb','Mar','Apr','May','Jun',
+                              'Jul','Aug','Sep','Oct','Nov','Dec'];
+  private readonly DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
   constructor(
-    private router: Router,
-    public dialog: MatDialog,
-    private spinner: NgxSpinnerService,
-    private addToCartService: AddToCartService,
-    private placeOrderService: OrderService,
-    private toastService: ToastServiceService,
+    private cartService:    AddToCartService,
+    private orderService:   OrderService,
     private storageService: StorageService,
-    private cdRef: ChangeDetectorRef,
-    private formBuilder: FormBuilder
+    private spinner:        NgxSpinnerService,
+    private toast:          ToastServiceService,
+    private router:         Router,
+    private dialog:         MatDialog,
+    private cdr:            ChangeDetectorRef,
   ) {}
 
-  onTimeset(event: any) {}
-
   ngOnInit(): void {
-    this.initialValidator();
-    this.activeUser = this.storageService.getUser();
-    this.prepareReferenceData();
-    this.cartDataGet();
+    this.activeUser   = this.storageService.getUser()     || '';
+    this.userFullName = this.storageService.getFullName() || '';
+    this.userMobile   = this.activeUser;
+    this.buildQuickDays();
+    this.loadCart();
   }
 
-  initialValidator() {
-    this.userAdd = this.formBuilder.group({
-      mobile: this.formBuilder.control('', [
-        Validators.required,
-        Validators.minLength(10), // Minimum length (e.g., for a 10-digit number)
-        Validators.maxLength(15), // Maximum length (e.g., for a 15-digit number)
-        Validators.pattern(/^[0-9]+$/), // Only numbers allowed
-      ]),
-
-      address: this.formBuilder.control('', [Validators.required]),
-      city: this.formBuilder.control('', [Validators.required]),
+  // ── Build 14-day strip ────────────────────────────
+  buildQuickDays(): void {
+    const now = new Date();
+    this.quickDays = Array.from({ length: 14 }, (_, i) => {
+      const d = new Date(now);
+      d.setDate(now.getDate() + i);
+      return {
+        date:       d.toISOString().split('T')[0],
+        dow:        this.DAYS[d.getDay()],
+        dd:         d.getDate(),
+        mon:        this.MONTHS[d.getMonth()],
+        isToday:    i === 0,
+        isTomorrow: i === 1,
+      };
     });
-
-    // this.userAdd.get('email').setValidators(Validators.email);
   }
 
-  toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
+  // ── Select day chip ───────────────────────────────
+  selectDay(day: QuickDay): void {
+    this.selectedDay  = day;
+    this.selectedSlot = '';
+    this.deliveryTime = '';
+    this.refreshSlotDisabled(day.isToday);
+    this.updateSchedulePreview();
   }
 
-  setDefaultTime4() {
-    const currentTime = new Date();
-    let currentHour = currentTime.getHours();
-    let currentMinute = currentTime.getMinutes();
+  // ── Select time slot chip ─────────────────────────
+  selectSlot(slot: TimeSlot): void {
+    if (slot.disabled) return;
+    this.selectedSlot = slot.value;
+    this.deliveryTime = slot.value;
+  this.customTimeDisplay = '';  
+    this.updateSchedulePreview();
+  }
 
-    // Add 4 hours to the current hour
-    currentHour = (currentHour + 5) % 24;
+openCustomPicker(): void {
+  const input = document.querySelector('.co-custom-time-input') as any;
+  input?.showPicker?.();
+  input?.click();
+}
 
-    // Round up the minutes to the nearest 30 minutes
-    currentMinute = Math.ceil(currentMinute / 30) * 30;
-    if (currentMinute === 60) {
-      currentMinute = 0;
-      currentHour = (currentHour + 1) % 24;
+
+onCustomTimeChange(event: any): void {
+  const val = event.target.value;
+  if (!val) return;
+  this.selectedSlot = 'custom';
+  this.deliveryTime = val;
+
+  // format display: "14:30" → "2:30 pm"
+  const [h, m]          = val.split(':');
+  const hr              = parseInt(h);
+  const ampm            = hr >= 12 ? 'pm' : 'am';
+  const hr12            = hr % 12 || 12;
+  this.customTimeDisplay = `${hr12}:${m} ${ampm}`;
+
+  this.updateSchedulePreview();
+}
+
+  // ── Disable past slots when Today is selected ─────
+  private refreshSlotDisabled(isToday: boolean): void {
+    const now = new Date();
+    this.timeSlots = this.timeSlots.map(s => ({
+      ...s,
+      disabled: isToday && parseInt(s.value) <= now.getHours(),
+    }));
+  }
+
+private updateSchedulePreview(): void {
+  if (!this.selectedDay || !this.deliveryTime) {
+    this.schedulePreviewLabel = ''; return;
+  }
+  let timeLabel: string;
+  if (this.selectedSlot === 'custom') {
+    timeLabel = `Custom · ${this.customTimeDisplay}`;
+  } else {
+    const slot = this.timeSlots.find(s => s.value === this.selectedSlot);
+    timeLabel  = slot ? `${slot.label} · ${slot.sub}` : this.deliveryTime;
+  }
+  const dateLabel = this.selectedDay.isToday
+    ? 'Today'
+    : this.selectedDay.isTomorrow
+    ? 'Tomorrow'
+    : `${this.selectedDay.dd} ${this.selectedDay.mon}`;
+  this.schedulePreviewLabel = `${dateLabel} · ${timeLabel}`;
+}
+
+  // ── Validation ────────────────────────────────────
+  isDeliveryValid(): boolean {
+    return !!this.selectedDay && !!this.deliveryTime;
+  }
+
+  isDetailsValid(): boolean {
+    return (
+      !!this.userMobile.trim()      &&
+      !!this.deliveryAddress.trim() &&
+      !!this.deliveryCity.trim()
+    );
+  }
+
+  // ── Build scheduledTime → "HH:mm:ss" ─────────────
+  private buildScheduledTime(): string {
+    const t = this.deliveryTime;
+    return t.length === 5 ? `${t}:00` : t;
+  }
+
+  // ── Load cart ─────────────────────────────────────
+  loadCart(): void {
+    if (!this.activeUser) {
+      this.router.navigate(['/auth/signin']);
+      return;
     }
 
-    // Find the index of the corresponding time slot in the timeSlot array
-    const nearestSlotIndex = this.timeSlot.findIndex((slot) => {
-      const slotHour = Number(slot.code.split(':')[0]);
-      const slotMinute = Number(slot.code.split(':')[1]);
-      return slotHour === currentHour && slotMinute === currentMinute;
-    });
-
-    // Set the selected time and description
-    if (nearestSlotIndex !== -1) {
-      this.selectedTime = this.timeSlot[nearestSlotIndex].code;
-      this.selectedTimeDesc = this.timeSlot[nearestSlotIndex].description;
-      this.timeSlotControl.setValue(this.timeSlot[nearestSlotIndex].code);
-    } else {
-      this.toastService.errorMessage('No matching time slot found for the current time + 5 hours');
-    }
-    this.slotListCreateForDisable();
-  }
-
-  slotListCreateForDisable() {
-    const currentTime = new Date();
-    let currentHour = currentTime.getHours();
-    let currentMinute = currentTime.getMinutes();
-
-    // Calculate the nearest 30-minute increment
-    currentMinute = Math.ceil(currentMinute / 30) * 30;
-    if (currentMinute === 60) {
-      currentMinute = 0;
-      currentHour++;
-    }
-
-    // Loop through the next 5 hours, adding 30-minute intervals
-    for (let i = 0; i < 10; i++) {
-      // Loop 10 times for the next 5 hours
-      // Ensure hour wraps around after 24
-      currentHour = currentHour % 24;
-
-      // Format hour and minute as strings with leading zeros if necessary
-      const formattedHour = String(currentHour).padStart(2, '0');
-      const formattedMinute = String(currentMinute).padStart(2, '0');
-
-      // Create slot code (e.g., "HH:MM")
-      const slotCode = `${formattedHour}:${formattedMinute}`;
-
-      // Push the slot code into the array
-      this.timeSlots.push(slotCode);
-
-      // Increment the time by 30 minutes
-      currentMinute += 30;
-      if (currentMinute >= 60) {
-        currentMinute = 0;
-        currentHour++;
-      }
-    }
-  }
-  slotDisable(slotCode: string): boolean {
-    for (let index = 0; index < this.timeSlots.length; index++) {
-      if (slotCode === this.timeSlots[index]) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  isTimeBeforeMin(): boolean {
-    if (!this.selectedTimeDesc) {
-      return false; // Allow selection if no time is selected yet
-    }
-
-    const selectedTime = new Date();
-    const [hours, minutes] = this.selectedTimeDesc.split(':').map(Number);
-    selectedTime.setHours(hours);
-    selectedTime.setMinutes(minutes);
-
-    // Compare with the minimum time (09:00)
-    const minTime = new Date();
-    minTime.setHours(9);
-    minTime.setMinutes(0);
-
-    return selectedTime < minTime;
-  }
-
-  selectTime(timeCode: any) {
-    this.selectedTime = timeCode.code;
-    this.selectedTimeDesc = timeCode.description;
-    this.timeSlotControl.setValue(timeCode);
-    this.toggleDropdown();
-  }
-  ngAfterViewChecked(): void {
-    this.cdRef.detectChanges();
-  }
-
-  prepareReferenceData(): void {
-    this.placeOrderService.getSearchData(true).subscribe(
+    this.spinner.show();
+    this.cartService.checkoutCartList({
+      isPriceChange: false,
+      userName:      this.activeUser,
+      checkout:      true,
+    }).subscribe(
       (response: any) => {
-        this.statusList = response.statusList;
-        this.timeSlot = response.timeSlot;
-      },
-      (error) => {
-        this.toastService.errorMessage(error.error['message']);
-      }
-    );
-  }
+        this.spinner.hide();
+        const data = response?.data;
+        if (!data) { this.toast.errorMessage('No cart data found'); return; }
 
-  cartDataGet() {
-    this.cartDetails.userName = this.activeUser;
-
-    this.cartDetails.checkout = true;
-    this.addToCartService.checkoutCartList(this.cartDetails).subscribe(
-      (response: CommonResponse) => {
-        if (response && response.data && response.data.cartList) {
-          this.cardList = response.data;
-          this.orderReq.mobile = this.cardList.mobile;
-          this.orderReq.address = this.cardList.address;
-          this.orderReq.city = this.cardList.city;
-          this.cartDataList = this.cardList.cartList;
-
-          if (this.cardList.cartList.length == 0 && this.cardList?.cartList) {
-            this.home();
+        this.cartItems = (data.cartList ?? []).map((c: any) => ({
+          cartId:      c.cartId,
+          qty:         c.qty         ?? 1,
+          personCount: c.personCount ?? 4,
+          product: {
+            packageId:          c.packageId,
+            mealName:           c.mealName,
+            price:              c.price,
+            img:                c.image,
+            productCategory:    c.productCategory ?? 'BITE',
+            ingredients:        (c.ingredients ?? []).map((ing: any) =>
+              typeof ing === 'string' ? { name: ing } : ing
+            ),
+            portionDescription: c.portionDescription ?? '',
           }
-          this.setDefaultTime4();
-        } else {
-          this.isCartAvailable = false;
-        }
+        }));
+
+        this.subTotal      = data.subTotal      ?? 0;
+        this.deliveryPrice = data.deliveryPrice ?? 0;
+        this.orderTotal    = data.total         ?? 0;
+
+        if (data.userId)   this.userId          = data.userId;
+        if (data.fullName) this.userFullName     = data.fullName;
+        if (data.mobile)   this.userMobile       = data.mobile;
+        if (data.address)  this.deliveryAddress  = data.address;
+        if (data.city)     this.deliveryCity     = data.city;
+
+        this.cdr.markForCheck();
       },
-      (error) => {}
-    );
-  }
-
-  placeOrder() {
-    if (this.userAdd.valid) {
-      this.spinner.show();
-      this.orderReq.userId = this.cardList.userId;
-      this.orderReq.product = this.cardList.cartList;
-      this.orderReq.total = this.cardList.total;
-      this.orderReq.deliveryPrice = this.cardList.deliveryPrice;
-      this.orderReq.scheduledTime = this.selectedTime;
-      this.orderReq.activeUser = this.activeUser;
-      this.placeOrderService.placeOrder(this.orderReq).subscribe(
-        (response: CommonResponse) => {
-          this.toastService.successMessage(
-            'Order placed, we will contact soon'
-          );
-          this.home();
-          this.spinner.hide();
-        },
-        (error) => {
-          this.spinner.hide();
-          this.toastService.errorMessage(error.error['errorDescription']);
-        }
-      );
-    } else {
-      this.spinner.hide();
-      this.mandatoryValidation(this.userAdd);
-    }
-  }
-
-  mandatoryValidation(formGroup: FormGroup) {
-    for (const key in formGroup.controls) {
-      if (formGroup.controls.hasOwnProperty(key)) {
-        const control: FormControl = <FormControl>formGroup.controls[key];
-        if (Object.keys(control).includes('controls')) {
-          const formGroupChild: FormGroup = <FormGroup>formGroup.controls[key];
-          this.mandatoryValidation(formGroupChild);
-        }
-        control.markAsTouched();
-      }
-    }
-  }
-
-  updateUserAccount() {}
-  cartRemove(cart: any) {
-    this.addToCartService.removeToCart(cart.cartId).subscribe(
-      (response: CommonResponse) => {
-        this.toastService.successMessage(response.responseDescription);
-        this.cartDataGet();
-        this.cardList.subTotal = this.cardList.subTotal - cart.price;
-        this.cardList.total =
-          this.cardList.subTotal + this.cardList.deliveryPrice;
-      },
-      (error) => {
-        this.toastService.errorMessage(error.error['errorDescription']);
+      error => {
+        this.spinner.hide();
+        this.toast.errorMessage(error.error?.errorDescription || 'Failed to load cart');
       }
     );
   }
 
-  populateHours(): void {
-    const currentTime = new Date();
-    const currentHour = currentTime.getHours();
-    const minSelectableHour =
-      currentHour + this.defaultDelivery > 12
-        ? currentHour + this.defaultDelivery - 12
-        : currentHour + this.defaultDelivery;
-    this.minSelectableHour = minSelectableHour;
-
-    for (let i = minSelectableHour; i <= 12; i++) {
-      this.hours.push(i);
-    }
+  // ── Qty controls ──────────────────────────────────
+  incrementQty(item: CartItem): void {
+    item.qty++;
+    this.recalcTotal();
+    this.cdr.markForCheck();
   }
 
-  populateMinutes(): void {
-    const currentTime = new Date();
-    const currentHour = currentTime.getHours();
-    const currentMinute = currentTime.getMinutes();
-
-    // Calculate the minimum selectable minute
-    let minSelectableMinute = currentMinute;
-
-    // If the current hour is within 4 hours from now, disable minutes before the current minute
-    if (currentHour + 5 >= 24) {
-      minSelectableMinute = 0; // Start from 0 if it's past midnight
+  decrementQty(item: CartItem): void {
+    if (item.qty > 1) {
+      item.qty--;
+      this.recalcTotal();
+      this.cdr.markForCheck();
     } else {
-      minSelectableMinute = (minSelectableMinute + 5 * 60) % 60; // Add 4 hours and ensure it's within 0-59 range
-    }
-
-    // Populate the minutes array starting from the minimum selectable minute
-    for (let i = minSelectableMinute; i < 60; i++) {
-      this.minutes.push(i);
+      this.removeItem(item);
     }
   }
-  setDefaultTime(): void {
-    const currentTime = new Date();
-    const currentHour = currentTime.getHours();
-    const currentMinute = currentTime.getMinutes();
 
-    // Calculate the delivery time based on the current time
-    let deliveryTime = currentHour + this.defaultDelivery;
-    let currentAmPm: string;
+  recalcTotal(): void {
+    this.subTotal   = this.cartItems.reduce((s, i) => s + (i.product.price * i.qty), 0);
+    this.orderTotal = this.subTotal + this.deliveryPrice;
+  }
 
-    // Adjust delivery time if it exceeds 12 hours
-    if (deliveryTime >= 12) {
-      deliveryTime -= 12;
-      currentAmPm = 'PM';
-    } else {
-      currentAmPm = 'AM';
+  removeItem(item: CartItem): void {
+    this.cartService.removeToCart(item.cartId).subscribe({
+      next: () => {
+        this.cartItems = this.cartItems.filter(c => c.cartId !== item.cartId);
+        this.recalcTotal();
+        this.cdr.markForCheck();
+        this.toast.successMessage('Item removed');
+      },
+      error: err => this.toast.errorMessage(err.error?.errorDescription || 'Remove failed')
+    });
+  }
+
+  getTotal(): number { return this.orderTotal; }
+
+  // ── Ingredients dialog ────────────────────────────
+  openProductDialog(item: CartItem): void {
+    this.dialog.open(IngredientsDialogComponent, {
+      data:          { product: item.product },
+      panelClass:    'ingredients-dialog-panel',
+      backdropClass: 'ingredients-backdrop',
+      maxWidth:      '95vw',
+      width:         '420px',
+      autoFocus:     false,
+    });
+  }
+
+  // ── Place order ───────────────────────────────────
+  placeOrder(): void {
+    this.deliverySubmitted = true;
+    this.detailsSubmitted  = true;
+
+    if (!this.isDeliveryValid()) {
+      document.querySelector('.co-delivery-card')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
     }
 
-    // Set the selected hour, minute, and AM/PM
-    this.selectedHour = deliveryTime;
-    this.selectedMinute = currentMinute;
-    this.selectedAmPm = currentAmPm;
+    if (!this.isDetailsValid()) {
+      document.querySelector('.co-details-card')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
 
-    // Construct the selected time string
-    this.selectedTime = `${this.selectedHour}:${this.selectedMinute
-      .toString()
-      .padStart(2, '0')} ${this.selectedAmPm}`;
+    if (this.cartItems.length === 0) {
+      this.toast.errorMessage('Your cart is empty');
+      return;
+    }
+
+    const scheduledTime = this.buildScheduledTime();
+
+    const orderPayload = {
+      userId:        this.userId,
+      activeUser:    this.activeUser,
+      orderDate:     `${this.selectedDay!.date} ${scheduledTime}`,
+      scheduledTime: scheduledTime,
+      total:         this.orderTotal,
+      deliveryPrice: this.deliveryPrice,
+      address:       this.deliveryAddress,
+      city:          this.deliveryCity,
+      mobile:        this.userMobile,
+      product:       this.cartItems.map(i => ({
+        packageId:   i.product.packageId,
+        qty:         i.qty,
+        personCount: i.personCount,
+        price:       i.product.price,
+        cartId:      i.cartId,
+      })),
+    };
+
+    this.spinner.show();
+    this.orderService.placeOrder(orderPayload).subscribe(
+      (response: any) => {
+        this.spinner.hide();
+        this.toast.successMessage(response?.responseDescription || 'Order placed successfully!');
+        this.router.navigate(['/delivery/home']);
+      },
+      error => {
+        this.spinner.hide();
+        this.toast.errorMessage(error.error?.errorDescription || 'Failed to place order');
+      }
+    );
   }
 
-  onChangeHour(hour: number): void {
-    this.selectedHour = hour;
-    this.updateSelectedTime();
-  }
+  // ── Utils ─────────────────────────────────────────
+  trackById(_: number, item: CartItem): number { return item.cartId; }
 
-  onChangeMinute(minute: number): void {
-    this.selectedMinute = minute;
-    this.updateSelectedTime();
-  }
-
-  onChangeAmPm(ampm: string): void {
-    this.selectedAmPm = ampm;
-    this.updateSelectedTime();
-  }
-
-  updateSelectedTime(): void {
-    // Update the selected time string
-    this.selectedTime = `${this.selectedHour}:${this.selectedMinute
-      .toString()
-      .padStart(2, '0')} ${this.selectedAmPm}`;
-  }
-
-  // Define a method to handle null or undefined values
-  sanitizeValue(value: any, defaultValue: any = ''): any {
-    return value !== null && value !== undefined ? value : defaultValue;
-  }
-
-  home() {
-    this.router.navigate(['/delivery/home']);
-  }
-  onDestroy() {}
-
-  get mobile() {
-    return this.userAdd.get('mobile');
-  }
-
-  get address() {
-    return this.userAdd.get('address');
-  }
-
-  get city() {
-    return this.userAdd.get('city');
+  onImgError(event: any): void {
+    event.target.src = 'assets/images/placeholder-food.png';
   }
 }

@@ -1,22 +1,28 @@
 .login-main {
-    position: relative;
-    width: 100%;
-    height: 90vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    overflow: hidden;
-    // background-image: url('../../../../assets/images/login_banner.jpg');
-    // background-size: cover;
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  overflow: visible;
+  padding: 24px;             // breathing room on all sides
+  box-sizing: border-box;
+
+  @media (max-width: 480px) {
+    padding: 16px;           // tighter on mobile but still has side margins
+    align-items: flex-start;
+    padding-top: 24px;
+  }
 }
 
 .blur-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
-    backdrop-filter: blur(5px); /* Adjust blur radius as needed */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
 }

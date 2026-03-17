@@ -15,9 +15,16 @@ import { ToastServiceService } from 'src/app/services/toast/toast-service.servic
 export class SignUpComponent implements OnInit {
   signUpForm!: FormGroup;
   signUpModel = new User();
-  hide = true;
+  hide        = true;
   hideConfirm = true;
-  isLoading = false;
+  isLoading   = false;
+
+  // ── Focus states for input highlight ─────────────
+  fullNameFocused = false;
+  emailFocused    = false;
+  mobileFocused   = false;
+  passwordFocused = false;
+  confirmFocused  = false;
 
   
   constructor(
@@ -70,7 +77,7 @@ export class SignUpComponent implements OnInit {
         this.storageService.setUser(response.body.user.mobileNo);
         this.storageService.setFullName(response.body.user.fullName);
 
-        this.toastr.successMessage('Registration successful!');
+        // this.toastr.successMessage('Registration successful!');
         this.authService.logIn(); // redirect to dashboard
       },
       error: (err) => {

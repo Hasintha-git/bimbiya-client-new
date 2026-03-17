@@ -2,19 +2,29 @@
 
   <!-- Header -->
   <div class="dialog-header">
-    <div class="dialog-header-image" [style.backgroundImage]="'url(' + data.product.img + ')'">
+    <div class="dialog-header-image"
+         [style.backgroundImage]="'url(' + (data.product?.img || 'assets/images/placeholder-food.png') + ')'">
       <div class="dialog-header-overlay"></div>
       <div class="dialog-header-content">
-        <h2 class="dialog-meal-name">{{ data.product.mealName }}</h2>
+        <!-- Badges above title -->
         <div class="dialog-badges">
-          <span class="badge-category">{{ data.product.productCategory }}</span>
-          <span class="badge-portion">{{ data.product.portionDescription }}</span>
+          <span class="badge-category"
+                [class.badge-bev]="data.product?.productCategory === 'BEVERAGES'">
+            {{ data.product?.productCategory === 'BEVERAGES' ? '🥤 Beverage' : '🍽️ Bite' }}
+          </span>
+          <span class="badge-portion" *ngIf="data.product?.portionDescription">
+            {{ data.product.portionDescription }}
+          </span>
         </div>
+        <h2 class="dialog-meal-name">{{ data.product?.mealName }}</h2>
       </div>
     </div>
+
     <button class="dialog-close-btn" (click)="close()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
       </svg>
     </button>
   </div>
@@ -22,63 +32,76 @@
   <!-- Body -->
   <div class="dialog-body">
 
-    <!-- Price & Info Row -->
+    <!-- Price Info Row -->
     <div class="info-row">
       <div class="info-card">
         <span class="info-label">Price</span>
-        <span class="info-value price-value">LKR {{ data.product.price }}.00</span>
+        <span class="info-value price-value">LKR {{ data.product?.price | number }}</span>
+      </div>
+      <div class="info-card" *ngIf="data.product?.portionDescription">
+        <span class="info-label">Portion</span>
+        <span class="info-value">{{ data.product.portionDescription }}</span>
       </div>
       <div class="info-card">
-        <span class="info-label">Portion</span>
-        <span class="info-value">{{ data.product.portion | titlecase }}</span>
+        <span class="info-label">Category</span>
+        <span class="info-value">
+          {{ data.product?.productCategory === 'BEVERAGES' ? 'Beverage' : 'Bite' }}
+        </span>
       </div>
-      <!-- <div class="info-card">
-        <span class="info-label">Status</span>
-        <span class="info-value status-active">{{ data.product.statusDescription }}</span>
-      </div> -->
     </div>
 
-    <!-- Description -->
-    <div class="section" *ngIf="data.product.description">
+    <!-- Ingredients Section -->
+    <div class="section">
       <h3 class="section-title">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z"/>
-        </svg>
-        About
-      </h3>
-      <p class="description-text">{{ data.product.description }}</p>
-    </div>
-
-    <!-- Ingredients -->
-    <div class="section" *ngIf="data.product.ingredients?.length">
-      <h3 class="section-title">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+          <rect x="9" y="3" width="6" height="4" rx="1"/>
+          <path d="M9 12h6M9 16h4"/>
         </svg>
         Ingredients
+        <span class="ing-count" *ngIf="ingredients.length">
+          {{ ingredients.length }}
+        </span>
       </h3>
 
-      <p class="ingredients-note">
-        Weights shown are for a 4-person package and scale proportionally with serving size.
-      </p>
-
-      <div class="ingredients-grid">
-        <div
-          class="ingredient-chip"
-          *ngFor="let ingredient of data.product.ingredients; trackBy: trackByIngredient; let i = index"
-          [style.animationDelay]="(i * 60) + 'ms'"
-        >
-          <span class="ingredient-dot"></span>
-          {{ ingredient.description }}
+      <!-- Has ingredients -->
+      <ng-container *ngIf="ingredients.length; else noIngredients">
+        <p class="ingredients-note">
+          Weights are for a 4-person serving and scale with portion size.
+        </p>
+        <div class="ingredients-grid">
+          <div class="ingredient-chip"
+               *ngFor="let ing of ingredients; trackBy: trackByIngredient; let i = index"
+               [style.animation-delay]="(i * 50) + 'ms'">
+            <span class="ingredient-dot"></span>
+            {{ getIngredientName(ing) }}
+          </div>
         </div>
-      </div>
+      </ng-container>
+
+      <!-- No ingredients -->
+      <ng-template #noIngredients>
+        <div class="ing-empty-state">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+               stroke="rgba(255,255,255,0.15)" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4M12 16h.01"/>
+          </svg>
+          <p>No ingredient information available</p>
+        </div>
+      </ng-template>
     </div>
 
   </div>
 
   <!-- Footer -->
   <div class="dialog-footer">
-    <button class="btn-close-footer" (click)="close()">Close</button>
+    <button class="btn-close-footer" (click)="close()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      Got it
+    </button>
   </div>
 
 </div>

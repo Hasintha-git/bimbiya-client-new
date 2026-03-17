@@ -344,3 +344,38 @@
     transform: translateY(0);
   }
 }
+
+// ADD these to the existing scss file
+
+// Bev badge variant
+.badge-bev {
+  background: rgba(29,158,117,0.18) !important;
+  border-color: rgba(29,158,117,0.4) !important;
+  color: #1D9E75 !important;
+}
+
+// Ingredient count pill next to section title
+.ing-count {
+  margin-left: 4px;
+  font-size: 9px; font-weight: 700;
+  padding: 2px 7px; border-radius: 20px;
+  background: rgba(212,164,0,0.1);
+  border: 1px solid rgba(212,164,0,0.22);
+  color: #d4a400;
+}
+
+// Empty state
+.ing-empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 8px; padding: 20px 0;
+  p {
+    margin: 0; font-size: 11px;
+    color: rgba(255,255,255,0.22); font-style: italic;
+  }
+}
+
+// Footer button update — icon + text
+.btn-close-footer {
+  display: flex; align-items: center; gap: 7px;
+  // existing styles remain unchanged
+}

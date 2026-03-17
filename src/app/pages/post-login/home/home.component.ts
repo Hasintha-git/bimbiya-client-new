@@ -1,7 +1,6 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, 
+         ElementRef, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { CartDetails } from 'src/app/models/cart-details';
-import { AddToCartService } from 'src/app/services/Cart/add-to-cart.service';
 
 @Component({
   selector: 'app-home',
@@ -9,37 +8,32 @@ import { AddToCartService } from 'src/app/services/Cart/add-to-cart.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
-  
+
   @ViewChild('trendingTitle') trendingTitle!: ElementRef;
-  
-  cartDetails = new CartDetails();
-  isTitleVisible = false; // Controls the CSS class
+
+  isTitleVisible = false;
   private observer: IntersectionObserver | undefined;
 
-  constructor(private addToCartService: AddToCartService,
-              private spinner: NgxSpinnerService) { }
+  constructor(private spinner: NgxSpinnerService,
+              private cdr: ChangeDetectorRef) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.initObserver();
+    // Slight delay ensures element is fully rendered in DOM
+    setTimeout(() => this.initObserver(), 100);
   }
 
   initObserver() {
-    const options = {
-      root: null, // use the viewport
-      threshold: 0.1 // trigger when 10% of the element is visible
-    };
-
     this.observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           this.isTitleVisible = true;
-          // Once it's visible, we can stop observing
+          this.cdr.detectChanges(); // ← force Angular to pick up the change
           this.observer?.unobserve(entry.target);
         }
       });
-    }, options);
+    }, { root: null, threshold: 0.1 });
 
     if (this.trendingTitle) {
       this.observer.observe(this.trendingTitle.nativeElement);
@@ -47,9 +41,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.observer) {
-      this.observer.disconnect();
-    }
+    this.observer?.disconnect();
   }
-
 }

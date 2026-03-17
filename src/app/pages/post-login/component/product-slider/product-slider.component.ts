@@ -1,130 +1,153 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { DataTable } from 'src/app/pages/models/data-table';
 import { ProductService } from 'src/app/services/product/product.service';
 import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
-// ... other imports
-
-// This is the correct, exported path for Swiper 9 bundle
 // @ts-ignore
 import Swiper from 'swiper/bundle';
 
 @Component({
-  selector: 'app-product-slider',
+  selector:    'app-product-slider',
   templateUrl: './product-slider.component.html',
-  styleUrls: ['./product-slider.component.scss']
+  styleUrls:   ['./product-slider.component.scss']
 })
-export class ProductSliderComponent implements OnInit {
+export class ProductSliderComponent implements OnInit, OnDestroy {
+
   public foodData: Product[] = [];
-  private mySwiper: any;
+
+  private mySwiper:        any;
+  private reverseInterval: any;
+  private initTimer:        any;
+  private isPaused        = false;
+  private direction: 'forward' | 'backward' = 'forward';
 
   constructor(
     private productService: ProductService,
-    public toast: ToastServiceService
-  ) { }
+    private cdr:            ChangeDetectorRef,
+    public  toast:          ToastServiceService,
+  ) {}
 
   ngOnInit(): void {
     this.getList();
   }
 
-  getList() {
+  ngOnDestroy(): void {
+    this.destroySwiper();
+    clearTimeout(this.initTimer);
+    clearInterval(this.reverseInterval);
+  }
+
+  // ── Data ─────────────────────────────────────────────────────
+  getList(): void {
     this.productService.getTrendingList().subscribe({
       next: (data: DataTable<Product>) => {
-       this.foodData = [...(data.records ?? [])];
-        // Small delay to let Angular render the DOM
-        setTimeout(() => {
-          this.initSwiper();
-        }, 400);
+        this.foodData = [...(data.records ?? [])];
+
+        // Let cdr flush the *ngFor, THEN init swiper
+        this.cdr.detectChanges();
+
+        clearTimeout(this.initTimer);
+        this.initTimer = setTimeout(() => this.initSwiper(), 300);
       },
-      error: (error) => {
-        this.toast.errorMessage(error.error['errorDescription']);
+      error: (err) => {
+        this.toast.errorMessage(err.error?.errorDescription ?? 'Failed to load products');
       }
     });
   }
 
-  initSwiper() {
-  if (this.mySwiper) {
-    this.mySwiper.destroy(true, true);
-  }
+  // ── Swiper init ───────────────────────────────────────────────
+  private initSwiper(): void {
+    this.destroySwiper();
 
-  this.mySwiper = new Swiper('.trending-swiper', {
-    slidesPerView: 1,
-    spaceBetween: 20,
-    loop: false, // Must be FALSE for reverse/forward logic to work
-    speed: 1000, 
-    autoplay: {
-      delay: 1500,
-      disableOnInteraction: false,
-      stopOnLastSlide: false, // We will handle the reverse manually
-    },
-    breakpoints: {
-      1100: { slidesPerView: 3 },
-      768: { slidesPerView: 2 },
-      100: { slidesPerView: 1 }
-    }
-  });
+    this.direction = 'forward';
 
-  // THE REVERSE LOGIC
-  let direction = 'forward';
+    this.mySwiper = new Swiper('.trending-swiper', {
+      slidesPerView:    1,
+      spaceBetween:     20,
+      loop:             false,
+      speed:            800,
+      observer:         true,   // ← watches DOM changes
+      observeParents:   true,   // ← also watches parent changes
+      autoplay: {
+        delay:                  2000,
+        disableOnInteraction:   false,
+        stopOnLastSlide:        false,
+      },
+      breakpoints: {
+        1100: { slidesPerView: 3, spaceBetween: 24 },
+        768:  { slidesPerView: 2, spaceBetween: 20 },
+        0:    { slidesPerView: 1, spaceBetween: 14 },
+      },
+    });
 
-  this.mySwiper.on('reachEnd', () => {
-    direction = 'backward';
-    // Small delay before it starts going back
-    setTimeout(() => {
+    // ── Forward → reach end → go backward
+    this.mySwiper.on('reachEnd', () => {
+      if (this.direction === 'backward') return; // already reversing
+      this.direction = 'backward';
       this.mySwiper.autoplay.stop();
-      this.reverseMove();
-    }, 1500);
-  });
+      setTimeout(() => {
+        if (!this.isPaused) this.startReverse();
+      }, 1800);
+    });
 
-  this.mySwiper.on('reachBeginning', () => {
-    direction = 'forward';
-    // Start standard autoplay again
-    this.mySwiper.autoplay.start();
-  });
-}
-private isPaused = false;
-private reverseInterval: any; // Store the interval here to clear it
-
-stopAutoplay() {
-  this.isPaused = true;
-  if (this.mySwiper) {
-    this.mySwiper.autoplay.stop();
+    // ── Backward → reach start → go forward
+    this.mySwiper.on('reachBeginning', () => {
+      if (this.direction === 'forward') return;
+      this.direction = 'forward';
+      clearInterval(this.reverseInterval);
+      setTimeout(() => {
+        if (!this.isPaused) this.mySwiper?.autoplay.start();
+      }, 1800);
+    });
   }
-  // Immediately kill the backward movement loop
-  if (this.reverseInterval) {
+
+  // ── Hover controls ────────────────────────────────────────────
+  stopAutoplay(): void {
+    this.isPaused = true;
+    this.mySwiper?.autoplay.stop();
     clearInterval(this.reverseInterval);
   }
-}
 
-resumeAutoplay() {
-  this.isPaused = false;
-  
-  // Decide whether to resume forward or backward
-  if (this.mySwiper) {
-    if (this.mySwiper.isEnd || this.mySwiper.activeIndex > 0 && !this.mySwiper.isBeginning) {
-       // If we were in the middle of going back, restart reverse
-       this.reverseMove();
-    } else {
-       this.mySwiper.autoplay.start();
+  resumeAutoplay(): void {
+    this.isPaused = false;
+    if (!this.mySwiper) return;
+
+    if (this.direction === 'backward' && !this.mySwiper.isBeginning) {
+      this.startReverse();
+    } else if (!this.mySwiper.isEnd) {
+      this.mySwiper.autoplay.start();
     }
   }
-}
 
-private reverseMove() {
-  // Clear any existing interval first to prevent "speeding up"
-  if (this.reverseInterval) clearInterval(this.reverseInterval);
+  // ── Reverse slide loop ────────────────────────────────────────
+  private startReverse(): void {
+    clearInterval(this.reverseInterval);
+    this.reverseInterval = setInterval(() => {
+      if (this.isPaused || !this.mySwiper) return;
 
-  this.reverseInterval = setInterval(() => {
-    // If the user hovered, do nothing
-    if (this.isPaused) return;
+      if (this.mySwiper.isBeginning) {
+        clearInterval(this.reverseInterval);
+        this.direction = 'forward';
+        setTimeout(() => {
+          if (!this.isPaused) this.mySwiper?.autoplay.start();
+        }, 1800);
+        return;
+      }
 
-    if (this.mySwiper.isBeginning) {
-      clearInterval(this.reverseInterval);
-      if (!this.isPaused) this.mySwiper.autoplay.start();
-      return;
+      this.mySwiper.slidePrev(800);
+    }, 2500);
+  }
+
+  // ── Cleanup ───────────────────────────────────────────────────
+  private destroySwiper(): void {
+    clearInterval(this.reverseInterval);
+    if (this.mySwiper) {
+      this.mySwiper.destroy(true, true);
+      this.mySwiper = null;
     }
-    
-    this.mySwiper.slidePrev(1000);
-  }, 2500);
+  }
+
+  trackByProduct(_: number, item: Product): any {
+  return item?.packageId ?? _;
 }
 }
