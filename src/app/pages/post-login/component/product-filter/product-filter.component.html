@@ -68,30 +68,37 @@
       <button (click)="resetFilters()" class="text-xs font-bold hover:opacity-80" style="color: #FFC001;">CLEAR ALL</button>
     </div>
 
-    <div class="space-y-4">
-      <label class="flex items-center justify-between cursor-pointer">
-        <span class="text-sm" [ngClass]="productCategory === 'BITE' ? 'text-white' : 'text-gray-500'">Bite</span>
-        <div class="relative">
-          <input type="checkbox" class="sr-only" [checked]="productCategory === 'BITE'" (change)="categoryChange('BITE')">
-          <div class="w-10 h-5 bg-gray-700 rounded-full transition" [style.background-color]="productCategory === 'BITE' ? '#FFC001' : null"></div>
-          <div class="absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform" [ngClass]="{'translate-x-5': productCategory === 'BITE'}"></div>
-        </div>
-      </label>
-      <label class="flex items-center justify-between cursor-pointer">
-        <span class="text-sm" [ngClass]="productCategory === 'BEVERAGES' ? 'text-white' : 'text-gray-500'">Beverages</span>
-        <div class="relative">
-          <input type="checkbox" class="sr-only" [checked]="productCategory === 'BEVERAGES'" (change)="categoryChange('BEVERAGES')">
-          <div class="w-10 h-5 bg-gray-700 rounded-full transition" [style.background-color]="productCategory === 'BEVERAGES' ? '#FFC001' : null"></div>
-          <div class="absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform" [ngClass]="{'translate-x-5': productCategory === 'BEVERAGES'}"></div>
-        </div>
-      </label>
-    </div>
+    <!-- REPLACE the two hardcoded label blocks with this -->
+<div class="space-y-4">
+  <label 
+    *ngFor="let cat of productCatList"
+    class="flex items-center justify-between cursor-pointer">
+    
+    <span class="text-sm" 
+          [ngClass]="productCategory === cat.code ? 'text-white' : 'text-gray-500'">
+      {{ cat.description }}
+    </span>
 
-    <div *ngIf="productCategory === 'BITE'" class="space-y-8 pt-4">
-      <div>
+    <div class="relative">
+      <input type="checkbox" 
+             class="sr-only" 
+             [checked]="productCategory === cat.code" 
+             (change)="categoryChange(cat.code)">
+      <div class="w-10 h-5 bg-gray-700 rounded-full transition" 
+           [style.background-color]="productCategory === cat.code ? '#FFC001' : null">
+      </div>
+      <div class="absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform" 
+           [ngClass]="{'translate-x-5': productCategory === cat.code}">
+      </div>
+    </div>
+  </label>
+</div>
+
+    <div *ngIf="productCategory === 'BITE' || productCategory === 'SINGLE_BITE'" class="space-y-8 pt-4">
+      <div *ngIf="productCategory === 'BITE'">
         <h3 class="text-sm font-semibold mb-4" style="color: #FFC001;">Portions</h3>
         <div class="space-y-2">
-          <div *ngFor="let por of portionList" class="flex items-center">
+          <div *ngFor="let por of filteredPortionList" class="flex items-center">
             <input type="checkbox" 
                    [id]="por.code" 
                    [checked]="selectedPortions.includes(por.code)" 

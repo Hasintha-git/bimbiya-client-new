@@ -13,6 +13,7 @@
 
 .signin-card {
   width: 100%;
+  min-width: 350px;
   max-width: 420px;          // no min-width — let it shrink on mobile
   border-radius: 22px;
   overflow: hidden;

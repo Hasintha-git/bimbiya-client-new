@@ -1,86 +1,260 @@
-/* Default styles for larger screens */
+/* ── Layout ── */
 @media (min-width: 768px) {
-    .flex {
-      /* Use flex layout for larger screens */
-      display: flex;
-    }
-    .cart-div {
-      /* Take up half width on larger screens */
-      width: 50%;
-    }
-  }
+  .flex { display: flex; }
+  .cart-div { width: 50%; }
+}
 
-  /* Styles for smaller screens (mobile) */
-  @media (max-width: 767px) {
-    .flex {
-      /* Override flex layout for smaller screens */
-      display: block;
-    }
-    .cart-div {
-      /* Take up full width on smaller screens */
-      width: 100%;
-      // margin-bottom: 10px; /* Optional: Add margin between items */
-    }
-  }
+@media (max-width: 767px) {
+  .flex { display: block; }
+  .cart-div { width: 100%; }
+}
 
-  .cart-div .bg-cover {
-    background-size: cover;
-    background-position: center;
-  }
+.cart-div .bg-cover {
+  background-size: cover;
+  background-position: center;
+}
 
+.btn {
+  background-color: #ffffff;
+  border: none;
+  color: #181818;
+  width: 270px !important;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif !important;
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.5s ease;
 
-  .btn {
-    background-color: #ffffff; /* Green */
-    border: none;
-    color: #181818;
-    // padding: 10px 25px;
-    width: 270px !important;
-    text-align: center;
-    text-decoration: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 18px;
-    font-weight: bold;
-    font-family: Arial, Helvetica, sans-serif !important;
-    // margin: 4px 8px !important;
-    position: absolute;
-    bottom: 10%;
-    right: 10%;
-    // transform: translateX(-50%);
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.5s ease;
-  }
-
-  .btn:hover {
+  &:hover {
     background-color: #ffffff;
     color: #000000;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   }
+}
 
-  .arrow-icon {
-    width: 30px;
-    height: 30px;
-    // top: 50%;
-    // left: 50%;
-    // transform: translate(-50%, -50%);
-    // transition: transform 0.3s ease-in-out;
-  }
+.arrow-icon {
+  width: 30px;
+  height: 30px;
+}
 
-  .cat-image {
-    // height: 300px !important;
-    cursor: pointer !important;
-    &:hover {
-      img {
-        transform: scale(1.1); // Slight zoom effect
-        transition: transform 0.3s ease-in-out; // Smooth animation
-      }
+.cat-image {
+  cursor: pointer !important;
 
-      // .overlay {
-      //   opacity: 1; // Fade in overlay
-      //   transform: translateY(0); // Slide overlay in from bottom
-      //   transition: opacity 0.3s ease, transform 0.3s ease; // Smooth overlay effect
-      // }
+  &:hover {
+    img {
+      transform: scale(1.1);
+      transition: transform 0.3s ease-in-out;
     }
   }
+}
+
+/* ── Bite Picker Overlay ── */
+/* ── Bite Picker Overlay ── */
+.bite-overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bite-overlay-card {
+  font-family: 'Poppins', sans-serif;
+  width: 360px;
+  border-radius: 28px;
+  position: relative;
+
+  background: #1F293766;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(28px) saturate(1.4);
+  -webkit-backdrop-filter: blur(28px) saturate(1.4);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.07) inset,
+    0 12px 48px rgba(0, 0, 0, 0.6),
+    0 2px 8px rgba(0, 0, 0, 0.3);
+
+  color: #fff;
+  padding: 36px 28px 28px;
+  animation: biteCardIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes biteCardIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.bite-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  svg {
+    width: 15px;
+    height: 15px;
+    stroke: rgba(255, 255, 255, 0.5);
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.25);
+    svg { stroke: #fff; }
+  }
+}
+
+.bite-header {
+  text-align: center;
+  margin-bottom: 28px;
+
+  .bite-icon {
+    font-size: 40px;
+    margin-bottom: 14px;
+    display: block;
+    // glow behind icon
+    filter: drop-shadow(0 4px 12px rgba(255, 192, 1, 0.35));
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 8px;
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+}
+
+// gold divider line between header and options
+.bite-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 192, 1, 0.3) 50%,
+    transparent 100%
+  );
+  margin: 0 0 20px;
+}
+
+.bite-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bite-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  text-align: left;
+  color: #fff;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    stroke: rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+  }
+
+  &:hover {
+    background: rgba(255, 192, 1, 0.12);
+    border-color: rgba(255, 192, 1, 0.45);
+    transform: translateX(6px) scale(1.01);
+    box-shadow:
+      0 4px 24px rgba(255, 192, 1, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+    .bite-dot {
+      background: #FFC001;
+      box-shadow: 0 0 10px rgba(255, 192, 1, 0.7);
+      transform: scale(1.3);
+    }
+    .bite-label { color: #FFC001; }
+    .bite-sublabel { color: rgba(255, 192, 1, 0.6); }
+    svg {
+      stroke: #FFC001;
+      transform: translateX(3px);
+    }
+  }
+
+  &:active {
+    transform: translateX(4px) scale(0.99);
+  }
+}
+
+.bite-dot {
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.bite-option-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bite-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: 0.02em;
+  transition: color 0.25s ease;
+}
+
+.bite-sublabel {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  transition: color 0.25s ease;
+}

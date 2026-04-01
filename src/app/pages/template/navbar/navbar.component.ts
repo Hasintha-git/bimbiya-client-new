@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonResponse } from 'src/app/models/CommonResponse';
 import { CartDetails } from 'src/app/models/cart-details';
+import { SimpleBase } from 'src/app/models/SimpleBase';
 import { ForgetPasswordComponent } from 'src/app/pages/pre-login/authentication/forget-password/forget-password.component';
-import { UserProfileComponent } from 'src/app/pages/pre-login/user-profile/user-profile.component';
 import { AddToCartService } from 'src/app/services/Cart/add-to-cart.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ProductService } from 'src/app/services/product/product.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
 
@@ -19,17 +20,20 @@ import { ToastServiceService } from 'src/app/services/toast/toast-service.servic
 export class NavbarComponent implements OnInit {
 
   isMobileMenuOpen = false;
-  isProfileSidebarOpen = false;  // Changed from isProfile to isProfileSidebarOpen
+  isProfileSidebarOpen = false;
   isCart = false;
-  buttonHover: boolean;
+  isBiteDropdownOpen = false;
+  buttonHover: boolean = false;
 
   cartDetails = new CartDetails();
   public cartDetailsList: CartDetails[];
   activeUser: string;
-  itemsList: any[] = [];
   isUserLogged: boolean = false;
   activeFullName: string;
   cartCount: number = 0;
+
+  // Bite sub-categories from API (filtered to BITE-family only)
+  biteCategories: SimpleBase[] = [];
 
   constructor(
     private router: Router,
@@ -38,13 +42,13 @@ export class NavbarComponent implements OnInit {
     private addToCartService: AddToCartService,
     private toastService: ToastServiceService,
     private storageService: StorageService,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private productService: ProductService
+  ) {}
 
   ngOnInit(): void {
     this.authService.isLoggedIn$().subscribe(isLogged => {
       this.isUserLogged = isLogged;
-
       if (isLogged) {
         this.activeUser = this.storageService.getUser();
         this.activeFullName = this.storageService.getFullName();
@@ -58,35 +62,64 @@ export class NavbarComponent implements OnInit {
       this.cartCount = count;
     });
 
-        const state = history.state;
+    const state = history.state;
     if (state?.openSidebar) {
-      setTimeout(() => {
-        this.isProfileSidebarOpen = true;
-      }, 100); // Small delay to ensure DOM is ready
+      setTimeout(() => { this.isProfileSidebarOpen = true; }, 100);
     }
+
+    // Load bite sub-categories from API
+    this.loadBiteCategories();
+  }
+
+  loadBiteCategories() {
+    this.productService.getSearchData(false).subscribe(res => {
+      // Filter only BITE-family: BITE and SINGLE_BITE (exclude BEVERAGES)
+      this.biteCategories = (res.productCatList as SimpleBase[])
+        .filter(c => c.code !== 'BEVERAGES');
+    });
+  }
+
+navigateToBiteCategory(categoryCode: string) {
+  this.isBiteDropdownOpen = false;
+  this.storageService.setCategory(categoryCode);
+  this.productService.triggerCategoryChange(categoryCode); // ← notify
+  this.router.navigate(['/delivery/product']);
+}
+
+navigateToBeverages() {
+  this.storageService.setCategory('BEVERAGES');
+  this.productService.triggerCategoryChange('BEVERAGES'); // ← notify
+  this.router.navigate(['/delivery/product']);
+}
+
+  toggleBiteDropdown(event: MouseEvent) {
+    event.stopPropagation();
+    this.isBiteDropdownOpen = !this.isBiteDropdownOpen;
+    this.isCart = false;
   }
 
   @HostListener('document:click', ['$event'])
   handleDocumentClick(event: MouseEvent) {
-    const cart = document.getElementById('cartBtn');
-    if (cart && cart.contains(event.target as Node)) {
-      return;
-    } else {
-      this.isCart = false;
+    const biteBtn = document.getElementById('biteMenuBtn');
+    const biteDropdown = document.getElementById('biteDropdown');
+
+    if (
+      biteBtn && !biteBtn.contains(event.target as Node) &&
+      biteDropdown && !biteDropdown.contains(event.target as Node)
+    ) {
+      this.isBiteDropdownOpen = false;
     }
+
+    const cart = document.getElementById('cartBtn');
+    if (cart && cart.contains(event.target as Node)) return;
+    else this.isCart = false;
 
     const profile = document.getElementById('profileBtn');
-    if (profile && profile.contains(event.target as Node)) {
-      return;
-    }
-    // Note: Don't close sidebar on outside click - let overlay handle it
+    if (profile && profile.contains(event.target as Node)) return;
 
     const mobile = document.getElementById('mobileMenu');
-    if (mobile && mobile.contains(event.target as Node)) {
-      return;
-    } else {
-      this.isMobileMenuOpen = false;
-    }
+    if (mobile && mobile.contains(event.target as Node)) return;
+    else this.isMobileMenuOpen = false;
   }
 
   cartDataGet() {
@@ -94,58 +127,39 @@ export class NavbarComponent implements OnInit {
     if (this.activeUser) {
       this.cartDetails.userName = this.activeUser;
       this.cartDetails.checkout = false;
-      
       this.addToCartService.findCartList(this.cartDetails).subscribe(
         (response: CommonResponse) => {
           this.cartDetailsList = response.records;
           this.cartCount = this.cartDetailsList.length;
           this.addToCartService.setCartCount(this.cartCount);
         },
-        error => {
-          // Handle error
-        }
+        error => {}
       );
     } else {
       this.logoutUser();
     }
   }
 
-  profileMgt() {
-    this.router.navigate(['/user-profile']);
-  }
-
   forgetPassword() {
     this.isProfileSidebarOpen = false;
-    const dialogRef = this.dialog.open(ForgetPasswordComponent, { 
-      data: 12, 
-      width: '500px', 
-      height: '300px' 
+    const dialogRef = this.dialog.open(ForgetPasswordComponent, {
+      data: 12, width: '500px', height: '300px'
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      // Handle dialog close
-    });
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
-  toggleMobileMenu() {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
-  }
+  toggleMobileMenu() { this.isMobileMenuOpen = !this.isMobileMenuOpen; }
 
   toggleProfileSidebar() {
-    // Check if user is logged in
     if (!this.isUserLogged) {
-      // Redirect to login/signup if not logged in
       this.router.navigate(['/auth/signup']);
       return;
     }
-    
     this.isProfileSidebarOpen = !this.isProfileSidebarOpen;
     this.isCart = false;
   }
 
-  onProfileSidebarClosed() {
-    this.isProfileSidebarOpen = false;
-  }
+  onProfileSidebarClosed() { this.isProfileSidebarOpen = false; }
 
   toggleCartMenu() {
     this.isCart = !this.isCart;
@@ -153,30 +167,30 @@ export class NavbarComponent implements OnInit {
     this.cartDataGet();
   }
 
+isBiteActive(): boolean {
+  const cat = this.storageService.getCategory();
+  return this.router.url.includes('/delivery/product') && cat !== 'BEVERAGES';
+}
+
+isBeveragesActive(): boolean {
+  const cat = this.storageService.getCategory();
+  return this.router.url.includes('/delivery/product') && cat === 'BEVERAGES';
+}
+
   cartRemove(id: any) {
     this.addToCartService.removeToCart(id).subscribe(
       (response: CommonResponse) => {
         this.toastService.successMessage(response.responseDescription);
-        this.cartDataGet(); // refresh list
-        this.addToCartService.decreaseCartCount(); // instant update
+        this.cartDataGet();
+        this.addToCartService.decreaseCartCount();
       },
-      error => {
-        this.toastService.errorMessage(error.error['errorDescription']);
-      }
+      error => { this.toastService.errorMessage(error.error['errorDescription']); }
     );
   }
 
-  logoutUser() {
-    this.router.navigate(['/auth/signin']);
-  }
-
-  home() {
-    this.router.navigate(['/delivery/home']);
-  }
-
-  accountCreate() {
-    this.router.navigate(['/auth/signup']);
-  }
+  logoutUser() { this.router.navigate(['/auth/signin']); }
+  home() { this.router.navigate(['/delivery/home']); }
+  accountCreate() { this.router.navigate(['/auth/signup']); }
 
   logout() {
     this.storageService.clear();
@@ -184,11 +198,5 @@ export class NavbarComponent implements OnInit {
     this.home();
   }
 
-  foods() {
-    this.router.navigate(['/delivery/product']);
-  }
-
-  checkout() {
-    this.router.navigate(['/delivery/place-order']);
-  }
+  checkout() { this.router.navigate(['/delivery/place-order']); }
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { SimpleBase } from 'src/app/models/SimpleBase';
 import { ProductService } from 'src/app/services/product/product.service';
@@ -11,6 +11,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ElementRef } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -18,13 +20,16 @@ import { ElementRef } from '@angular/core';
   templateUrl: './product-filter.component.html',
   styleUrls: ['./product-filter.component.scss']
 })
-export class ProductFilterComponent implements OnInit, AfterViewInit {
+export class ProductFilterComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 @ViewChild('productGrid') productGrid!: ElementRef;
+
+private destroy$ = new Subject<void>();
 
   portionList: SimpleBase[] = [];
   ingredientsList: SimpleBase[] = [];
   productList: Product[] = [];
+  productCatList: SimpleBase[] = [];
   
   productFilter!: FormGroup;
   section: string = "Products";
@@ -44,12 +49,25 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.productCategory = this.storage.getCategory() || "BITE";
-    this.section = this.productCategory === "BITE" ? "Bite Section" : "Beverages";
     
     this.productFilter = this.fb.group({
       toPrice: [''],
       fromPrice: ['']
     });
+
+        this.productService.categoryChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(category => {
+        this.productCategory = category;
+        const found = this.productCatList.find(c => c.code === category);
+        this.section = found ? found.description : category;
+        this.selectedPortions = [];
+        this.selectedIngredients = [];
+        if (this.paginator) {
+          this.paginator.pageIndex = 0;
+        }
+        this.getList();
+      });
 
     this.prepareReferenceData();
     // REMOVED this.getList() from here because paginator isn't ready yet
@@ -68,6 +86,13 @@ export class ProductFilterComponent implements OnInit, AfterViewInit {
       })
     ).subscribe();
   }
+
+  get filteredPortionList(): SimpleBase[] {
+  if (this.productCategory === 'SINGLE_BITE') {
+    return this.portionList.filter(p => p.code === 'single');
+  }
+  return this.portionList;
+}
 
   getList() {
   this.spinner.show();
@@ -121,12 +146,17 @@ private scrollToGridTop() {
   }
 
   categoryChange(type: string) {
-    if (this.productCategory === type) return;
-    this.productCategory = type;
-    this.section = type === "BITE" ? "Bite Section" : "Beverages";
-    this.selectedPortions = [];
-    this.selectedIngredients = [];
-    this.applyFilters();
+   if (this.productCategory === type) return;
+  this.productCategory = type;
+  
+  // Dynamically find the description from the list
+  const found = this.productCatList.find(c => c.code === type);
+  this.section = found ? found.description : type;
+  
+  this.selectedPortions = [];
+  this.selectedIngredients = [];
+  this.prepareReferenceData(); 
+  this.applyFilters();
   }
 
   onPortionChange(code: string) {
@@ -146,9 +176,13 @@ private scrollToGridTop() {
   }
 
   prepareReferenceData() {
-    this.productService.getSearchData(true).subscribe(res => {
+    this.productService.getSearchDataWithCat(true, this.productCategory).subscribe(res => {
       this.portionList = res.portionList;
       this.ingredientsList = res.ingredientsList;
+      this.productCatList = res.productCatList;
+
+      const found = this.productCatList.find(c => c.code === this.productCategory);
+    if (found) this.section = found.description;
     });
   }
 
@@ -172,5 +206,10 @@ private scrollToGridTop() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach((cb: any) => cb.checked = false);
     this.applyFilters();
+  }
+
+    ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

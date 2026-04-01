@@ -56,3 +56,37 @@ nav {
   transform: scale(1.1); // Slight zoom effect
   transition: transform 0.4s ease-in-out; // Smooth animation
 }
+
+.bite-dropdown {
+  background: rgba(17, 24, 39, 0.97);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 192, 1, 0.15);
+  animation: dropdownFade 0.18s ease-out;
+}
+
+.bite-dropdown-item:hover {
+  background: rgba(255, 192, 1, 0.08);
+  padding-left: 1.25rem;
+  color: #FFC001;
+}
+
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// Fix Bite button arrow alignment specifically
+#biteMenuBtn {
+  display: inline-flex !important;
+  align-items: center !important;
+  line-height: 1 !important;
+  
+  svg {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    top: 0 !important;
+    margin: 0 !important;
+    vertical-align: middle;
+  }
+}

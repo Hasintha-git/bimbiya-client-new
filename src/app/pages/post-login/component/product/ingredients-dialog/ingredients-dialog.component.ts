@@ -21,8 +21,6 @@ export class IngredientsDialogComponent {
     this.dialogRef.close();
   }
 
-  // ── Safely extract ingredient name ───────────────
-  // Handles: string, { description }, { name }, { ingredientsName }
   getIngredientName(ing: any): string {
     if (!ing && ing !== 0) return '';
     if (typeof ing === 'string') return ing;

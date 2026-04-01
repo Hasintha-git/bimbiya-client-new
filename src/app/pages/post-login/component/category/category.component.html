@@ -3,17 +3,12 @@
     <div class="relative rounded-lg overflow-hidden cat-image" (click)="routeToProduct('BITE')">
       <img class="w-full h-full object-cover" src="assets/images/BITE.jpg" alt="Image 1">
       <div class="overlay">
-        <!-- <button (click)="routeToProduct('BITE')" class="btn">
-          Shop Now
-        </button> -->
-
         <button type="button" (click)="routeToProduct('BITE')"
-          class="btn focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          class="btn focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
           BITE SECTION
-          <img src="assets/icons/right-arrow.png" alt="Arrow Icon" class="arrow-icon  ms-3">
+          <img src="assets/icons/right-arrow.png" alt="Arrow Icon" class="arrow-icon ms-3">
         </button>
       </div>
-
     </div>
   </div>
 
@@ -22,12 +17,54 @@
       <img class="w-full h-full object-cover" src="assets/images/New-Beverages.jpg" alt="Image 2">
       <div class="overlay">
         <button type="button" (click)="routeToProduct('BEVERAGES')"
-          class="btn focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5  py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          class="btn focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
           BEVERAGES
-          <img src="assets/icons/right-arrow.png" alt="Arrow Icon" class="arrow-icon  ms-3">
+          <img src="assets/icons/right-arrow.png" alt="Arrow Icon" class="arrow-icon ms-3">
         </button>
-        <!-- </div> -->
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Custom Bite Picker Overlay -->
+<div class="bite-overlay-backdrop" *ngIf="showBitePicker" (click)="closeBitePicker()">
+  <div class="bite-overlay-card" (click)="$event.stopPropagation()">
+
+    <button class="bite-close-btn" (click)="closeBitePicker()">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <div class="bite-header">
+      <span class="bite-icon">🍱</span>
+      <h2>Choose Your Bite</h2>
+      <p>Select a category to explore</p>
+    </div>
+
+    <div class="bite-divider"></div>
+
+    <div class="bite-options">
+      <button
+        *ngFor="let cat of biteCategories"
+        class="bite-option"
+        (click)="selectBiteCategory(cat.code)">
+
+        <span class="bite-dot"></span>
+
+        <span class="bite-option-text">
+          <span class="bite-label">{{ cat.description }}</span>
+          <span class="bite-sublabel">
+            {{ cat.code === 'BITE' ? 'Full portion with multiple ingredients' : 'Single ingredient portion' }}
+          </span>
+        </span>
+
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+
+      </button>
+    </div>
+
   </div>
 </div>

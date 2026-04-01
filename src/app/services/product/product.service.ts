@@ -5,6 +5,7 @@ import { getEndpoint } from "src/app/utility/constants/end-point";
 import { Observable, throwError, of } from "rxjs";
 import { tap } from "rxjs/operators";
 import { DataTable } from "src/app/pages/models/data-table";
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ import { DataTable } from "src/app/pages/models/data-table";
 export class ProductService {
 
   requestUrl: string;
+  categoryChanged$ = new Subject<string>();
+
 
   constructor(
     public httpClient: HttpClient,
@@ -20,11 +23,22 @@ export class ProductService {
     this.requestUrl = `${getEndpoint()}/product/v1`;
   }
 
+  triggerCategoryChange(category: string) {
+    this.categoryChanged$.next(category);
+  }
   // -------------------------------
   // SEARCH REFERENCE DATA
   // -------------------------------
   getSearchData(full: boolean): Observable<any> {
     const params = new HttpParams().set('full', full.toString());
+    return this.httpClient.get(this.requestUrl + `/search-reference-data`, {
+      responseType: 'json',
+      params
+    });
+  }
+
+  getSearchDataWithCat(full: boolean, cat: string): Observable<any> {
+    const params = new HttpParams().set('full', full.toString()).set('category', cat);
     return this.httpClient.get(this.requestUrl + `/search-reference-data`, {
       responseType: 'json',
       params
@@ -43,44 +57,44 @@ export class ProductService {
   }
 
   private CACHE_VERSION = 'v2';  // ← bump this whenever schema changes
-private TRENDING_CACHE_KEY = `TRENDING_PRODUCTS_CACHE_${this.CACHE_VERSION}`;
-private CACHE_TTL = 24 * 60 * 60 * 1000;
+  private TRENDING_CACHE_KEY = `TRENDING_PRODUCTS_CACHE_${this.CACHE_VERSION}`;
+  private CACHE_TTL = 24 * 60 * 60 * 1000;
 
-getTrendingList(): Observable<DataTable<any>> {
-  try {
-    const cached = localStorage.getItem(this.TRENDING_CACHE_KEY);
+  getTrendingList(): Observable<DataTable<any>> {
+    try {
+      const cached = localStorage.getItem(this.TRENDING_CACHE_KEY);
 
-    if (cached) {
-      const parsed = JSON.parse(cached);
-      const isValid = (Date.now() - parsed.timestamp) < this.CACHE_TTL;
-      const hasData = parsed.data?.records?.length > 0;  // ← guard empty cache
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        const isValid = (Date.now() - parsed.timestamp) < this.CACHE_TTL;
+        const hasData = parsed.data?.records?.length > 0;  // ← guard empty cache
 
-      if (isValid && hasData) {
-        console.log('✅ Serving from cache');
-        return of(parsed.data);
+        if (isValid && hasData) {
+          console.log('✅ Serving from cache');
+          return of(parsed.data);
+        }
       }
+    } catch (e) {
+      // Corrupted cache — ignore and hit API
+      localStorage.removeItem(this.TRENDING_CACHE_KEY);
     }
-  } catch (e) {
-    // Corrupted cache — ignore and hit API
-    localStorage.removeItem(this.TRENDING_CACHE_KEY);
-  }
 
-  console.log('🌐 Hitting API...');
-  return this.httpClient.get<DataTable<any>>(
-    this.requestUrl + `/trending-list`,
-    { responseType: 'json' }
-  ).pipe(
-    tap(response => {
-      // Only cache if response actually has records
-      if (response?.records?.length > 0) {
-        localStorage.setItem(
-          this.TRENDING_CACHE_KEY,
-          JSON.stringify({ timestamp: Date.now(), data: response })
-        );
-      }
-    })
-  );
-}
+    console.log('🌐 Hitting API...');
+    return this.httpClient.get<DataTable<any>>(
+      this.requestUrl + `/trending-list`,
+      { responseType: 'json' }
+    ).pipe(
+      tap(response => {
+        // Only cache if response actually has records
+        if (response?.records?.length > 0) {
+          localStorage.setItem(
+            this.TRENDING_CACHE_KEY,
+            JSON.stringify({ timestamp: Date.now(), data: response })
+          );
+        }
+      })
+    );
+  }
 
   // -------------------------------
   // FIND BY ID
