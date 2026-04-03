@@ -1,12 +1,14 @@
-<div class="top-bar-wrapper" [class.hide-headline]="!headlineVisible">
+<div class="top-bar-wrapper" [class.hide-headline]="!headlineVisible || hideNavbar">
   <app-headline></app-headline>
 </div>
 
 <app-navbar></app-navbar>
 
-<!-- Spacer pushes content below fixed navbar. 
-     64px = navbar height, 36px = headline height -->
-<div class="content-spacer" [class.headline-visible]="headlineVisible"></div>
+<!-- Only render spacer when navbar is visible -->
+<div 
+  class="content-spacer" 
+  [class.headline-visible]="headlineVisible">
+</div>
 
 <router-outlet></router-outlet>
 

@@ -13,7 +13,8 @@
 
 .signup-card {
   width: 100%;
-  max-width: 460px;
+  min-width: 350px;      // ✅ same as sign-in
+  max-width: 420px;      // ✅ same as sign-in
   border-radius: 22px;
   overflow: hidden;
   background: #1F293766;
@@ -26,7 +27,6 @@
 }
 
 /* ── Header ─────────────────────────────────────── */
-
 .sc-header {
   padding: 28px 32px 18px;
   text-align: center;
@@ -67,7 +67,6 @@
 }
 
 /* ── Body ────────────────────────────────────────── */
-
 .sc-body {
   padding: 20px 28px;
   display: flex;
@@ -230,7 +229,6 @@
 }
 
 /* ── Footer ─────────────────────────────────────── */
-
 .sc-footer {
   padding: 14px 28px 22px;
   text-align: center;
@@ -252,13 +250,126 @@
   &:hover { color: #fff; }
 }
 
-/* ── Mobile ─────────────────────────────────────── */
+/* ── Divider ─────────────────────────────────────── */
+.sc-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 14px;
+}
 
+.sc-divider-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sc-divider-text {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.25);
+  white-space: nowrap;
+}
+
+/* ── Google wrapper ──────────────────────────────── */
+.sc-google-wrapper {
+  position: relative;
+  width: 100%;
+  height: 46px;
+  margin-top: 4px;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.sc-google-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  opacity: 0.01;
+  cursor: pointer;
+
+  &.disabled { pointer-events: none; }
+
+  ::ng-deep {
+    iframe {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+}
+
+.sc-btn-google-visual {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  pointer-events: none;
+
+  &.loading { opacity: 0.7; }
+}
+
+.sc-google-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.sc-google-label {
+  color: #1f1f1f;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  font-family: 'Poppins', 'Google Sans', sans-serif;
+}
+
+.sc-google-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(31, 31, 31, 0.2);
+  border-top-color: #1f1f1f;
+  border-radius: 50%;
+  animation: google-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes google-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Mobile — identical to sign-in ──────────────── */
 @media screen and (max-width: 480px) {
-  .sc-input   { font-size: 16px; } // prevent iOS auto-zoom
-  .sc-header  { padding: 22px 18px 16px; }
-  .sc-body    { padding: 16px 16px; }
-  .sc-footer  { padding: 12px 16px 20px; }
+  .signup-wrap {
+    align-items: flex-start;   // ✅ card starts at top, not centered
+    padding-top: 24px;         // ✅ same top breathing room as sign-in
+  }
 
-  .sc-password-row { grid-template-columns: 1fr; gap: 0; }
+  .sc-input { font-size: 16px; } // prevent iOS/Android auto-zoom
+
+  .sc-header  { padding: 24px 20px 18px; }   // ✅ same as sign-in
+  .sc-body    { padding: 20px 18px; }         // ✅ same as sign-in
+  .sc-footer  { padding: 12px 18px 20px; }   // ✅ same as sign-in
+
+  .sc-password-row {
+    grid-template-columns: 1fr;  // ✅ stack password fields on mobile
+    gap: 0;
+  }
+
+  .sc-google-wrapper {
+    width: 100%;
+    overflow: hidden;
+  }
 }

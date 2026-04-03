@@ -1,16 +1,13 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { CartDetails } from 'src/app/models/cart-details';
 import { AddToCartService } from 'src/app/services/Cart/add-to-cart.service';
 import { CommonResponse } from 'src/app/models/CommonResponse';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastServiceService } from 'src/app/services/toast/toast-service.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { Router } from '@angular/router';
-// Update the path below to the correct location of IngredientsDialogComponent
-// Example: if the file is named 'ingredients-dialog.component.ts' in the same folder:
 import { IngredientsDialogComponent } from './ingredients-dialog/ingredients-dialog.component';
 
 @Component({
@@ -21,6 +18,7 @@ import { IngredientsDialogComponent } from './ingredients-dialog/ingredients-dia
 })
 export class ProductComponent implements OnInit {
   @Input() product: any;
+
   myControl = new FormControl('');
   options: number[] = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30];
 
@@ -28,19 +26,21 @@ export class ProductComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   activeUser: any;
 
+  isAddingToCart: boolean = false;
+
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
     private cartService: AddToCartService,
     public toastService: ToastServiceService,
-    private spinner: NgxSpinnerService,
     private storageService: StorageService,
     private router: Router,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
     this.activeUser = this.storageService.getUser();
-    if (this.product.productCategory == 'BEVERAGES') {
+    if (this.product.productCategory === 'BEVERAGES') {
       this.product.personCount = 1;
     } else {
       this.product.personCount = 4;
@@ -48,7 +48,7 @@ export class ProductComponent implements OnInit {
     this.initialForm();
   }
 
-  initialForm() {
+  initialForm(): void {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
       startWith(''),
@@ -56,25 +56,23 @@ export class ProductComponent implements OnInit {
     );
   }
 
-  // ── NEW: Open Ingredients Dialog ──────────────────────────────────────────
-openIngredientsDialog(): void {
-  this.dialog.open(IngredientsDialogComponent, {
-    data: { product: this.product },
-    panelClass: 'ingredients-dialog-panel',
-    backdropClass: 'ingredients-backdrop',
-    maxWidth: '95vw',
-    width: '420px',
-    autoFocus: false,
-  });
-}
-  // ─────────────────────────────────────────────────────────────────────────
+  openIngredientsDialog(): void {
+    this.dialog.open(IngredientsDialogComponent, {
+      data: { product: this.product },
+      panelClass: 'ingredients-dialog-panel',
+      backdropClass: 'ingredients-backdrop',
+      maxWidth: '95vw',
+      width: '420px',
+      autoFocus: false,
+    });
+  }
 
-  peronCountUp(product: any) {
+  peronCountUp(product: any): void {
     if (!this.product.priceChange) {
       product.productBasicPrice = product.price;
       product.perPersonPrice = product.productBasicPrice / this.product.personCount;
     }
-    if (product.productCategory == 'BITE') {
+    if (product.productCategory === 'BITE') {
       if (this.product.personCount < 50) {
         this.product.personCount = this.product.personCount + 2;
         product.price = product.perPersonPrice * this.product.personCount;
@@ -87,12 +85,12 @@ openIngredientsDialog(): void {
     }
   }
 
-  peronCountDown(product: any) {
+  peronCountDown(product: any): void {
     if (!this.product.priceChange) {
       product.productBasicPrice = product.price;
       product.perPersonPrice = product.productBasicPrice / this.product.personCount;
     }
-    if (product.productCategory == 'BITE') {
+    if (product.productCategory === 'BITE') {
       if (this.product.personCount > 4) {
         this.product.personCount = this.product.personCount - 2;
         product.price = product.perPersonPrice * this.product.personCount;
@@ -107,7 +105,7 @@ openIngredientsDialog(): void {
     }
   }
 
-  countUp(product: any) {
+  countUp(product: any): void {
     if (!this.product.priceChange) {
       product.productBasicPrice = product.price;
       product.perPersonPrice = product.productBasicPrice / this.product.personCount;
@@ -119,7 +117,7 @@ openIngredientsDialog(): void {
     }
   }
 
-  countDown(product: any) {
+  countDown(product: any): void {
     if (!this.product.priceChange) {
       product.productBasicPrice = product.price;
       product.perPersonPrice = product.productBasicPrice / this.product.personCount;
@@ -146,15 +144,16 @@ openIngredientsDialog(): void {
     return ingredient.id;
   }
 
-  signIn() {
+  signIn(): void {
     this.router.navigate(['/auth/signin']);
   }
 
-  addToCart() {
+  addToCart(): void {
     this.activeUser = this.storageService.getUser();
     if (!this.activeUser) {
       return this.signIn();
     }
+
     this.cartModel.productPrice = this.product.price;
     this.cartModel.packageId = this.product.packageId;
     this.cartModel.userName = this.activeUser;
@@ -162,15 +161,18 @@ openIngredientsDialog(): void {
     this.cartModel.status = 'active';
     this.cartModel.qty = 1;
 
-    this.spinner.show();
+    this.isAddingToCart = true;
+    this.cdr.markForCheck(); 
 
     this.cartService.addToCart(this.cartModel).subscribe(
       (response: CommonResponse) => {
-        this.spinner.hide();
+        this.isAddingToCart = false;
+        this.cdr.markForCheck();
         this.toastService.successMessage(response.responseDescription);
       },
       error => {
-        this.spinner.hide();
+        this.isAddingToCart = false;
+        this.cdr.markForCheck();
         this.toastService.errorMessage(error.error['errorDescription']);
       }
     );

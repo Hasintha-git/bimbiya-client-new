@@ -261,3 +261,45 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border-radius: 20px !important;
   overflow: visible !important;
 }
+
+.mobile-number-dialog-panel {
+  // Remove pane-level margin/padding
+  mat-dialog-container,
+  .mat-mdc-dialog-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+  }
+
+  .mdc-dialog__surface {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 20px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+
+    // ✅ THIS is what actually paints the white box — must be cleared
+    &::before {
+      background: transparent !important;
+    }
+  }
+
+  .mat-mdc-dialog-inner-container {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  // MDC injects a scrim/surface tint overlay — remove it
+  .mdc-dialog__scrim {
+    background: transparent !important;
+  }
+}
+
+.mobile-number-backdrop {
+  background: rgba(8, 6, 18, 0.75) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}

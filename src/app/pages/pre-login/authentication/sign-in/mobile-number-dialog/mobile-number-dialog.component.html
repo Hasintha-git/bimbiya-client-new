@@ -1,0 +1,96 @@
+<div class="mnd-overlay">
+
+  <!-- Header -->
+  <div class="mnd-header">
+    <div class="mnd-icon-wrap">
+      <svg class="mnd-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="5" y="2" width="14" height="20" rx="2"/>
+        <path stroke-linecap="round" d="M9 7h6M9 11h6M9 15h4"/>
+      </svg>
+    </div>
+    <h2 class="mnd-title">One More Step</h2>
+    <p class="mnd-subtitle">
+      Welcome, <strong>{{ data.fullName }}</strong>!<br>
+      Enter your mobile number to complete sign-in.
+    </p>
+  </div>
+
+  <!-- Body -->
+  <div class="mnd-body">
+    <label class="mnd-label">Mobile Number</label>
+
+    <div class="mnd-input-wrap"
+         [class.mnd-input-error]="mobileControl.invalid && mobileControl.touched"
+         [class.mnd-input-valid]="mobileControl.valid">
+      <input
+        class="mnd-input"
+        type="tel"
+        [formControl]="mobileControl"
+        placeholder="07X XXX XXXX"
+        maxlength="10"
+        (keypress)="onlyNumbers($event)"
+        autocomplete="tel"
+        [disabled]="isLoading"
+      />
+      <svg *ngIf="mobileControl.valid && !isLoading"
+           class="mnd-valid-icon" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+      </svg>
+    </div>
+
+    <!-- Validation errors -->
+    <div class="mnd-error-wrap">
+      <span class="mnd-error" *ngIf="mobileControl.touched && mobileControl.hasError('required')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 8v4m0 4h.01"/>
+        </svg>
+        Mobile number is required.
+      </span>
+      <span class="mnd-error" *ngIf="mobileControl.touched && mobileControl.hasError('pattern')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 8v4m0 4h.01"/>
+        </svg>
+        Must start with 0 and contain exactly 10 digits.
+      </span>
+    </div>
+
+    <!-- ✅ API error from backend -->
+    <div class="mnd-api-error" *ngIf="errorMessage">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 8v4m0 4h.01"/>
+      </svg>
+      {{ errorMessage }}
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="mnd-footer">
+    <button class="mnd-btn-cancel" type="button"
+            (click)="cancel()" [disabled]="isLoading">
+      Cancel
+    </button>
+    <button class="mnd-btn-confirm" type="button"
+            (click)="confirm()"
+            [disabled]="mobileControl.invalid || isLoading">
+
+      <!-- Loading state -->
+      <ng-container *ngIf="isLoading">
+        <span class="mnd-spinner"></span>
+        Verifying...
+      </ng-container>
+
+      <!-- Default state -->
+      <ng-container *ngIf="!isLoading">
+        Continue
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+        </svg>
+      </ng-container>
+
+    </button>
+  </div>
+
+</div>

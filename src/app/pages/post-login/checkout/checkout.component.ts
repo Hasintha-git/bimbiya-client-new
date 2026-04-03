@@ -103,7 +103,7 @@ export class CheckoutComponent implements OnInit {
     private storageService: StorageService,
     private spinner:        NgxSpinnerService,
     private toast:          ToastServiceService,
-    private router:         Router,
+  public  router:         Router,    
     private dialog:         MatDialog,
     private cdr:            ChangeDetectorRef,
   ) {}
@@ -201,11 +201,15 @@ private updateCustomTimeMin(isToday: boolean): void {
   }
 
   // ── Custom time picker ────────────────────────────
-  openCustomPicker(): void {
-    const input = document.querySelector('.co-custom-time-input') as any;
-    input?.showPicker?.();
-    input?.click();
+openCustomPicker(): void {
+  if (!this.selectedDay) {
+    this.toast.errorMessage('Please select a delivery date first');
+    return;
   }
+  const input = document.querySelector('.co-custom-time-input') as any;
+  input?.showPicker?.();
+  input?.click();
+}
 
 onCustomTimeChange(event: any): void {
   const val = event.target.value;

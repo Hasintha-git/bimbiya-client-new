@@ -1,81 +1,204 @@
-/* Dark Paginator Overrides */
-::ng-deep .mat-mdc-paginator {
-  background-color: #111827 !important; /* gray-900 */
-  color: #9ca3af !important; /* gray-400 */
-}
+/* =============================================================
+   Product Filter — Skeleton shimmer + custom checkbox
+   ============================================================= */
 
-::ng-deep .mat-mdc-paginator-range-label,
-::ng-deep .mat-mdc-paginator-navigation-next,
-::ng-deep .mat-mdc-paginator-navigation-previous {
-  color: white !important;
-  fill: white !important;
-}
-
-/* Animations */
-.slide-in {
-  animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
-}
-
-/* Checkbox Customization */
-input[type="checkbox"] {
+/* ── Custom checkbox ─────────────────────────────────────── */
+.custom-checkbox {
+  accent-color: #FFC001;
   cursor: pointer;
-  transition: all 0.2s ease;
-  &:checked {
-    background-color: #FFC001;
-    border-color: #FFC001;
-  }
 }
 
-/* Switch Dot Animation */
-.transition-transform {
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+/* ── Skeleton shimmer keyframe ───────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
 }
 
-/* Custom Scrollbar for Sidebar */
-#mobile-sidebar::-webkit-scrollbar {
-  width: 4px;
+%shimmer-base {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.10) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: 8px;
 }
-#mobile-sidebar::-webkit-scrollbar-thumb {
-  background: #374151;
+
+/* ── Skeleton card — mirrors .product-glass-card exactly ─── */
+.skeleton-card {
+  pointer-events: none;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+  border-radius: 22px;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+
+  /* same glass background as real card */
+  background: #1F293766;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  backdrop-filter: blur(28px) saturate(1.4);
+  -webkit-backdrop-filter: blur(28px) saturate(1.4);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.06) inset,
+    0 16px 48px rgba(0, 0, 0, 0.55),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Image section — mirrors .pgc-image-wrap (height 230px) ─ */
+.sk-image-wrap {
+  position: relative;
+  height: 230px;
+  overflow: hidden;
+}
+
+.sk-image {
+  @extend %shimmer-base;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+/* Category badge — mirrors .pgc-badge-category (top-left) */
+.sk-badge-left {
+  @extend %shimmer-base;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 80px;
+  height: 22px;
+  border-radius: 20px;
+}
+
+/* Portion badge — mirrors .pgc-badge-portion (top-right) */
+.sk-badge-right {
+  @extend %shimmer-base;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 56px;
+  height: 22px;
+  border-radius: 20px;
+}
+
+/* Meal name — mirrors .pgc-meal-name (anchored bottom of image) */
+.sk-meal-name {
+  @extend %shimmer-base;
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  width: 58%;
+  height: 18px;
+  border-radius: 6px;
+}
+
+/* ── Separator — mirrors .pgc-sep ─────────────────────────── */
+.sk-sep {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.07) 25%,
+    rgba(212, 164, 0, 0.18) 50%,
+    rgba(255, 255, 255, 0.07) 75%,
+    transparent 100%
+  );
+}
+
+/* ── Body — mirrors .pgc-body ─────────────────────────────── */
+.sk-body {
+  padding: 16px 16px 0;
+}
+
+/* Price — mirrors .pgc-price-row (centered, large) */
+.sk-price {
+  @extend %shimmer-base;
+  width: 42%;
+  height: 34px;
+  border-radius: 6px;
+  margin: 0 auto 14px;
+  display: block;
+}
+
+/* Person count label — mirrors .pgc-count-label (tiny, centered) */
+.sk-count-label {
+  @extend %shimmer-base;
+  width: 28%;
+  height: 10px;
+  border-radius: 4px;
+  margin: 0 auto 10px;
+  display: block;
+}
+
+/* Person count row — mirrors .pgc-count-row (btn + display + btn) */
+.sk-count-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+/* Minus / Plus button — mirrors .pgc-count-btn (28x28) */
+.sk-count-btn {
+  @extend %shimmer-base;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+/* Number display — mirrors .pgc-count-display (44x36) */
+.sk-count-display {
+  @extend %shimmer-base;
+  width: 44px;
+  height: 36px;
   border-radius: 10px;
 }
 
-/* Custom Checkbox Color */
-.custom-checkbox:checked {
-  background-color: #FFC001 !important;
-  border-color: #FFC001 !important;
-  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='black' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+/* Ingredients button — mirrors .pgc-ing-btn (pill, centered) */
+.sk-ing-row {
+  text-align: center;
+  margin-bottom: 14px;
 }
 
-/* Material Paginator Customization */
-::ng-deep .mat-mdc-paginator {
-  background-color: #111827 !important; 
-  color: #9ca3af !important;
+.sk-ing-btn {
+  @extend %shimmer-base;
+  display: inline-block;
+  width: 110px;
+  height: 28px;
+  border-radius: 20px;
 }
 
-::ng-deep .mat-mdc-paginator-range-label,
-::ng-deep .mat-mdc-paginator-navigation-next,
-::ng-deep .mat-mdc-paginator-navigation-previous {
-  color: white !important;
-  fill: white !important;
+/* ── Footer separator — mirrors .pgc-footer-sep ───────────── */
+.sk-footer-sep {
+  height: 1px;
+  margin: 0 16px;
+  background: rgba(255, 255, 255, 0.06);
 }
 
-/* Slide in animation for mobile menu */
-.slide-in {
-  animation: slideIn 0.3s ease-out;
+/* ── Footer — mirrors .pgc-footer ─────────────────────────── */
+.sk-footer {
+  padding: 14px 16px 18px;
 }
 
+/* Add to Cart button — mirrors .pgc-cart-btn (full width pill) */
+.sk-cart-btn {
+  @extend %shimmer-base;
+  width: 100%;
+  height: 42px;
+  border-radius: 50px;
+  display: block;
+}
+
+/* ── Mobile sidebar slide-in ─────────────────────────────── */
 @keyframes slideIn {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
 }
 
-/* Ensure the toggle dot moves correctly */
-.transition-transform {
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+.slide-in {
+  animation: slideIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }

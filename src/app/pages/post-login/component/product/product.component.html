@@ -42,10 +42,11 @@
     </div>
 
     <!-- Ingredients trigger -->
-    <div class="pgc-ing-row" *ngIf="product.productCategory != 'BEVERAGES'">
+    <div class="pgc-ing-row" *ngIf="product.productCategory !== 'BEVERAGES'">
       <button type="button" class="pgc-ing-btn" (click)="openIngredientsDialog()">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 8v4m0 4h.01"/>
+          <circle cx="12" cy="12" r="10"/>
+          <path stroke-linecap="round" d="M12 8v4m0 4h.01"/>
         </svg>
         Ingredients
       </button>
@@ -58,9 +59,24 @@
 
   <!-- Add to Cart -->
   <div class="pgc-footer">
-    <button type="button" class="pgc-cart-btn" (click)="addToCart()">
-      <img src="assets/icons/checkout.svg" alt="Cart" class="pgc-cart-icon">
-      Add to Cart
+    <button
+      type="button"
+      class="pgc-cart-btn"
+      (click)="addToCart()"
+      [disabled]="isAddingToCart">
+
+      <!-- Default state -->
+      <ng-container *ngIf="!isAddingToCart">
+        <img src="assets/icons/checkout.svg" alt="Cart" class="pgc-cart-icon">
+        Add to Cart
+      </ng-container>
+
+      <!-- Loading state -->
+      <ng-container *ngIf="isAddingToCart">
+        <span class="pgc-cart-spinner"></span>
+        Adding...
+      </ng-container>
+
     </button>
   </div>
 

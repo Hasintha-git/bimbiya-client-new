@@ -283,3 +283,162 @@
   .sc-body   { padding: 20px 18px; }
   .sc-footer { padding: 12px 18px 20px; }
 }
+
+/* ── Divider ─────────────────────────────────────── */
+.sc-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 14px;
+}
+
+.sc-divider-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sc-divider-text {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.25);
+  white-space: nowrap;
+}
+
+/* ── Google Button ───────────────────────────────── */
+.sc-btn-google-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 2px;
+
+  // ✅ Force the Google iframe to fill the container width
+  asl-google-signin-button {
+    display: block;
+    width: 100%;
+
+    > div {
+      width: 100% !important;
+    }
+
+    iframe {
+      width: 100% !important;
+      margin: 0 auto !important;
+    }
+  }
+}
+
+/* ── Custom Google Button ────────────────────────── */
+.sc-btn-google {
+  width: 100%;
+  height: 46px;
+  border-radius: 50px;
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #1f1f1f;
+  font-family: 'Poppins', 'Google Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  margin-top: 2px;
+
+  &:hover:not(:disabled) {
+    background: #f8f8f8;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.sc-google-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.sc-google-label {
+  color: #1f1f1f;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.sc-google-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(31, 31, 31, 0.2);
+  border-top-color: #1f1f1f;
+  border-radius: 50%;
+  animation: google-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes google-spin {
+  to { transform: rotate(360deg); }
+}
+
+.sc-google-wrapper {
+  position: relative;
+  width: 100%;
+  height: 48px; /* Match your button height */
+  margin-top: 10px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.sc-google-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  opacity: 0.01; /* Invisible but clickable */
+  cursor: pointer;
+
+  &.disabled {
+    pointer-events: none;
+  }
+
+  /* Force Google's internal iframe to fill the space */
+  ::ng-deep {
+    iframe {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+}
+
+.sc-btn-google-visual {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  /* Add your existing padding/font styles here */
+}

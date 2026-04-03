@@ -1,65 +1,81 @@
 <div class="checkout-page">
 
-  <!-- ── Stepper Header ────────────────────────────── -->
-  <div class="co-stepper">
-    <div class="co-step" [class.active]="currentStep === 0" [class.done]="currentStep > 0">
-      <div class="co-step-dot">
-        <svg *ngIf="currentStep > 0" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-        <span *ngIf="currentStep <= 0">1</span>
+  <!-- ── Fixed Navbar + Stepper (acts as page navbar) ──── -->
+  <div class="co-navbar">
+    <div style="height: 70px;width: 100px;"></div>
+    <div class="co-navbar-top">
+      <!-- <button type="button" class="co-nav-back" (click)="router.navigate(['/delivery/home'])">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </button> -->
+      <div class="co-nav-title-wrap">
+        <span class="co-nav-title">Checkout</span>
+        <span class="co-nav-sub">Step {{ currentStep + 1 }} of 3</span>
       </div>
-      <div class="co-step-text">
-        <span class="co-step-label">Schedule</span>
-        <span class="co-step-sub">{{ currentStep > 0 ? schedulePreviewLabel : 'Date &amp; time' }}</span>
-      </div>
-    </div>
-
-    <div class="co-step-line" [class.done]="currentStep > 0"></div>
-
-    <div class="co-step" [class.active]="currentStep === 1" [class.done]="currentStep > 1">
-      <div class="co-step-dot">
-        <svg *ngIf="currentStep > 1" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-        <span *ngIf="currentStep <= 1">2</span>
-      </div>
-      <div class="co-step-text">
-        <span class="co-step-label">Details</span>
-        <span class="co-step-sub">{{ currentStep > 1 ? deliveryCity : 'Address &amp; contact' }}</span>
+      <div class="co-header-total-pill" *ngIf="cartItems.length > 0">
+        <span class="co-htp-label">Total</span>
+        <span class="co-htp-value">LKR {{ getTotal() | number }}</span>
       </div>
     </div>
 
-    <div class="co-step-line" [class.done]="currentStep > 1"></div>
-
-    <div class="co-step" [class.active]="currentStep === 2" [class.done]="currentStep > 2">
-      <div class="co-step-dot">
-        <svg *ngIf="currentStep > 2" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-        <span *ngIf="currentStep <= 2">3</span>
+    <!-- Stepper row -->
+    <div class="co-stepper">
+      <div class="co-step" [class.active]="currentStep === 0" [class.done]="currentStep > 0">
+        <div class="co-step-dot">
+          <svg *ngIf="currentStep > 0" width="13" height="13" viewBox="0 0 24 24"
+               fill="none" stroke="#1F2937" stroke-width="3">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span *ngIf="currentStep <= 0">1</span>
+        </div>
+        <div class="co-step-text">
+          <span class="co-step-label">Schedule</span>
+          <span class="co-step-sub">
+            {{ currentStep > 0 ? schedulePreviewLabel : 'Date &amp; time' }}
+          </span>
+        </div>
       </div>
-      <div class="co-step-text">
-        <span class="co-step-label">Review</span>
-        <span class="co-step-sub">{{ cartItems.length }} item{{ cartItems.length !== 1 ? 's' : '' }}</span>
+
+      <div class="co-step-line" [class.done]="currentStep > 0"></div>
+
+      <div class="co-step" [class.active]="currentStep === 1" [class.done]="currentStep > 1">
+        <div class="co-step-dot">
+          <svg *ngIf="currentStep > 1" width="13" height="13" viewBox="0 0 24 24"
+               fill="none" stroke="#1F2937" stroke-width="3">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span *ngIf="currentStep <= 1">2</span>
+        </div>
+        <div class="co-step-text">
+          <span class="co-step-label">Details</span>
+          <span class="co-step-sub">
+            {{ currentStep > 1 ? deliveryCity : 'Address &amp; contact' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="co-step-line" [class.done]="currentStep > 1"></div>
+
+      <div class="co-step" [class.active]="currentStep === 2" [class.done]="currentStep > 2">
+        <div class="co-step-dot">
+          <svg *ngIf="currentStep > 2" width="13" height="13" viewBox="0 0 24 24"
+               fill="none" stroke="#1F2937" stroke-width="3">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span *ngIf="currentStep <= 2">3</span>
+        </div>
+        <div class="co-step-text">
+          <span class="co-step-label">Review</span>
+          <span class="co-step-sub">
+            {{ cartItems.length }} item{{ cartItems.length !== 1 ? 's' : '' }}
+          </span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ── Page Header ───────────────────────────────── -->
-  <div class="co-page-header">
-    <div class="co-header-icon">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4a400" stroke-width="2">
-        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-      </svg>
-    </div>
-    <div class="co-header-text">
-      <h1 class="co-page-title">
-        {{ currentStep === 0 ? 'Schedule Delivery' : currentStep === 1 ? 'Delivery Details' : 'Review Order' }}
-      </h1>
-      <p class="co-page-sub">Step {{ currentStep + 1 }} of 3</p>
-    </div>
-    <div class="co-header-total-pill" *ngIf="cartItems.length > 0">
-      <span class="co-htp-label">Total</span>
-      <span class="co-htp-value">LKR {{ getTotal() | number }}</span>
-    </div>
-  </div>
-
+  <!-- ── Scrollable content area only ─────────────────── -->
   <div class="co-step-content">
 
     <!-- ══ STEP 1: SCHEDULE ══════════════════════════ -->
@@ -68,9 +84,11 @@
       <div class="co-delivery-card">
         <div class="co-delivery-header">
           <div class="co-delivery-icon">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d4a400" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
-              <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#d4a400" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
             </svg>
           </div>
           <div class="co-delivery-header-text">
@@ -105,8 +123,9 @@
       <div class="co-delivery-card">
         <div class="co-delivery-header">
           <div class="co-delivery-icon">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d4a400" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#d4a400" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
             </svg>
           </div>
           <div class="co-delivery-header-text">
@@ -128,18 +147,23 @@
                   <span class="co-tc-label">{{ slot.label }}</span>
                   <span class="co-tc-sub">{{ slot.sub }}</span>
                 </div>
+
                 <!-- Custom chip -->
                 <div class="co-time-chip co-time-custom"
                      [class.active]="selectedSlot === 'custom'"
+                     [class.no-date]="!selectedDay"
                      (click)="openCustomPicker()">
                   <span class="co-tc-icon">✏️</span>
                   <span class="co-tc-label">Custom</span>
-                  <span class="co-tc-sub">{{ customTimeDisplay || 'Pick time' }}</span>
-     <input #customTimePicker type="time" class="co-custom-time-input"
-       [(ngModel)]="customTimeValue"
-       [min]="customTimeMin"
-       (change)="onCustomTimeChange($event)"
-       (input)="onCustomTimeChange($event)">
+                  <span class="co-tc-sub">{{ customTimeDisplay || (selectedDay ? 'Pick time' : 'Select date first') }}</span>
+                  <input #customTimePicker
+                         type="time"
+                         class="co-custom-time-input"
+                         [(ngModel)]="customTimeValue"
+                         [min]="customTimeMin"
+                         [disabled]="!selectedDay"
+                         (change)="onCustomTimeChange($event)"
+                         (input)="onCustomTimeChange($event)">
                 </div>
               </div>
               <div class="co-slider-fade"></div>
@@ -152,7 +176,8 @@
           <!-- Preview -->
           <div class="co-scheduled-preview" *ngIf="isDeliveryValid()">
             <div class="co-preview-icon">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                   stroke="#4ade80" stroke-width="2.5">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
             </div>
@@ -165,7 +190,10 @@
       <div class="co-step-nav">
         <button type="button" class="co-btn-next" (click)="goNext()">
           Continue to Details
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
         </button>
       </div>
     </div>
@@ -177,7 +205,7 @@
         <div class="co-details-header">
           <div class="co-details-header-left">
             <div class="co-details-icon">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#d4a400" stroke-width="2">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d4a400" stroke-width="2">
                 <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/>
                 <circle cx="12" cy="10" r="3"/>
               </svg>
@@ -192,12 +220,16 @@
             <div class="co-field-group">
               <label class="co-label">Full Name</label>
               <div class="co-input-wrap co-readonly">
-                <svg class="co-field-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                <svg class="co-field-icon" width="14" height="14" viewBox="0 0 24 24"
+                     fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
                 </svg>
                 <input class="co-input" [value]="userFullName" readonly tabindex="-1">
-                <svg class="co-lock-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2">
-                  <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                <svg class="co-lock-icon" width="12" height="12" viewBox="0 0 24 24"
+                     fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                 </svg>
               </div>
             </div>
@@ -206,14 +238,17 @@
               <div class="co-input-wrap"
                    [class.focused]="focusMobile"
                    [class.has-error]="step2Submitted && !userMobile.trim()">
-                <svg class="co-field-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2">
+                <svg class="co-field-icon" width="14" height="14" viewBox="0 0 24 24"
+                     fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5 19.79 19.79 0 0 1 1.63 2.84 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.46 16z"/>
                 </svg>
                 <input class="co-input" placeholder="07XXXXXXXX"
                        [(ngModel)]="userMobile"
                        (focus)="focusMobile=true" (blur)="focusMobile=false">
               </div>
-              <div class="co-field-err" *ngIf="step2Submitted && !userMobile.trim()">Mobile is required</div>
+              <div class="co-field-err" *ngIf="step2Submitted && !userMobile.trim()">
+                Mobile is required
+              </div>
             </div>
           </div>
 
@@ -222,15 +257,20 @@
             <div class="co-textarea-wrap"
                  [class.focused]="focusAddress"
                  [class.has-error]="step2Submitted && !deliveryAddress.trim()">
-              <svg class="co-field-icon" style="top:13px;" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2">
-                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>
+              <svg class="co-field-icon" style="top:14px;" width="14" height="14"
+                   viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/>
+                <circle cx="12" cy="10" r="3"/>
               </svg>
               <textarea class="co-textarea" rows="2"
                         placeholder="No. 12, Galle Road, Colombo 03"
                         [(ngModel)]="deliveryAddress"
-                        (focus)="focusAddress=true" (blur)="focusAddress=false"></textarea>
+                        (focus)="focusAddress=true" (blur)="focusAddress=false">
+              </textarea>
             </div>
-            <div class="co-field-err" *ngIf="step2Submitted && !deliveryAddress.trim()">Address is required</div>
+            <div class="co-field-err" *ngIf="step2Submitted && !deliveryAddress.trim()">
+              Address is required
+            </div>
           </div>
 
           <div class="co-details-grid">
@@ -239,7 +279,8 @@
               <div class="co-input-wrap"
                    [class.focused]="focusCity"
                    [class.has-error]="step2Submitted && !deliveryCity.trim()">
-                <svg class="co-field-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2">
+                <svg class="co-field-icon" width="14" height="14" viewBox="0 0 24 24"
+                     fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2">
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                   <polyline points="9 22 9 12 15 12 15 22"/>
                 </svg>
@@ -247,12 +288,15 @@
                        [(ngModel)]="deliveryCity"
                        (focus)="focusCity=true" (blur)="focusCity=false">
               </div>
-              <div class="co-field-err" *ngIf="step2Submitted && !deliveryCity.trim()">City is required</div>
+              <div class="co-field-err" *ngIf="step2Submitted && !deliveryCity.trim()">
+                City is required
+              </div>
             </div>
             <div class="co-field-group">
               <label class="co-label">Note <span class="co-optional-hint">(optional)</span></label>
               <div class="co-input-wrap" [class.focused]="focusNote">
-                <svg class="co-field-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2">
+                <svg class="co-field-icon" width="14" height="14" viewBox="0 0 24 24"
+                     fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2">
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                   <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
                 </svg>
@@ -268,12 +312,18 @@
       <!-- Nav -->
       <div class="co-step-nav">
         <button type="button" class="co-btn-back" (click)="goBack()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
           Back
         </button>
         <button type="button" class="co-btn-next" (click)="goNext()">
           Review Order
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
         </button>
       </div>
     </div>
@@ -283,8 +333,9 @@
 
       <!-- Schedule summary chip -->
       <div class="co-review-chip co-review-schedule">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#d4a400" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d4a400" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
         </svg>
         <div class="co-review-chip-text">
           <span class="co-review-chip-label">Scheduled</span>
@@ -295,12 +346,16 @@
 
       <!-- Address summary chip -->
       <div class="co-review-chip co-review-address">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2">
-          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+             stroke="rgba(255,255,255,0.5)" stroke-width="2">
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/>
+          <circle cx="12" cy="10" r="3"/>
         </svg>
         <div class="co-review-chip-text">
           <span class="co-review-chip-label">Delivering to</span>
-          <span class="co-review-chip-value">{{ deliveryCity }}{{ deliveryAddress ? ' · ' + (deliveryAddress | slice:0:28) + '…' : '' }}</span>
+          <span class="co-review-chip-value">
+            {{ deliveryCity }}{{ deliveryAddress ? ' · ' + (deliveryAddress | slice:0:28) + '…' : '' }}
+          </span>
         </div>
         <button type="button" class="co-review-edit" (click)="goToStep(1)">Edit</button>
       </div>
@@ -320,19 +375,27 @@
           <div class="co-item-info">
             <div class="co-item-name-row">
               <p class="co-item-name">{{ item.product.mealName }}</p>
-              <span class="co-item-badge" [class.badge-bev]="item.product.productCategory === 'BEVERAGES'">
+              <span class="co-item-badge"
+                    [class.badge-bev]="item.product.productCategory === 'BEVERAGES'">
                 {{ item.product.productCategory === 'BEVERAGES' ? 'BEV' : 'BITE' }}
               </span>
             </div>
-            <!-- Person count control -->
-            <div class="co-person-row" (click)="$event.stopPropagation()" *ngIf="item.product.productCategory !== 'BEVERAGES'">
+            <div class="co-person-row"
+                 (click)="$event.stopPropagation()"
+                 *ngIf="item.product.productCategory !== 'BEVERAGES'">
               <span class="co-person-label">Persons</span>
               <button type="button" class="co-person-btn" (click)="decrementPersonCount(item)">
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/></svg>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5">
+                  <path d="M5 12h14"/>
+                </svg>
               </button>
               <span class="co-person-val">{{ item.personCount }}</span>
               <button type="button" class="co-person-btn" (click)="incrementPersonCount(item)">
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
               </button>
             </div>
             <p class="co-item-price-mobile">LKR {{ (item.product.price * item.qty) | number }}</p>
@@ -345,8 +408,10 @@
         </div>
 
         <div class="co-empty" *ngIf="cartItems.length === 0">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5">
-            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+               stroke="rgba(255,255,255,0.18)" stroke-width="1.5">
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
           </svg>
           <p>Your cart is empty</p>
@@ -361,8 +426,13 @@
         </div>
         <div class="co-ot-line">
           <span>
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" style="margin-right:5px;vertical-align:middle">
-              <rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                 stroke="rgba(255,255,255,0.35)" stroke-width="2"
+                 style="margin-right:5px;vertical-align:middle">
+              <rect x="1" y="3" width="15" height="13" rx="1"/>
+              <path d="M16 8h4l3 5v3h-7V8z"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/>
+              <circle cx="18.5" cy="18.5" r="2.5"/>
             </svg>
             Delivery
           </span>
@@ -378,12 +448,19 @@
       <!-- Nav -->
       <div class="co-step-nav">
         <button type="button" class="co-btn-back" (click)="goBack()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
           Back
         </button>
-        <button type="button" class="co-btn-place" (click)="placeOrder()" [disabled]="cartItems.length === 0">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+        <button type="button" class="co-btn-place"
+                (click)="placeOrder()"
+                [disabled]="cartItems.length === 0">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
           </svg>
           Place Order
         </button>

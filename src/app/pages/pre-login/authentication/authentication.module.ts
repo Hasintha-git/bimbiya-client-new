@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { AuthenticationComponent } from './authentication.component';
 import { SignInComponent } from './sign-in/sign-in.component';
@@ -18,16 +17,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { RegexFormateModule } from 'src/app/utility/directive/regex-formate.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { GoogleSigninButtonModule, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { MobileNumberDialogComponent } from './sign-in/mobile-number-dialog/mobile-number-dialog.component';
+
 @NgModule({
   declarations: [
     AuthenticationComponent,
     SignInComponent,
     SignUpComponent,
-    ForgetPasswordComponent
+    ForgetPasswordComponent,
+    MobileNumberDialogComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +52,10 @@ import {MatRadioModule} from '@angular/material/radio';
     MatDatepickerModule,
     MatSelectModule,
     MatAutocompleteModule,
-    MatRadioModule
+    MatRadioModule,
+    MatProgressSpinnerModule,
+    GoogleSigninButtonModule
   ]
+  // ← NO providers here
 })
 export class AuthenticationModule { }

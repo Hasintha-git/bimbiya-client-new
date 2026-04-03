@@ -4,7 +4,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1001; // above navbar
+  // z-index: 1001; // above navbar
   height: 36px;
   overflow: hidden;
   transition: height 0.35s ease, opacity 0.35s ease;
@@ -42,6 +42,7 @@ app-navbar nav {
 // Spacer = navbar height only (headline is fixed, doesn't affect flow)
 .content-spacer {
   height: 64px; // navbar height
+  width: 100%;
   transition: height 0.35s ease;
 }
 

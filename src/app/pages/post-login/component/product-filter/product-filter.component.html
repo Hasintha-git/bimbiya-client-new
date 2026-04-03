@@ -1,5 +1,6 @@
 <div class="bg-gray-900 min-h-screen text-white font-sans">
-  
+
+  <!-- Mobile sidebar -->
   <div class="relative z-50 lg:hidden" role="dialog" [class.hidden]="!isClosed">
     <div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
     <div class="fixed inset-0 flex justify-end">
@@ -7,7 +8,9 @@
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-xl font-bold">Filters</h2>
           <button (click)="toggleMobileMenu()" class="p-2 hover:bg-gray-700 rounded-full">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
         <ng-container *ngTemplateOutlet="filterContent"></ng-container>
@@ -16,96 +19,163 @@
   </div>
 
   <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-10">
+
+    <!-- Page header -->
     <div class="flex items-center justify-between border-b border-gray-800 pb-6 pt-10">
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{section}}</h1>
-      
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ section }}</h1>
+
       <button (click)="toggleMobileMenu()" id="mobile-view" class="lg:hidden relative p-3 bg-gray-800 rounded-lg hover:opacity-80">
-        <span *ngIf="selectedPortions.length + selectedIngredients.length > 0" 
-              class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold"
-              style="background-color: #FFC001; color: black;">
-          {{selectedPortions.length + selectedIngredients.length}}
+        <span
+          *ngIf="selectedPortions.length + selectedIngredients.length > 0"
+          class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold"
+          style="background-color: #FFC001; color: black;">
+          {{ selectedPortions.length + selectedIngredients.length }}
         </span>
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M3 4h13M3 8h9m-9 4h13m-5 4h5" /></svg>
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-width="2" d="M3 4h13M3 8h9m-9 4h13m-5 4h5" />
+        </svg>
       </button>
     </div>
 
     <section class="pt-10">
       <div class="grid grid-cols-1 gap-x-12 lg:grid-cols-4">
+
+        <!-- Sidebar filters (desktop) -->
         <aside class="hidden lg:block">
           <ng-container *ngTemplateOutlet="filterContent"></ng-container>
         </aside>
 
-        <div class="lg:col-span-3">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10">
+        <!-- Product grid -->
+        <div class="lg:col-span-3" #productGrid>
+
+          <!-- ── Skeleton loading grid ── -->
+          <div *ngIf="isLoading" class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10">
+            <div *ngFor="let s of [1,2,3,4]" class="skeleton-card">
+
+              <!-- Image area with badge + meal name placeholders -->
+              <div class="sk-image-wrap">
+                <div class="sk-image"></div>
+                <div class="sk-badge-left"></div>
+                <div class="sk-badge-right"></div>
+                <div class="sk-meal-name"></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="sk-sep"></div>
+
+              <!-- Body -->
+              <div class="sk-body">
+
+                <!-- Price -->
+                <div class="sk-price"></div>
+
+                <!-- Person count -->
+                <div class="sk-count-label"></div>
+                <div class="sk-count-row">
+                  <div class="sk-count-btn"></div>
+                  <div class="sk-count-display"></div>
+                  <div class="sk-count-btn"></div>
+                </div>
+
+                <!-- Ingredients button -->
+                <div class="sk-ing-row">
+                  <div class="sk-ing-btn"></div>
+                </div>
+
+              </div>
+
+              <!-- Footer separator -->
+              <div class="sk-footer-sep"></div>
+
+              <!-- Footer — Add to Cart button -->
+              <div class="sk-footer">
+                <div class="sk-cart-btn"></div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── Actual product grid ── -->
+          <div *ngIf="!isLoading" class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10">
             <div *ngFor="let product of productList" class="transform transition duration-300 hover:-translate-y-1">
               <app-product [product]="product"></app-product>
             </div>
           </div>
 
-          <div *ngIf="productList.length === 0" class="text-center py-20 text-gray-500">
+          <!-- Empty state -->
+          <div *ngIf="!isLoading && productList.length === 0" class="text-center py-20 text-gray-500">
             <p class="text-lg">No products found matching these filters.</p>
             <button (click)="resetFilters()" class="mt-4 underline" style="color: #FFC001;">Clear all filters</button>
           </div>
 
+          <!-- Paginator -->
           <div class="mt-16 flex justify-center">
-            <mat-paginator 
-              [length]="paginator?.length || 0" 
-              [pageSize]="4" 
-              [pageSizeOptions]="[2, 4, 6, 8]" 
+            <mat-paginator
+              [length]="paginator?.length || 0"
+              [pageSize]="4"
+              [pageSizeOptions]="[2, 4, 6, 8]"
               class="rounded-2xl border border-gray-800">
             </mat-paginator>
           </div>
+
         </div>
       </div>
     </section>
   </main>
 </div>
 
+<!-- ── Filter sidebar template ── -->
 <ng-template #filterContent>
   <div class="space-y-8">
+
     <div class="flex items-center justify-between border-b border-gray-800 pb-4">
       <span class="text-xs font-bold uppercase text-gray-500 tracking-widest">Active Filters</span>
       <button (click)="resetFilters()" class="text-xs font-bold hover:opacity-80" style="color: #FFC001;">CLEAR ALL</button>
     </div>
 
-    <!-- REPLACE the two hardcoded label blocks with this -->
-<div class="space-y-4">
-  <label 
-    *ngFor="let cat of productCatList"
-    class="flex items-center justify-between cursor-pointer">
-    
-    <span class="text-sm" 
-          [ngClass]="productCategory === cat.code ? 'text-white' : 'text-gray-500'">
-      {{ cat.description }}
-    </span>
+    <!-- Category toggles -->
+    <div class="space-y-4">
+      <label
+        *ngFor="let cat of productCatList"
+        class="flex items-center justify-between cursor-pointer">
 
-    <div class="relative">
-      <input type="checkbox" 
-             class="sr-only" 
-             [checked]="productCategory === cat.code" 
-             (change)="categoryChange(cat.code)">
-      <div class="w-10 h-5 bg-gray-700 rounded-full transition" 
-           [style.background-color]="productCategory === cat.code ? '#FFC001' : null">
-      </div>
-      <div class="absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform" 
-           [ngClass]="{'translate-x-5': productCategory === cat.code}">
-      </div>
+        <span class="text-sm" [ngClass]="productCategory === cat.code ? 'text-white' : 'text-gray-500'">
+          {{ cat.description }}
+        </span>
+
+        <div class="relative">
+          <input
+            type="checkbox"
+            class="sr-only"
+            [checked]="productCategory === cat.code"
+            (change)="categoryChange(cat.code)">
+          <div
+            class="w-10 h-5 bg-gray-700 rounded-full transition"
+            [style.background-color]="productCategory === cat.code ? '#FFC001' : null">
+          </div>
+          <div
+            class="absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform"
+            [ngClass]="{'translate-x-5': productCategory === cat.code}">
+          </div>
+        </div>
+      </label>
     </div>
-  </label>
-</div>
 
-    <div *ngIf="productCategory === 'BITE' || productCategory === 'SINGLE_BITE'" class="space-y-8 pt-4">
-      <div *ngIf="productCategory === 'BITE'">
+    <!-- Portions + Ingredients — BITE only -->
+    <div *ngIf="productCategory === 'BITE'" class="space-y-8 pt-4">
+
+      <div>
         <h3 class="text-sm font-semibold mb-4" style="color: #FFC001;">Portions</h3>
         <div class="space-y-2">
           <div *ngFor="let por of filteredPortionList" class="flex items-center">
-            <input type="checkbox" 
-                   [id]="por.code" 
-                   [checked]="selectedPortions.includes(por.code)" 
-                   (change)="onPortionChange(por.code)" 
-                   class="h-4 w-4 rounded border-gray-700 bg-gray-800 custom-checkbox">
+            <input
+              type="checkbox"
+              [id]="por.code"
+              [checked]="selectedPortions.includes(por.code)"
+              (change)="onPortionChange(por.code)"
+              class="h-4 w-4 rounded border-gray-700 bg-gray-800 custom-checkbox">
             <label [for]="por.code" class="ml-3 text-sm text-gray-400 cursor-pointer hover:text-white">
-              {{por.description}}
+              {{ por.description }}
             </label>
           </div>
         </div>
@@ -115,30 +185,65 @@
         <h3 class="text-sm font-semibold mb-4" style="color: #FFC001;">Ingredients</h3>
         <div class="space-y-2">
           <div *ngFor="let ing of ingredientsList" class="flex items-center">
-            <input type="checkbox" 
-                   [id]="'ing'+ing.id" 
-                   [checked]="selectedIngredients.includes(ing.id)" 
-                   (change)="onIngredientChange(ing.id)" 
-                   class="h-4 w-4 rounded border-gray-700 bg-gray-800 custom-checkbox">
-            <label [for]="'ing'+ing.id" class="ml-3 text-sm text-gray-400 cursor-pointer hover:text-white">
-              {{ing.description}}
+            <input
+              type="checkbox"
+              [id]="'ing' + ing.id"
+              [checked]="selectedIngredients.includes(ing.id)"
+              (change)="onIngredientChange(ing.id)"
+              class="h-4 w-4 rounded border-gray-700 bg-gray-800 custom-checkbox">
+            <label [for]="'ing' + ing.id" class="ml-3 text-sm text-gray-400 cursor-pointer hover:text-white">
+              {{ ing.description }}
             </label>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Ingredients only — SINGLE_BITE (no portions) -->
+    <div *ngIf="productCategory === 'SINGLE_BITE'" class="space-y-8 pt-4">
+      <div>
+        <h3 class="text-sm font-semibold mb-4" style="color: #FFC001;">Ingredients</h3>
+        <div class="space-y-2">
+          <div *ngFor="let ing of ingredientsList" class="flex items-center">
+            <input
+              type="checkbox"
+              [id]="'ing' + ing.id"
+              [checked]="selectedIngredients.includes(ing.id)"
+              (change)="onIngredientChange(ing.id)"
+              class="h-4 w-4 rounded border-gray-700 bg-gray-800 custom-checkbox">
+            <label [for]="'ing' + ing.id" class="ml-3 text-sm text-gray-400 cursor-pointer hover:text-white">
+              {{ ing.description }}
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Price range -->
     <div [formGroup]="productFilter" class="border-t border-gray-800 pt-8">
       <h3 class="text-sm font-semibold mb-4 text-white">Price Range</h3>
       <div class="flex items-center gap-2">
-        <input formControlName="fromPrice" type="number" placeholder="Min" class="w-full bg-gray-800 border-none rounded-md p-2 text-sm focus:ring-1" style="--tw-ring-color: #FFC001">
+        <input
+          formControlName="fromPrice"
+          type="number"
+          placeholder="Min"
+          class="w-full bg-gray-800 border-none rounded-md p-2 text-sm focus:ring-1"
+          style="--tw-ring-color: #FFC001">
         <span class="text-gray-600">-</span>
-        <input formControlName="toPrice" type="number" placeholder="Max" class="w-full bg-gray-800 border-none rounded-md p-2 text-sm focus:ring-1" style="--tw-ring-color: #FFC001">
+        <input
+          formControlName="toPrice"
+          type="number"
+          placeholder="Max"
+          class="w-full bg-gray-800 border-none rounded-md p-2 text-sm focus:ring-1"
+          style="--tw-ring-color: #FFC001">
       </div>
-      <button (click)="getList()" class="w-full mt-3 py-2 rounded-md text-xs font-bold hover:opacity-90 transition-colors"
-              style="background-color: rgba(255, 192, 1, 0.1); color: #FFC001; border: 1px solid rgba(255, 192, 1, 0.2);">
+      <button
+        (click)="getList()"
+        class="w-full mt-3 py-2 rounded-md text-xs font-bold hover:opacity-90 transition-colors"
+        style="background-color: rgba(255, 192, 1, 0.1); color: #FFC001; border: 1px solid rgba(255, 192, 1, 0.2);">
         APPLY PRICE
       </button>
     </div>
+
   </div>
 </ng-template>
